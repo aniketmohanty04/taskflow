@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # TaskFlow — Cloud-Based Task Management System
 
 ## 📌 Problem Statement
@@ -317,3 +318,7 @@ taskflow/
 **Course:** BACSE344 — Cloud Infrastructure and Architecture  
 **Faculty:** Dr. P. Anandan  
 **Submitted:** September 2026
+=======
+"# taskflow" 
+"# taskflow" 
+>>>>>>> 4c2bef0347b4eabaa35ebbd6be67005ed4882e33

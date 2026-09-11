@@ -6,116 +6,76 @@ import Navbar from './components/Navbar';
 import Dashboard from './components/Dashboard';
 import TaskForm from './components/TaskForm';
 import TaskList from './components/TaskList';
+import HabitTracker from './components/HabitTracker';
 import './App.css';
 
-function App() {
+export default function App() {
+  const [activeTab, setActiveTab] = useState('tracker');
+
+  // ─── Task Board State ──────────────────────────────────────────────────────
   const [tasks, setTasks] = useState([]);
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [editingTask, setEditingTask] = useState(null);
-  const [activeView, setActiveView] = useState('board'); // 'board' | 'list'
-  const [filters, setFilters] = useState({
-    status: '',
-    priority: '',
-    search: '',
-    sortBy: 'createdAt',
-    order: 'desc'
-  });
-  const [pagination, setPagination] = useState({ currentPage: 1, totalPages: 1, totalCount: 0 });
+  const [activeView, setActiveView] = useState('board');
+  const [filters, setFilters] = useState({ status: '', priority: '', search: '', sortBy: 'createdAt', order: 'desc' });
+  const [pagination, setPagination] = useState({ currentPage: 1, totalPages: 1, totalCount: 0, limit: 20 });
 
-  // ─── Fetch Tasks ──────────────────────────────────────────────────────────
   const fetchTasks = useCallback(async () => {
     try {
       setLoading(true);
       const params = { ...filters, page: pagination.currentPage, limit: 20 };
-      // Remove empty params
       Object.keys(params).forEach(k => !params[k] && delete params[k]);
       const res = await taskAPI.getAll(params);
       setTasks(res.data.data);
       setPagination(prev => ({ ...prev, ...res.data.pagination }));
-    } catch (err) {
-      toast.error(`Failed to fetch tasks: ${err.message}`);
-    } finally {
-      setLoading(false);
-    }
+    } catch (err) { toast.error(`Failed to fetch tasks: ${err.message}`); }
+    finally { setLoading(false); }
   }, [filters, pagination.currentPage]);
 
   const fetchStats = useCallback(async () => {
-    try {
-      const res = await taskAPI.getStats();
-      setStats(res.data.data);
-    } catch (err) {
-      console.error('Stats fetch error:', err.message);
-    }
+    try { const res = await taskAPI.getStats(); setStats(res.data.data); }
+    catch (err) { console.error(err.message); }
   }, []);
 
   useEffect(() => {
-    fetchTasks();
-    fetchStats();
-  }, [fetchTasks, fetchStats]);
+    if (activeTab === 'tasks') { fetchTasks(); fetchStats(); }
+  }, [activeTab, fetchTasks, fetchStats]);
 
-  // ─── CRUD Handlers ────────────────────────────────────────────────────────
   const handleCreate = async (formData) => {
     try {
-      const res = await taskAPI.create(formData);
-      toast.success('✅ Task created successfully!');
+      await taskAPI.create(formData);
+      toast.success('✅ Task created!');
       setShowForm(false);
-      fetchTasks();
-      fetchStats();
-      return res.data.data;
-    } catch (err) {
-      toast.error(`❌ ${err.message}`);
-      throw err;
-    }
+      fetchTasks(); fetchStats();
+    } catch (err) { toast.error(`❌ ${err.message}`); throw err; }
   };
 
   const handleUpdate = async (id, formData) => {
     try {
-      const res = await taskAPI.update(id, formData);
-      toast.success('✅ Task updated successfully!');
-      setEditingTask(null);
-      setShowForm(false);
-      fetchTasks();
-      fetchStats();
-      return res.data.data;
-    } catch (err) {
-      toast.error(`❌ ${err.message}`);
-      throw err;
-    }
+      await taskAPI.update(id, formData);
+      toast.success('✅ Task updated!');
+      setEditingTask(null); setShowForm(false);
+      fetchTasks(); fetchStats();
+    } catch (err) { toast.error(`❌ ${err.message}`); throw err; }
   };
 
   const handleStatusChange = async (id, newStatus) => {
     try {
       await taskAPI.patch(id, { status: newStatus });
-      toast.success(`Status updated to "${newStatus}"`);
-      fetchTasks();
-      fetchStats();
-    } catch (err) {
-      toast.error(`❌ ${err.message}`);
-    }
+      toast.success(`Status → "${newStatus}"`);
+      fetchTasks(); fetchStats();
+    } catch (err) { toast.error(`❌ ${err.message}`); }
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this task?')) return;
+    if (!window.confirm('Delete this task?')) return;
     try {
       await taskAPI.delete(id);
-      toast.success('🗑️ Task deleted successfully!');
-      fetchTasks();
-      fetchStats();
-    } catch (err) {
-      toast.error(`❌ ${err.message}`);
-    }
-  };
-
-  const handleEdit = (task) => {
-    setEditingTask(task);
-    setShowForm(true);
-  };
-
-  const handleFormClose = () => {
-    setShowForm(false);
-    setEditingTask(null);
+      toast.success('🗑️ Task deleted!');
+      fetchTasks(); fetchStats();
+    } catch (err) { toast.error(`❌ ${err.message}`); }
   };
 
   const handleFilterChange = (newFilters) => {
@@ -126,53 +86,53 @@ function App() {
   return (
     <div className="app">
       <Navbar
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
         onNewTask={() => { setEditingTask(null); setShowForm(true); }}
-        activeView={activeView}
-        setActiveView={setActiveView}
       />
 
       <main className="app__main">
-        {/* Dashboard Stats */}
-        <Dashboard stats={stats} />
+        {/* ── Habit Tracker Tab ── */}
+        {activeTab === 'tracker' && <HabitTracker />}
 
-        {/* Task Form Modal */}
-        {showForm && (
-          <TaskForm
-            task={editingTask}
-            onSubmit={editingTask
-              ? (data) => handleUpdate(editingTask._id, data)
-              : handleCreate}
-            onClose={handleFormClose}
-          />
+        {/* ── Task Board Tab ── */}
+        {activeTab === 'tasks' && (
+          <>
+            <Dashboard stats={stats} />
+            {showForm && (
+              <TaskForm
+                task={editingTask}
+                onSubmit={editingTask
+                  ? (data) => handleUpdate(editingTask._id, data)
+                  : handleCreate}
+                onClose={() => { setShowForm(false); setEditingTask(null); }}
+              />
+            )}
+            <TaskList
+              tasks={tasks}
+              loading={loading}
+              filters={filters}
+              onFilterChange={handleFilterChange}
+              onEdit={(t) => { setEditingTask(t); setShowForm(true); }}
+              onDelete={handleDelete}
+              onStatusChange={handleStatusChange}
+              onNewTask={() => { setEditingTask(null); setShowForm(true); }}
+              pagination={pagination}
+              onPageChange={(page) => setPagination(prev => ({ ...prev, currentPage: page }))}
+              activeView={activeView}
+            />
+          </>
         )}
-
-        {/* Task List */}
-        <TaskList
-          tasks={tasks}
-          loading={loading}
-          filters={filters}
-          onFilterChange={handleFilterChange}
-          onEdit={handleEdit}
-          onDelete={handleDelete}
-          onStatusChange={handleStatusChange}
-          onNewTask={() => { setEditingTask(null); setShowForm(true); }}
-          pagination={pagination}
-          onPageChange={(page) => setPagination(prev => ({ ...prev, currentPage: page }))}
-          activeView={activeView}
-        />
       </main>
 
       <ToastContainer
         position="bottom-right"
-        autoClose={3000}
-        hideProgressBar={false}
+        autoClose={2500}
+        theme="dark"
         newestOnTop
         closeOnClick
         pauseOnHover
-        theme="light"
       />
     </div>
   );
 }
-
-export default App;
