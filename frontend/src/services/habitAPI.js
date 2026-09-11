@@ -21,7 +21,16 @@ api.interceptors.request.use(
 
 api.interceptors.response.use(
   res => res,
-  err => Promise.reject(new Error(err.response?.data?.message || err.message || 'Something went wrong'))
+  err => {
+    if (err.response?.status === 401) {
+      localStorage.removeItem('todo_token');
+      localStorage.removeItem('todo_user');
+      if (window.location.pathname !== '/login') {
+        window.location.href = '/login';
+      }
+    }
+    return Promise.reject(new Error(err.response?.data?.message || err.message || 'Something went wrong'));
+  }
 );
 
 export const habitAPI = {

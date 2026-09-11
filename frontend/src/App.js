@@ -26,7 +26,17 @@ export default function App() {
     const token = localStorage.getItem('todo_token');
     const savedUser = localStorage.getItem('todo_user');
     if (token && savedUser) {
-      setUser(JSON.parse(savedUser));
+      try {
+        setUser(JSON.parse(savedUser));
+      } catch {
+        localStorage.removeItem('todo_token');
+        localStorage.removeItem('todo_user');
+        setUser(null);
+      }
+    } else {
+      localStorage.removeItem('todo_token');
+      localStorage.removeItem('todo_user');
+      setUser(null);
     }
     setAuthChecked(true);
   }, []);
