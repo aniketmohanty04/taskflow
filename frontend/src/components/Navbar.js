@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Navbar({ activeTab, setActiveTab, onNewTask }) {
+export default function Navbar({ activeTab, setActiveTab, onNewTask, user, onLogout }) {
   return (
     <nav className="navbar">
       <div className="navbar__inner">
@@ -26,12 +26,28 @@ export default function Navbar({ activeTab, setActiveTab, onNewTask }) {
           </button>
         </div>
 
-        {/* Action */}
+        {/* Actions & User Profile */}
         <div className="navbar__actions">
           {activeTab === 'tasks' && (
             <button className="btn btn-primary" onClick={onNewTask}>
               + New Task
             </button>
+          )}
+
+          {user && (
+            <div className="navbar__user">
+              <span className="navbar__user-avatar">
+                {user.name ? user.name[0].toUpperCase() : 'U'}
+              </span>
+              <span className="navbar__user-name">{user.name}</span>
+              <button
+                className="btn btn-outline navbar__logout-btn"
+                onClick={onLogout}
+                title="Sign Out"
+              >
+                🚪 Sign Out
+              </button>
+            </div>
           )}
         </div>
       </div>

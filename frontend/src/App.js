@@ -7,9 +7,35 @@ import Dashboard from './components/Dashboard';
 import TaskForm from './components/TaskForm';
 import TaskList from './components/TaskList';
 import HabitTracker from './components/HabitTracker';
+import LoginPage from './components/LoginPage';
 import './App.css';
 
 export default function App() {
+  // ─── Auth State ────────────────────────────────────────────────────────────
+  const [user, setUser] = useState(null);
+  const [authChecked, setAuthChecked] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem('todo_token');
+    const savedUser = localStorage.getItem('todo_user');
+    if (token && savedUser) {
+      setUser(JSON.parse(savedUser));
+    }
+    setAuthChecked(true);
+  }, []);
+
+  const handleLogin = (userData) => {
+    setUser(userData);
+    toast.success(`👋 Welcome, ${userData.name}!`);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('todo_token');
+    localStorage.removeItem('todo_user');
+    setUser(null);
+    toast.info('Logged out successfully');
+  };
+
   const [activeTab, setActiveTab] = useState('tracker');
 
   // ─── Task Board State ──────────────────────────────────────────────────────
@@ -83,12 +109,23 @@ export default function App() {
     setPagination(prev => ({ ...prev, currentPage: 1 }));
   };
 
+  // ─── Auth Gate ─────────────────────────────────────────────────────────────
+  if (!authChecked) return null; // wait for localStorage check
+  if (!user) return (
+    <>
+      <LoginPage onLogin={handleLogin} />
+      <ToastContainer position="bottom-right" autoClose={2500} theme="dark" />
+    </>
+  );
+
   return (
     <div className="app">
       <Navbar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         onNewTask={() => { setEditingTask(null); setShowForm(true); }}
+        user={user}
+        onLogout={handleLogout}
       />
 
       <main className="app__main">
