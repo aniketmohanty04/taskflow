@@ -18,7 +18,7 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [editingTask, setEditingTask] = useState(null);
-  const [activeView, setActiveView] = useState('board');
+  const [activeView] = useState('board');
   const [filters, setFilters] = useState({ status: '', priority: '', search: '', sortBy: 'createdAt', order: 'desc' });
   const [pagination, setPagination] = useState({ currentPage: 1, totalPages: 1, totalCount: 0, limit: 20 });
 

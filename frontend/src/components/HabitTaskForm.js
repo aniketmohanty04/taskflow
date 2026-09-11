@@ -1,25 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 const DAY_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const COLORS = ['#818cf8','#60a5fa','#34d399','#f472b6','#fbbf24','#f97316','#2dd4bf','#a78bfa','#fb923c','#4ade80'];
 
-const today = new Date();
-const todayStr = today.toISOString().split('T')[0];
-
-function getMonthDays(year, month) {
-  const days = [];
-  const d = new Date(year, month, 1);
-  while (d.getMonth() === month) {
-    days.push(new Date(d));
-    d.setDate(d.getDate() + 1);
-  }
-  return days;
-}
-
-function isScheduled(task, date) {
-  if (task.type === 'fixed') return true;
-  return task.scheduledDays.includes(date.getDay());
-}
 
 export default function HabitTaskForm({ task, onSubmit, onClose }) {
   const [form, setForm] = useState({
