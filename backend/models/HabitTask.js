@@ -29,6 +29,12 @@ const habitTaskSchema = new mongoose.Schema(
       type: Number,
       default: 0
     },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'AuthUser',
+      required: true,
+      index: true
+    },
     isActive: {
       type: Boolean,
       default: true
@@ -37,7 +43,7 @@ const habitTaskSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-habitTaskSchema.index({ order: 1 });
+habitTaskSchema.index({ userId: 1, order: 1 });
 
 const HabitTask = mongoose.model('HabitTask', habitTaskSchema);
 module.exports = HabitTask;

@@ -1,7 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const { body, query, param, validationResult } = require('express-validator');
+const { body, validationResult } = require('express-validator');
 const Task = require('../models/Task');
+const auth = require('../middleware/auth');
+
+// Protect all task routes with JWT auth
+router.use(auth);
 
 // ─── Validation Middleware ─────────────────────────────────────────────────────
 const validateTask = [
@@ -24,7 +28,7 @@ const validateTask = [
     .trim()
     .isLength({ max: 50 }).withMessage('Category cannot exceed 50 characters'),
   body('dueDate')
-    .optional()
+    .optional({ nullable: true, checkFalsy: true })
     .isISO8601().withMessage('Invalid date format'),
   body('assignedTo')
     .optional()
@@ -48,7 +52,7 @@ const handleValidationErrors = (req, res, next) => {
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
-// GET /api/tasks — Fetch all tasks with filtering, sorting, pagination
+// GET /api/tasks — Fetch all tasks for the logged in user with filters & paging
 // ─────────────────────────────────────────────────────────────────────────────
 router.get('/', async (req, res, next) => {
   try {
@@ -63,8 +67,8 @@ router.get('/', async (req, res, next) => {
       order = 'desc'
     } = req.query;
 
-    // Build filter object
-    const filter = {};
+    // Filter by user ID first
+    const filter = { userId: req.user.id };
     if (status) filter.status = status;
     if (priority) filter.priority = priority;
     if (category) filter.category = { $regex: category, $options: 'i' };
@@ -109,19 +113,22 @@ router.get('/', async (req, res, next) => {
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
-// GET /api/tasks/stats — Dashboard statistics
+// GET /api/tasks/stats — Dashboard statistics for the logged in user
 // ─────────────────────────────────────────────────────────────────────────────
 router.get('/stats', async (req, res, next) => {
   try {
     const [statusStats, priorityStats, totalCount, overdueCount] = await Promise.all([
       Task.aggregate([
+        { $match: { userId: req.user.id } },
         { $group: { _id: '$status', count: { $sum: 1 } } }
       ]),
       Task.aggregate([
+        { $match: { userId: req.user.id } },
         { $group: { _id: '$priority', count: { $sum: 1 } } }
       ]),
-      Task.countDocuments(),
+      Task.countDocuments({ userId: req.user.id }),
       Task.countDocuments({
+        userId: req.user.id,
         status: { $ne: 'completed' },
         dueDate: { $lt: new Date() }
       })
@@ -152,11 +159,11 @@ router.get('/stats', async (req, res, next) => {
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
-// GET /api/tasks/:id — Fetch single task
+// GET /api/tasks/:id — Fetch single task for the logged in user
 // ─────────────────────────────────────────────────────────────────────────────
 router.get('/:id', async (req, res, next) => {
   try {
-    const task = await Task.findById(req.params.id);
+    const task = await Task.findOne({ _id: req.params.id, userId: req.user.id });
     if (!task) {
       return res.status(404).json({
         success: false,
@@ -173,11 +180,11 @@ router.get('/:id', async (req, res, next) => {
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
-// POST /api/tasks — Create a new task
+// POST /api/tasks — Create a new task tied to the logged in user
 // ─────────────────────────────────────────────────────────────────────────────
 router.post('/', validateTask, handleValidationErrors, async (req, res, next) => {
   try {
-    const { title, description, status, priority, category, dueDate, assignedTo, tags, userId } = req.body;
+    const { title, description, status, priority, category, dueDate, assignedTo, tags } = req.body;
 
     const task = await Task.create({
       title,
@@ -188,7 +195,7 @@ router.post('/', validateTask, handleValidationErrors, async (req, res, next) =>
       dueDate: dueDate || null,
       assignedTo,
       tags: tags || [],
-      userId: userId || 'anonymous'
+      userId: req.user.id
     });
 
     res.status(201).json({
@@ -202,12 +209,12 @@ router.post('/', validateTask, handleValidationErrors, async (req, res, next) =>
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
-// PUT /api/tasks/:id — Full update of a task
+// PUT /api/tasks/:id — Full update of a task (user-isolated)
 // ─────────────────────────────────────────────────────────────────────────────
 router.put('/:id', validateTask, handleValidationErrors, async (req, res, next) => {
   try {
-    const task = await Task.findByIdAndUpdate(
-      req.params.id,
+    const task = await Task.findOneAndUpdate(
+      { _id: req.params.id, userId: req.user.id },
       { ...req.body },
       { new: true, runValidators: true }
     );
@@ -230,7 +237,7 @@ router.put('/:id', validateTask, handleValidationErrors, async (req, res, next) 
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
-// PATCH /api/tasks/:id — Partial update (e.g., just status)
+// PATCH /api/tasks/:id — Partial update of a task (user-isolated)
 // ─────────────────────────────────────────────────────────────────────────────
 router.patch('/:id', async (req, res, next) => {
   try {
@@ -244,8 +251,8 @@ router.patch('/:id', async (req, res, next) => {
       return res.status(400).json({ success: false, message: 'No valid fields provided for update' });
     }
 
-    const task = await Task.findByIdAndUpdate(
-      req.params.id,
+    const task = await Task.findOneAndUpdate(
+      { _id: req.params.id, userId: req.user.id },
       { $set: updates },
       { new: true, runValidators: true }
     );
@@ -268,11 +275,11 @@ router.patch('/:id', async (req, res, next) => {
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
-// DELETE /api/tasks/:id — Delete a task
+// DELETE /api/tasks/:id — Delete a task (user-isolated)
 // ─────────────────────────────────────────────────────────────────────────────
 router.delete('/:id', async (req, res, next) => {
   try {
-    const task = await Task.findByIdAndDelete(req.params.id);
+    const task = await Task.findOneAndDelete({ _id: req.params.id, userId: req.user.id });
     if (!task) {
       return res.status(404).json({ success: false, message: 'Task not found' });
     }
@@ -290,11 +297,11 @@ router.delete('/:id', async (req, res, next) => {
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
-// DELETE /api/tasks — Delete all tasks (bulk)
+// DELETE /api/tasks — Delete all tasks for the logged in user
 // ─────────────────────────────────────────────────────────────────────────────
 router.delete('/', async (req, res, next) => {
   try {
-    const result = await Task.deleteMany({});
+    const result = await Task.deleteMany({ userId: req.user.id });
     res.json({
       success: true,
       message: `${result.deletedCount} tasks deleted successfully`

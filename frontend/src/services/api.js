@@ -14,7 +14,10 @@ const api = axios.create({
 // ─── Request Interceptor ──────────────────────────────────────────────────────
 api.interceptors.request.use(
   (config) => {
-    // Add auth token here if needed in future
+    const token = localStorage.getItem('todo_token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
     return config;
   },
   (error) => Promise.reject(error)

@@ -2,25 +2,37 @@ const express = require('express');
 const router = express.Router();
 const DailyCompletion = require('../models/DailyCompletion');
 const HabitTask = require('../models/HabitTask');
+const auth = require('../middleware/auth');
 
-// GET /api/completions?month=YYYY-MM  — all completions for a month
+// Protect all completion routes
+router.use(auth);
+
+// GET /api/completions?month=YYYY-MM  — all completions for a month for the user's habits
 router.get('/', async (req, res, next) => {
   try {
     const { month } = req.query; // e.g. "2026-09"
     if (!month) return res.status(400).json({ success: false, message: 'month query required (YYYY-MM)' });
+
+    // Get all task IDs belonging to the authenticated user
+    const userTasks = await HabitTask.find({ userId: req.user.id }).select('_id').lean();
+    const taskIds = userTasks.map(t => t._id);
+
     const completions = await DailyCompletion.find({
+      taskId: { $in: taskIds },
       date: { $regex: `^${month}` },
       completed: true
     }).lean();
+
     res.json({ success: true, data: completions });
   } catch (err) { next(err); }
 });
 
-// GET /api/completions/chart?days=30 — daily completion % for chart
+// GET /api/completions/chart?days=30 — daily completion % for chart for user's habits only
 router.get('/chart', async (req, res, next) => {
   try {
     const days = Math.min(parseInt(req.query.days) || 30, 90);
-    const tasks = await HabitTask.find({ isActive: true }).lean();
+    // Find ONLY the authenticated user's active tasks
+    const tasks = await HabitTask.find({ userId: req.user.id, isActive: true }).lean();
 
     const result = [];
     const today = new Date();
@@ -42,11 +54,11 @@ router.get('/chart', async (req, res, next) => {
         continue;
       }
 
-      const completions = await DailyCompletion.find({
+      const completions = await DailyCompletion.countDocuments({
         taskId: { $in: scheduled.map(t => t._id) },
         date: dateStr,
         completed: true
-      }).countDocuments();
+      });
 
       result.push({
         date: dateStr,
@@ -66,15 +78,25 @@ router.post('/toggle', async (req, res, next) => {
     const { taskId, date } = req.body;
     if (!taskId || !date) return res.status(400).json({ success: false, message: 'taskId and date required' });
 
+    // Verify task ownership
+    const task = await HabitTask.findOne({ _id: taskId, userId: req.user.id });
+    if (!task) return res.status(404).json({ success: false, message: 'Habit task not found or access denied' });
+
     const existing = await DailyCompletion.findOne({ taskId, date });
     if (existing) {
       // Toggle
       existing.completed = !existing.completed;
+      if (!existing.userId) existing.userId = req.user.id;
       await existing.save();
       res.json({ success: true, data: existing });
     } else {
-      // Create new completion
-      const completion = await DailyCompletion.create({ taskId, date, completed: true });
+      // Create new completion with userId
+      const completion = await DailyCompletion.create({
+        taskId,
+        date,
+        completed: true,
+        userId: req.user.id
+      });
       res.status(201).json({ success: true, data: completion });
     }
   } catch (err) { next(err); }
@@ -83,7 +105,10 @@ router.post('/toggle', async (req, res, next) => {
 // GET /api/completions/streak/:taskId — streak count for a task
 router.get('/streak/:taskId', async (req, res, next) => {
   try {
-    const today = new Date().toISOString().split('T')[0];
+    // Verify task ownership
+    const task = await HabitTask.findOne({ _id: req.params.taskId, userId: req.user.id });
+    if (!task) return res.status(404).json({ success: false, message: 'Habit task not found' });
+
     let streak = 0;
     let d = new Date();
 

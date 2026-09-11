@@ -8,6 +8,17 @@ const api = axios.create({
   headers: { 'Content-Type': 'application/json' },
 });
 
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('todo_token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
 api.interceptors.response.use(
   res => res,
   err => Promise.reject(new Error(err.response?.data?.message || err.message || 'Something went wrong'))
