@@ -14,6 +14,13 @@ export default function App() {
   // ─── Auth State ────────────────────────────────────────────────────────────
   const [user, setUser] = useState(null);
   const [authChecked, setAuthChecked] = useState(false);
+  const [currentPath, setCurrentPath] = useState(window.location.pathname);
+
+  useEffect(() => {
+    const handlePopState = () => setCurrentPath(window.location.pathname);
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
 
   useEffect(() => {
     const token = localStorage.getItem('todo_token');
@@ -26,6 +33,10 @@ export default function App() {
 
   const handleLogin = (userData) => {
     setUser(userData);
+    if (window.location.pathname === '/login') {
+      window.history.pushState({}, '', '/');
+      setCurrentPath('/');
+    }
     toast.success(`👋 Welcome, ${userData.name}!`);
   };
 
@@ -33,6 +44,8 @@ export default function App() {
     localStorage.removeItem('todo_token');
     localStorage.removeItem('todo_user');
     setUser(null);
+    window.history.pushState({}, '', '/login');
+    setCurrentPath('/login');
     toast.info('Logged out successfully');
   };
 
@@ -109,9 +122,9 @@ export default function App() {
     setPagination(prev => ({ ...prev, currentPage: 1 }));
   };
 
-  // ─── Auth Gate ─────────────────────────────────────────────────────────────
+  // ─── Auth Gate & Route Check ──────────────────────────────────────────────
   if (!authChecked) return null; // wait for localStorage check
-  if (!user) return (
+  if (!user || currentPath === '/login') return (
     <>
       <LoginPage onLogin={handleLogin} />
       <ToastContainer position="bottom-right" autoClose={2500} theme="dark" />
