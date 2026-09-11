@@ -20,7 +20,9 @@ app.use(cors({
   origin: [
     process.env.FRONTEND_URL || 'http://localhost:3000',
     'http://localhost:3000',
-    'http://localhost:3001'
+    'http://localhost:3001',
+    'https://taskflow-frontend.vercel.app',
+    /\.vercel\.app$/   // allow any vercel preview URL
   ],
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
