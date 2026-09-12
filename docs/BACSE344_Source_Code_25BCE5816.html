@@ -1,0 +1,4172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>BACSE344 Complete Source Code — Aniket Mohanty (25BCE5816)</title>
+  <style>
+    :root {
+      --primary: #3730a3;
+      --primary-light: #e0e7ff;
+      --text: #0f172a;
+      --text-muted: #475569;
+      --border: #cbd5e1;
+      --code-bg: #f8fafc;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+      color: var(--text);
+      background: #f8fafc;
+      margin: 0;
+      padding: 0;
+      line-height: 1.5;
+    }
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 50px 60px;
+    }
+    @media print {
+      body { background: #fff; }
+      .container { max-width: 100%; padding: 20px 30px; }
+      .no-print { display: none !important; }
+      .page-break { page-break-before: always; }
+      .code-file-section { page-break-inside: avoid; }
+      pre { white-space: pre-wrap !important; word-break: break-all; }
+    }
+    .cover-page {
+      border-bottom: 3px solid var(--primary);
+      padding-bottom: 30px;
+      margin-bottom: 40px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 5px 14px;
+      border-radius: 999px;
+      background: var(--primary-light);
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    h1 { font-size: 2.2rem; color: #1e1b4b; margin: 16px 0 8px; font-weight: 800; }
+    h2 { font-size: 1.4rem; color: var(--primary); border-bottom: 2px solid var(--border); padding-bottom: 6px; margin-top: 40px; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.9rem;
+    }
+    th, td {
+      border: 1px solid var(--border);
+      padding: 10px 14px;
+      text-align: left;
+    }
+    th {
+      background: #f1f5f9;
+      color: #334155;
+      font-weight: 600;
+    }
+    tr:nth-child(even) td { background: #fafafa; }
+    a { color: #4338ca; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    
+    .code-file-section {
+      margin-top: 36px;
+      margin-bottom: 24px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #ffffff;
+    }
+    .file-header {
+      background: #f1f5f9;
+      border-bottom: 1px solid var(--border);
+      padding: 12px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .file-header-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .file-index {
+      background: var(--primary);
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 700;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .file-category {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #1e293b;
+    }
+    .file-path {
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 0.8rem;
+      color: #64748b;
+      background: #e2e8f0;
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+    pre {
+      margin: 0;
+      padding: 16px 20px;
+      background: var(--code-bg);
+      font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+      font-size: 0.82rem;
+      line-height: 1.45;
+      overflow-x: auto;
+    }
+    .btn-print {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      background: var(--primary);
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(55, 48, 163, 0.35);
+      z-index: 1000;
+    }
+    .btn-print:hover { opacity: 0.95; transform: translateY(-1px); }
+  </style>
+</head>
+<body>
+
+  <button class="btn-print no-print" onclick="window.print()">🖨️ Print / Save as PDF</button>
+
+  <div class="container">
+    <div class="cover-page">
+      <span class="badge">Official Source Code Documentation</span>
+      <h1>BACSE344 — Cloud Infrastructure and Architecture</h1>
+      <p style="font-size: 1.15rem; color: var(--text-muted); margin: 6px 0 20px;">
+        Digital Assignment Source Code Compendium: <strong>TO-DO-TRACKER</strong>
+      </p>
+
+      <table>
+        <tr><th style="width: 35%;">Student Name</th><td><strong>ANIKET MOHANTY</strong></td></tr>
+        <tr><th>Registration Number</th><td><strong>25BCE5816</strong></td></tr>
+        <tr><th>Course Code & Title</th><td>BACSE344 — Cloud Infrastructure and Architecture</td></tr>
+        <tr><th>Slot</th><td>C1</td></tr>
+        <tr><th>Faculty In-Charge</th><td>Dr. P. Anandan</td></tr>
+        <tr><th>Frontend Production URL</th><td><a href="https://taskflow-alpha-dun.vercel.app" target="_blank">https://taskflow-alpha-dun.vercel.app</a></td></tr>
+        <tr><th>Backend API URL</th><td><a href="https://taskflow-backend-9huw.onrender.com" target="_blank">https://taskflow-backend-9huw.onrender.com</a></td></tr>
+        <tr><th>Database</th><td>MongoDB Atlas (AWS ap-south-1 Mumbai)</td></tr>
+        <tr><th>Source Code Repository</th><td><a href="https://github.com/aniketmohanty04/taskflow" target="_blank">https://github.com/aniketmohanty04/taskflow</a></td></tr>
+      </table>
+    </div>
+
+    <h2>Table of Contents — Project Source Files</h2>
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 8%; text-align: center;">#</th>
+          <th style="width: 42%;">Component Description</th>
+          <th style="width: 35%;">File Path</th>
+          <th style="width: 15%; text-align: right;">Size</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+      <tr>
+        <td style="text-align: center;">1</td>
+        <td><strong><a href="#file-1">Backend - Server & Config</a></strong></td>
+        <td><code>backend/server.js</code></td>
+        <td style="text-align: right;">98 lines</td>
+      </tr>
+    
+      <tr>
+        <td style="text-align: center;">2</td>
+        <td><strong><a href="#file-2">Backend - Authentication Middleware</a></strong></td>
+        <td><code>backend/middleware/auth.js</code></td>
+        <td style="text-align: right;">22 lines</td>
+      </tr>
+    
+      <tr>
+        <td style="text-align: center;">3</td>
+        <td><strong><a href="#file-3">Backend - Error Handling Middleware</a></strong></td>
+        <td><code>backend/middleware/errorHandler.js</code></td>
+        <td style="text-align: right;">51 lines</td>
+      </tr>
+    
+      <tr>
+        <td style="text-align: center;">4</td>
+        <td><strong><a href="#file-4">Backend Model - AuthUser</a></strong></td>
+        <td><code>backend/models/AuthUser.js</code></td>
+        <td style="text-align: right;">49 lines</td>
+      </tr>
+    
+      <tr>
+        <td style="text-align: center;">5</td>
+        <td><strong><a href="#file-5">Backend Model - HabitTask</a></strong></td>
+        <td><code>backend/models/HabitTask.js</code></td>
+        <td style="text-align: right;">50 lines</td>
+      </tr>
+    
+      <tr>
+        <td style="text-align: center;">6</td>
+        <td><strong><a href="#file-6">Backend Model - DailyCompletion</a></strong></td>
+        <td><code>backend/models/DailyCompletion.js</code></td>
+        <td style="text-align: right;">33 lines</td>
+      </tr>
+    
+      <tr>
+        <td style="text-align: center;">7</td>
+        <td><strong><a href="#file-7">Backend Model - Task</a></strong></td>
+        <td><code>backend/models/Task.js</code></td>
+        <td style="text-align: right;">108 lines</td>
+      </tr>
+    
+      <tr>
+        <td style="text-align: center;">8</td>
+        <td><strong><a href="#file-8">Backend Route - Authentication</a></strong></td>
+        <td><code>backend/routes/auth.js</code></td>
+        <td style="text-align: right;">86 lines</td>
+      </tr>
+    
+      <tr>
+        <td style="text-align: center;">9</td>
+        <td><strong><a href="#file-9">Backend Route - Habit Tracking</a></strong></td>
+        <td><code>backend/routes/habits.js</code></td>
+        <td style="text-align: right;">89 lines</td>
+      </tr>
+    
+      <tr>
+        <td style="text-align: center;">10</td>
+        <td><strong><a href="#file-10">Backend Route - Daily Completions & Chart</a></strong></td>
+        <td><code>backend/routes/completions.js</code></td>
+        <td style="text-align: right;">132 lines</td>
+      </tr>
+    
+      <tr>
+        <td style="text-align: center;">11</td>
+        <td><strong><a href="#file-11">Backend Route - Tasks & Kanban</a></strong></td>
+        <td><code>backend/routes/tasks.js</code></td>
+        <td style="text-align: right;">315 lines</td>
+      </tr>
+    
+      <tr>
+        <td style="text-align: center;">12</td>
+        <td><strong><a href="#file-12">Frontend - App Root Component</a></strong></td>
+        <td><code>frontend/src/App.js</code></td>
+        <td style="text-align: right;">199 lines</td>
+      </tr>
+    
+      <tr>
+        <td style="text-align: center;">13</td>
+        <td><strong><a href="#file-13">Frontend - Navigation Bar</a></strong></td>
+        <td><code>frontend/src/components/Navbar.js</code></td>
+        <td style="text-align: right;">57 lines</td>
+      </tr>
+    
+      <tr>
+        <td style="text-align: center;">14</td>
+        <td><strong><a href="#file-14">Frontend - Authentication Screen</a></strong></td>
+        <td><code>frontend/src/components/LoginPage.js</code></td>
+        <td style="text-align: right;">122 lines</td>
+      </tr>
+    
+      <tr>
+        <td style="text-align: center;">15</td>
+        <td><strong><a href="#file-15">Frontend - Habit Tracker Grid</a></strong></td>
+        <td><code>frontend/src/components/HabitTracker.js</code></td>
+        <td style="text-align: right;">282 lines</td>
+      </tr>
+    
+      <tr>
+        <td style="text-align: center;">16</td>
+        <td><strong><a href="#file-16">Frontend - Habit Task Modal Form</a></strong></td>
+        <td><code>frontend/src/components/HabitTaskForm.js</code></td>
+        <td style="text-align: right;">116 lines</td>
+      </tr>
+    
+      <tr>
+        <td style="text-align: center;">17</td>
+        <td><strong><a href="#file-17">Frontend - 30-Day SVG Progress Chart</a></strong></td>
+        <td><code>frontend/src/components/ProgressChart.js</code></td>
+        <td style="text-align: right;">167 lines</td>
+      </tr>
+    
+      <tr>
+        <td style="text-align: center;">18</td>
+        <td><strong><a href="#file-18">Frontend - Dashboard Metrics</a></strong></td>
+        <td><code>frontend/src/components/Dashboard.js</code></td>
+        <td style="text-align: right;">80 lines</td>
+      </tr>
+    
+      <tr>
+        <td style="text-align: center;">19</td>
+        <td><strong><a href="#file-19">Frontend - Task Form Modal</a></strong></td>
+        <td><code>frontend/src/components/TaskForm.js</code></td>
+        <td style="text-align: right;">211 lines</td>
+      </tr>
+    
+      <tr>
+        <td style="text-align: center;">20</td>
+        <td><strong><a href="#file-20">Frontend - Task List View</a></strong></td>
+        <td><code>frontend/src/components/TaskList.js</code></td>
+        <td style="text-align: right;">257 lines</td>
+      </tr>
+    
+      <tr>
+        <td style="text-align: center;">21</td>
+        <td><strong><a href="#file-21">Frontend - Task Card Component</a></strong></td>
+        <td><code>frontend/src/components/TaskCard.js</code></td>
+        <td style="text-align: right;">91 lines</td>
+      </tr>
+    
+      <tr>
+        <td style="text-align: center;">22</td>
+        <td><strong><a href="#file-22">Frontend Service - Auth API</a></strong></td>
+        <td><code>frontend/src/services/authAPI.js</code></td>
+        <td style="text-align: right;">20 lines</td>
+      </tr>
+    
+      <tr>
+        <td style="text-align: center;">23</td>
+        <td><strong><a href="#file-23">Frontend Service - Habit API</a></strong></td>
+        <td><code>frontend/src/services/habitAPI.js</code></td>
+        <td style="text-align: right;">50 lines</td>
+      </tr>
+    
+      <tr>
+        <td style="text-align: center;">24</td>
+        <td><strong><a href="#file-24">Frontend Service - Task API</a></strong></td>
+        <td><code>frontend/src/services/api.js</code></td>
+        <td style="text-align: right;">82 lines</td>
+      </tr>
+    
+      <tr>
+        <td style="text-align: center;">25</td>
+        <td><strong><a href="#file-25">Frontend - Theme & Global Styles</a></strong></td>
+        <td><code>frontend/src/App.css</code></td>
+        <td style="text-align: right;">624 lines</td>
+      </tr>
+    
+      <tr>
+        <td style="text-align: center;">26</td>
+        <td><strong><a href="#file-26">Frontend - PWA Web Manifest</a></strong></td>
+        <td><code>frontend/public/manifest.json</code></td>
+        <td style="text-align: right;">35 lines</td>
+      </tr>
+    
+      <tr>
+        <td style="text-align: center;">27</td>
+        <td><strong><a href="#file-27">Frontend - Package Configuration</a></strong></td>
+        <td><code>frontend/package.json</code></td>
+        <td style="text-align: right;">35 lines</td>
+      </tr>
+    
+      <tr>
+        <td style="text-align: center;">28</td>
+        <td><strong><a href="#file-28">Backend - Package Configuration</a></strong></td>
+        <td><code>backend/package.json</code></td>
+        <td style="text-align: right;">33 lines</td>
+      </tr>
+    
+      </tbody>
+    </table>
+
+    <div class="page-break"></div>
+
+    <h2>Complete Source Code Listings</h2>
+    
+      <div class="code-file-section" id="file-1">
+        <div class="file-header">
+          <div class="file-header-title">
+            <span class="file-index">1</span>
+            <span class="file-category">Backend - Server & Config</span>
+          </div>
+          <div class="file-path">backend/server.js</div>
+        </div>
+        <pre><code class="language-javascript">const express = require(&#039;express&#039;);
+const mongoose = require(&#039;mongoose&#039;);
+const cors = require(&#039;cors&#039;);
+const helmet = require(&#039;helmet&#039;);
+const morgan = require(&#039;morgan&#039;);
+require(&#039;dotenv&#039;).config();
+
+const taskRoutes = require(&#039;./routes/tasks&#039;);
+const userRoutes = require(&#039;./routes/users&#039;);
+const habitRoutes = require(&#039;./routes/habits&#039;);
+const completionRoutes = require(&#039;./routes/completions&#039;);
+const authRoutes = require(&#039;./routes/auth&#039;);
+const errorHandler = require(&#039;./middleware/errorHandler&#039;);
+
+const app = express();
+
+// ─── Security &amp; Middleware ────────────────────────────────────────────────────
+app.use(helmet());
+app.use(morgan(&#039;combined&#039;));
+app.use(cors({
+  origin: [
+    process.env.FRONTEND_URL || &#039;http://localhost:3000&#039;,
+    &#039;http://localhost:3000&#039;,
+    &#039;http://localhost:3001&#039;,
+    &#039;https://taskflow-alpha-dun.vercel.app&#039;,
+    &#039;https://taskflow-frontend.vercel.app&#039;,
+    /\.vercel\.app$/   // allow any vercel preview URL
+  ],
+  methods: [&#039;GET&#039;, &#039;POST&#039;, &#039;PUT&#039;, &#039;PATCH&#039;, &#039;DELETE&#039;, &#039;OPTIONS&#039;],
+  allowedHeaders: [&#039;Content-Type&#039;, &#039;Authorization&#039;],
+  credentials: true
+}));
+app.use(express.json({ limit: &#039;10kb&#039; }));
+app.use(express.urlencoded({ extended: true }));
+
+// ─── Database Connection ──────────────────────────────────────────────────────
+const connectDB = async () =&gt; {
+  try {
+    const conn = await mongoose.connect(process.env.MONGODB_URI);
+    console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
+  } catch (error) {
+    console.error(&#039;❌ MongoDB Connection Error:&#039;, error.message);
+    process.exit(1);
+  }
+};
+
+connectDB();
+
+// ─── Routes ──────────────────────────────────────────────────────────────────
+// Health Check Endpoint
+app.get(&#039;/&#039;, (req, res) =&gt; {
+  res.json({
+    success: true,
+    message: &#039;TaskFlow API is running 🚀&#039;,
+    version: &#039;1.0.0&#039;,
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || &#039;development&#039;
+  });
+});
+
+app.get(&#039;/api/health&#039;, (req, res) =&gt; {
+  res.json({
+    success: true,
+    status: &#039;healthy&#039;,
+    database: mongoose.connection.readyState === 1 ? &#039;connected&#039; : &#039;disconnected&#039;,
+    uptime: process.uptime(),
+    timestamp: new Date().toISOString()
+  });
+});
+
+// API Routes
+app.use(&#039;/api/auth&#039;, authRoutes);
+app.use(&#039;/api/tasks&#039;, taskRoutes);
+app.use(&#039;/api/users&#039;, userRoutes);
+app.use(&#039;/api/habits&#039;, habitRoutes);
+app.use(&#039;/api/completions&#039;, completionRoutes);
+
+// ─── 404 Handler ──────────────────────────────────────────────────────────────
+app.use((req, res, next) =&gt; {
+  res.status(404).json({
+    success: false,
+    message: `Route ${req.originalUrl} not found`
+  });
+});
+
+// ─── Global Error Handler ─────────────────────────────────────────────────────
+app.use(errorHandler);
+
+// ─── Start Server ─────────────────────────────────────────────────────────────
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () =&gt; {
+  console.log(`🚀 TaskFlow Server running on port ${PORT}`);
+  console.log(`📍 Environment: ${process.env.NODE_ENV || &#039;development&#039;}`);
+  console.log(`🌐 API Base URL: http://localhost:${PORT}/api`);
+});
+
+module.exports = app;
+</code></pre>
+      </div>
+    
+      <div class="code-file-section" id="file-2">
+        <div class="file-header">
+          <div class="file-header-title">
+            <span class="file-index">2</span>
+            <span class="file-category">Backend - Authentication Middleware</span>
+          </div>
+          <div class="file-path">backend/middleware/auth.js</div>
+        </div>
+        <pre><code class="language-javascript">const jwt = require(&#039;jsonwebtoken&#039;);
+
+const JWT_SECRET = process.env.JWT_SECRET || &#039;taskflow_super_secret_jwt_key_2026&#039;;
+
+const auth = (req, res, next) =&gt; {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith(&#039;Bearer &#039;)) {
+    return res.status(401).json({ success: false, message: &#039;Access denied. No authentication token provided.&#039; });
+  }
+
+  const token = authHeader.split(&#039; &#039;)[1];
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    req.user = { id: decoded.id };
+    next();
+  } catch (err) {
+    return res.status(401).json({ success: false, message: &#039;Invalid or expired authentication token.&#039; });
+  }
+};
+
+module.exports = auth;
+</code></pre>
+      </div>
+    
+      <div class="code-file-section" id="file-3">
+        <div class="file-header">
+          <div class="file-header-title">
+            <span class="file-index">3</span>
+            <span class="file-category">Backend - Error Handling Middleware</span>
+          </div>
+          <div class="file-path">backend/middleware/errorHandler.js</div>
+        </div>
+        <pre><code class="language-javascript">/**
+ * Global Error Handling Middleware
+ * Catches all errors thrown in route handlers and sends a uniform JSON response
+ */
+const errorHandler = (err, req, res, next) =&gt; {
+  let statusCode = err.statusCode || 500;
+  let message = err.message || &#039;Internal Server Error&#039;;
+
+  // Mongoose Bad ObjectId
+  if (err.name === &#039;CastError&#039;) {
+    statusCode = 400;
+    message = `Invalid ${err.path}: ${err.value}`;
+  }
+
+  // Mongoose Duplicate Key Error
+  if (err.code === 11000) {
+    statusCode = 409;
+    const field = Object.keys(err.keyValue)[0];
+    message = `Duplicate value for field: ${field}. Please use a different value.`;
+  }
+
+  // Mongoose Validation Error
+  if (err.name === &#039;ValidationError&#039;) {
+    statusCode = 400;
+    message = Object.values(err.errors).map(val =&gt; val.message).join(&#039;, &#039;);
+  }
+
+  // JWT Errors (if auth added later)
+  if (err.name === &#039;JsonWebTokenError&#039;) {
+    statusCode = 401;
+    message = &#039;Invalid token. Please log in again.&#039;;
+  }
+  if (err.name === &#039;TokenExpiredError&#039;) {
+    statusCode = 401;
+    message = &#039;Token expired. Please log in again.&#039;;
+  }
+
+  // Log error in development
+  if (process.env.NODE_ENV === &#039;development&#039;) {
+    console.error(&#039;🔴 Error:&#039;, err);
+  }
+
+  res.status(statusCode).json({
+    success: false,
+    message,
+    ...(process.env.NODE_ENV === &#039;development&#039; &amp;&amp; { stack: err.stack })
+  });
+};
+
+module.exports = errorHandler;
+</code></pre>
+      </div>
+    
+      <div class="code-file-section" id="file-4">
+        <div class="file-header">
+          <div class="file-header-title">
+            <span class="file-index">4</span>
+            <span class="file-category">Backend Model - AuthUser</span>
+          </div>
+          <div class="file-path">backend/models/AuthUser.js</div>
+        </div>
+        <pre><code class="language-javascript">const mongoose = require(&#039;mongoose&#039;);
+const bcrypt = require(&#039;bcryptjs&#039;);
+
+const authUserSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: [true, &#039;Name is required&#039;],
+      trim: true,
+      minlength: 2,
+      maxlength: 50
+    },
+    email: {
+      type: String,
+      required: [true, &#039;Email is required&#039;],
+      unique: true,
+      lowercase: true,
+      trim: true,
+      match: [/^\S+@\S+\.\S+$/, &#039;Invalid email format&#039;]
+    },
+    password: {
+      type: String,
+      required: [true, &#039;Password is required&#039;],
+      minlength: 6,
+      select: false  // never returned in queries by default
+    },
+    avatar: {
+      type: String,
+      default: &#039;&#039;
+    }
+  },
+  { timestamps: true }
+);
+
+// Hash password before save
+authUserSchema.pre(&#039;save&#039;, async function (next) {
+  if (!this.isModified(&#039;password&#039;)) return next();
+  this.password = await bcrypt.hash(this.password, 12);
+  next();
+});
+
+// Compare password method
+authUserSchema.methods.comparePassword = async function (candidatePassword) {
+  return bcrypt.compare(candidatePassword, this.password);
+};
+
+const AuthUser = mongoose.model(&#039;AuthUser&#039;, authUserSchema);
+module.exports = AuthUser;
+</code></pre>
+      </div>
+    
+      <div class="code-file-section" id="file-5">
+        <div class="file-header">
+          <div class="file-header-title">
+            <span class="file-index">5</span>
+            <span class="file-category">Backend Model - HabitTask</span>
+          </div>
+          <div class="file-path">backend/models/HabitTask.js</div>
+        </div>
+        <pre><code class="language-javascript">const mongoose = require(&#039;mongoose&#039;);
+
+const TASK_COLORS = [&#039;#818cf8&#039;,&#039;#60a5fa&#039;,&#039;#34d399&#039;,&#039;#f472b6&#039;,&#039;#fbbf24&#039;,&#039;#f97316&#039;,&#039;#2dd4bf&#039;,&#039;#a78bfa&#039;];
+
+const habitTaskSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: [true, &#039;Task name is required&#039;],
+      trim: true,
+      minlength: [2, &#039;Name must be at least 2 characters&#039;],
+      maxlength: [80, &#039;Name cannot exceed 80 characters&#039;]
+    },
+    type: {
+      type: String,
+      enum: [&#039;fixed&#039;, &#039;variable&#039;],
+      default: &#039;fixed&#039;
+    },
+    // For variable tasks: 0=Sun, 1=Mon, 2=Tue, 3=Wed, 4=Thu, 5=Fri, 6=Sat
+    scheduledDays: {
+      type: [Number],
+      default: []
+    },
+    color: {
+      type: String,
+      default: &#039;#818cf8&#039;
+    },
+    order: {
+      type: Number,
+      default: 0
+    },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: &#039;AuthUser&#039;,
+      required: true,
+      index: true
+    },
+    isActive: {
+      type: Boolean,
+      default: true
+    }
+  },
+  { timestamps: true }
+);
+
+habitTaskSchema.index({ userId: 1, order: 1 });
+
+const HabitTask = mongoose.model(&#039;HabitTask&#039;, habitTaskSchema);
+module.exports = HabitTask;
+</code></pre>
+      </div>
+    
+      <div class="code-file-section" id="file-6">
+        <div class="file-header">
+          <div class="file-header-title">
+            <span class="file-index">6</span>
+            <span class="file-category">Backend Model - DailyCompletion</span>
+          </div>
+          <div class="file-path">backend/models/DailyCompletion.js</div>
+        </div>
+        <pre><code class="language-javascript">const mongoose = require(&#039;mongoose&#039;);
+
+const dailyCompletionSchema = new mongoose.Schema(
+  {
+    taskId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: &#039;HabitTask&#039;,
+      required: true
+    },
+    date: {
+      type: String,  // stored as &quot;YYYY-MM-DD&quot;
+      required: true
+    },
+    completed: {
+      type: Boolean,
+      default: true
+    },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: &#039;AuthUser&#039;,
+      index: true
+    }
+  },
+  { timestamps: true }
+);
+
+// Unique per task per day
+dailyCompletionSchema.index({ taskId: 1, date: 1 }, { unique: true });
+dailyCompletionSchema.index({ userId: 1, date: 1 });
+
+const DailyCompletion = mongoose.model(&#039;DailyCompletion&#039;, dailyCompletionSchema);
+module.exports = DailyCompletion;
+</code></pre>
+      </div>
+    
+      <div class="code-file-section" id="file-7">
+        <div class="file-header">
+          <div class="file-header-title">
+            <span class="file-index">7</span>
+            <span class="file-category">Backend Model - Task</span>
+          </div>
+          <div class="file-path">backend/models/Task.js</div>
+        </div>
+        <pre><code class="language-javascript">const mongoose = require(&#039;mongoose&#039;);
+
+const taskSchema = new mongoose.Schema(
+  {
+    title: {
+      type: String,
+      required: [true, &#039;Task title is required&#039;],
+      trim: true,
+      minlength: [3, &#039;Title must be at least 3 characters&#039;],
+      maxlength: [100, &#039;Title cannot exceed 100 characters&#039;]
+    },
+    description: {
+      type: String,
+      trim: true,
+      maxlength: [500, &#039;Description cannot exceed 500 characters&#039;],
+      default: &#039;&#039;
+    },
+    status: {
+      type: String,
+      enum: {
+        values: [&#039;todo&#039;, &#039;in-progress&#039;, &#039;completed&#039;],
+        message: &#039;Status must be todo, in-progress, or completed&#039;
+      },
+      default: &#039;todo&#039;
+    },
+    priority: {
+      type: String,
+      enum: {
+        values: [&#039;low&#039;, &#039;medium&#039;, &#039;high&#039;],
+        message: &#039;Priority must be low, medium, or high&#039;
+      },
+      default: &#039;medium&#039;
+    },
+    category: {
+      type: String,
+      trim: true,
+      maxlength: [50, &#039;Category cannot exceed 50 characters&#039;],
+      default: &#039;General&#039;
+    },
+    dueDate: {
+      type: Date,
+      default: null
+    },
+    assignedTo: {
+      type: String,
+      trim: true,
+      maxlength: [50, &#039;Assigned to cannot exceed 50 characters&#039;],
+      default: &#039;&#039;
+    },
+    tags: {
+      type: [String],
+      default: []
+    },
+    completedAt: {
+      type: Date,
+      default: null
+    },
+    userId: {
+      type: String,
+      default: &#039;anonymous&#039;
+    }
+  },
+  {
+    timestamps: true,  // Adds createdAt and updatedAt automatically
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
+  }
+);
+
+// ─── Indexes for performance ──────────────────────────────────────────────────
+taskSchema.index({ status: 1 });
+taskSchema.index({ priority: 1 });
+taskSchema.index({ userId: 1 });
+taskSchema.index({ createdAt: -1 });
+
+// ─── Virtual: isOverdue ────────────────────────────────────────────────────────
+taskSchema.virtual(&#039;isOverdue&#039;).get(function () {
+  if (!this.dueDate || this.status === &#039;completed&#039;) return false;
+  return new Date() &gt; new Date(this.dueDate);
+});
+
+// ─── Pre-save Hook ────────────────────────────────────────────────────────────
+taskSchema.pre(&#039;save&#039;, function (next) {
+  if (this.status === &#039;completed&#039; &amp;&amp; !this.completedAt) {
+    this.completedAt = new Date();
+  }
+  if (this.status !== &#039;completed&#039;) {
+    this.completedAt = null;
+  }
+  next();
+});
+
+// ─── Static Methods ────────────────────────────────────────────────────────────
+taskSchema.statics.getStats = async function () {
+  const stats = await this.aggregate([
+    {
+      $group: {
+        _id: &#039;$status&#039;,
+        count: { $sum: 1 }
+      }
+    }
+  ]);
+  return stats;
+};
+
+const Task = mongoose.model(&#039;Task&#039;, taskSchema);
+module.exports = Task;
+</code></pre>
+      </div>
+    
+      <div class="code-file-section" id="file-8">
+        <div class="file-header">
+          <div class="file-header-title">
+            <span class="file-index">8</span>
+            <span class="file-category">Backend Route - Authentication</span>
+          </div>
+          <div class="file-path">backend/routes/auth.js</div>
+        </div>
+        <pre><code class="language-javascript">const express = require(&#039;express&#039;);
+const router = express.Router();
+const jwt = require(&#039;jsonwebtoken&#039;);
+const { body, validationResult } = require(&#039;express-validator&#039;);
+const AuthUser = require(&#039;../models/AuthUser&#039;);
+
+const JWT_SECRET = process.env.JWT_SECRET || &#039;taskflow_super_secret_jwt_key_2026&#039;;
+const JWT_EXPIRES = &#039;7d&#039;;
+
+function signToken(id) {
+  return jwt.sign({ id }, JWT_SECRET, { expiresIn: JWT_EXPIRES });
+}
+
+function handleErrors(req, res, next) {
+  const errors = validationResult(req);
+  if (!errors.isEmpty())
+    return res.status(400).json({ success: false, message: errors.array()[0].msg });
+  next();
+}
+
+// ─── POST /api/auth/register ──────────────────────────────────────────────────
+router.post(&#039;/register&#039;, [
+  body(&#039;name&#039;).trim().notEmpty().withMessage(&#039;Name is required&#039;).isLength({ min: 2 }),
+  body(&#039;email&#039;).isEmail().withMessage(&#039;Valid email required&#039;).normalizeEmail(),
+  body(&#039;password&#039;).isLength({ min: 6 }).withMessage(&#039;Password must be at least 6 characters&#039;),
+], handleErrors, async (req, res, next) =&gt; {
+  try {
+    const { name, email, password } = req.body;
+    const existing = await AuthUser.findOne({ email });
+    if (existing)
+      return res.status(400).json({ success: false, message: &#039;Email already registered&#039; });
+
+    const user = await AuthUser.create({ name, email, password });
+    const token = signToken(user._id);
+
+    res.status(201).json({
+      success: true,
+      message: &#039;Account created successfully!&#039;,
+      token,
+      user: { id: user._id, name: user.name, email: user.email }
+    });
+  } catch (err) { next(err); }
+});
+
+// ─── POST /api/auth/login ─────────────────────────────────────────────────────
+router.post(&#039;/login&#039;, [
+  body(&#039;email&#039;).isEmail().withMessage(&#039;Valid email required&#039;).normalizeEmail(),
+  body(&#039;password&#039;).notEmpty().withMessage(&#039;Password is required&#039;),
+], handleErrors, async (req, res, next) =&gt; {
+  try {
+    const { email, password } = req.body;
+    const user = await AuthUser.findOne({ email }).select(&#039;+password&#039;);
+    if (!user || !(await user.comparePassword(password)))
+      return res.status(401).json({ success: false, message: &#039;Invalid email or password&#039; });
+
+    const token = signToken(user._id);
+    res.json({
+      success: true,
+      message: &#039;Login successful!&#039;,
+      token,
+      user: { id: user._id, name: user.name, email: user.email }
+    });
+  } catch (err) { next(err); }
+});
+
+// ─── GET /api/auth/me ─────────────────────────────────────────────────────────
+router.get(&#039;/me&#039;, async (req, res, next) =&gt; {
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith(&#039;Bearer &#039;))
+      return res.status(401).json({ success: false, message: &#039;Not authenticated&#039; });
+
+    const token = authHeader.split(&#039; &#039;)[1];
+    const decoded = jwt.verify(token, JWT_SECRET);
+    const user = await AuthUser.findById(decoded.id);
+    if (!user)
+      return res.status(401).json({ success: false, message: &#039;User not found&#039; });
+
+    res.json({ success: true, user: { id: user._id, name: user.name, email: user.email } });
+  } catch (err) {
+    res.status(401).json({ success: false, message: &#039;Invalid or expired token&#039; });
+  }
+});
+
+module.exports = router;
+</code></pre>
+      </div>
+    
+      <div class="code-file-section" id="file-9">
+        <div class="file-header">
+          <div class="file-header-title">
+            <span class="file-index">9</span>
+            <span class="file-category">Backend Route - Habit Tracking</span>
+          </div>
+          <div class="file-path">backend/routes/habits.js</div>
+        </div>
+        <pre><code class="language-javascript">const express = require(&#039;express&#039;);
+const router = express.Router();
+const { body, validationResult } = require(&#039;express-validator&#039;);
+const HabitTask = require(&#039;../models/HabitTask&#039;);
+const auth = require(&#039;../middleware/auth&#039;);
+
+// Protect all habit routes
+router.use(auth);
+
+const validate = [
+  body(&#039;name&#039;).trim().notEmpty().withMessage(&#039;Name required&#039;).isLength({ min: 2, max: 80 }),
+  body(&#039;type&#039;).optional().isIn([&#039;fixed&#039;, &#039;variable&#039;]),
+  body(&#039;scheduledDays&#039;).optional().isArray(),
+  body(&#039;color&#039;).optional().isString(),
+];
+
+const handleErrors = (req, res, next) =&gt; {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) return res.status(400).json({ success: false, errors: errors.array() });
+  next();
+};
+
+// GET all active habit tasks for the authenticated user
+router.get(&#039;/&#039;, async (req, res, next) =&gt; {
+  try {
+    const tasks = await HabitTask.find({ userId: req.user.id, isActive: true })
+      .sort({ order: 1, createdAt: 1 });
+    res.json({ success: true, data: tasks });
+  } catch (err) { next(err); }
+});
+
+// POST create habit task for the authenticated user
+router.post(&#039;/&#039;, validate, handleErrors, async (req, res, next) =&gt; {
+  try {
+    const { name, type, scheduledDays, color, order } = req.body;
+    const count = await HabitTask.countDocuments({ userId: req.user.id, isActive: true });
+    const task = await HabitTask.create({
+      name,
+      type,
+      scheduledDays: scheduledDays || [],
+      color,
+      order: order ?? count,
+      userId: req.user.id
+    });
+    res.status(201).json({ success: true, message: &#039;Habit task created&#039;, data: task });
+  } catch (err) { next(err); }
+});
+
+// PUT update habit task (user-isolated)
+router.put(&#039;/:id&#039;, validate, handleErrors, async (req, res, next) =&gt; {
+  try {
+    const task = await HabitTask.findOneAndUpdate(
+      { _id: req.params.id, userId: req.user.id },
+      req.body,
+      { new: true, runValidators: true }
+    );
+    if (!task) return res.status(404).json({ success: false, message: &#039;Task not found&#039; });
+    res.json({ success: true, message: &#039;Habit task updated&#039;, data: task });
+  } catch (err) { next(err); }
+});
+
+// PATCH reorder habit task (user-isolated)
+router.patch(&#039;/:id/order&#039;, async (req, res, next) =&gt; {
+  try {
+    const task = await HabitTask.findOneAndUpdate(
+      { _id: req.params.id, userId: req.user.id },
+      { order: req.body.order },
+      { new: true }
+    );
+    if (!task) return res.status(404).json({ success: false, message: &#039;Task not found&#039; });
+    res.json({ success: true, data: task });
+  } catch (err) { next(err); }
+});
+
+// DELETE habit task (soft delete, user-isolated)
+router.delete(&#039;/:id&#039;, async (req, res, next) =&gt; {
+  try {
+    const task = await HabitTask.findOneAndUpdate(
+      { _id: req.params.id, userId: req.user.id },
+      { isActive: false },
+      { new: true }
+    );
+    if (!task) return res.status(404).json({ success: false, message: &#039;Task not found&#039; });
+    res.json({ success: true, message: &#039;Habit task deleted&#039;, data: { deletedId: req.params.id } });
+  } catch (err) { next(err); }
+});
+
+module.exports = router;
+</code></pre>
+      </div>
+    
+      <div class="code-file-section" id="file-10">
+        <div class="file-header">
+          <div class="file-header-title">
+            <span class="file-index">10</span>
+            <span class="file-category">Backend Route - Daily Completions & Chart</span>
+          </div>
+          <div class="file-path">backend/routes/completions.js</div>
+        </div>
+        <pre><code class="language-javascript">const express = require(&#039;express&#039;);
+const router = express.Router();
+const DailyCompletion = require(&#039;../models/DailyCompletion&#039;);
+const HabitTask = require(&#039;../models/HabitTask&#039;);
+const auth = require(&#039;../middleware/auth&#039;);
+
+// Protect all completion routes
+router.use(auth);
+
+// GET /api/completions?month=YYYY-MM  — all completions for a month for the user&#039;s habits
+router.get(&#039;/&#039;, async (req, res, next) =&gt; {
+  try {
+    const { month } = req.query; // e.g. &quot;2026-09&quot;
+    if (!month) return res.status(400).json({ success: false, message: &#039;month query required (YYYY-MM)&#039; });
+
+    // Get all task IDs belonging to the authenticated user
+    const userTasks = await HabitTask.find({ userId: req.user.id }).select(&#039;_id&#039;).lean();
+    const taskIds = userTasks.map(t =&gt; t._id);
+
+    const completions = await DailyCompletion.find({
+      taskId: { $in: taskIds },
+      date: { $regex: `^${month}` },
+      completed: true
+    }).lean();
+
+    res.json({ success: true, data: completions });
+  } catch (err) { next(err); }
+});
+
+// GET /api/completions/chart?days=30 — daily completion % for chart for user&#039;s habits only
+router.get(&#039;/chart&#039;, async (req, res, next) =&gt; {
+  try {
+    const days = Math.min(parseInt(req.query.days) || 30, 90);
+    // Find ONLY the authenticated user&#039;s active tasks
+    const tasks = await HabitTask.find({ userId: req.user.id, isActive: true }).lean();
+
+    const result = [];
+    const today = new Date();
+
+    for (let i = days - 1; i &gt;= 0; i--) {
+      const d = new Date(today);
+      d.setDate(today.getDate() - i);
+      const dateStr = d.toISOString().split(&#039;T&#039;)[0];
+      const dayOfWeek = d.getDay(); // 0=Sun...6=Sat
+
+      // Determine scheduled tasks for this day
+      const scheduled = tasks.filter(t =&gt;
+        t.type === &#039;fixed&#039; ||
+        (t.type === &#039;variable&#039; &amp;&amp; t.scheduledDays.includes(dayOfWeek))
+      );
+
+      if (scheduled.length === 0) {
+        result.push({ date: dateStr, pct: 0, completed: 0, total: 0 });
+        continue;
+      }
+
+      const completions = await DailyCompletion.countDocuments({
+        taskId: { $in: scheduled.map(t =&gt; t._id) },
+        date: dateStr,
+        completed: true
+      });
+
+      result.push({
+        date: dateStr,
+        pct: Math.round((completions / scheduled.length) * 100),
+        completed: completions,
+        total: scheduled.length
+      });
+    }
+
+    res.json({ success: true, data: result });
+  } catch (err) { next(err); }
+});
+
+// POST /api/completions/toggle — toggle a task completion for a date
+router.post(&#039;/toggle&#039;, async (req, res, next) =&gt; {
+  try {
+    const { taskId, date } = req.body;
+    if (!taskId || !date) return res.status(400).json({ success: false, message: &#039;taskId and date required&#039; });
+
+    // Verify task ownership
+    const task = await HabitTask.findOne({ _id: taskId, userId: req.user.id });
+    if (!task) return res.status(404).json({ success: false, message: &#039;Habit task not found or access denied&#039; });
+
+    const existing = await DailyCompletion.findOne({ taskId, date });
+    if (existing) {
+      // Toggle
+      existing.completed = !existing.completed;
+      if (!existing.userId) existing.userId = req.user.id;
+      await existing.save();
+      res.json({ success: true, data: existing });
+    } else {
+      // Create new completion with userId
+      const completion = await DailyCompletion.create({
+        taskId,
+        date,
+        completed: true,
+        userId: req.user.id
+      });
+      res.status(201).json({ success: true, data: completion });
+    }
+  } catch (err) { next(err); }
+});
+
+// GET /api/completions/streak/:taskId — streak count for a task
+router.get(&#039;/streak/:taskId&#039;, async (req, res, next) =&gt; {
+  try {
+    // Verify task ownership
+    const task = await HabitTask.findOne({ _id: req.params.taskId, userId: req.user.id });
+    if (!task) return res.status(404).json({ success: false, message: &#039;Habit task not found&#039; });
+
+    let streak = 0;
+    let d = new Date();
+
+    while (true) {
+      const dateStr = d.toISOString().split(&#039;T&#039;)[0];
+      const comp = await DailyCompletion.findOne({
+        taskId: req.params.taskId,
+        date: dateStr,
+        completed: true
+      });
+      if (!comp) break;
+      streak++;
+      d.setDate(d.getDate() - 1);
+    }
+
+    res.json({ success: true, data: { streak } });
+  } catch (err) { next(err); }
+});
+
+module.exports = router;
+</code></pre>
+      </div>
+    
+      <div class="code-file-section" id="file-11">
+        <div class="file-header">
+          <div class="file-header-title">
+            <span class="file-index">11</span>
+            <span class="file-category">Backend Route - Tasks & Kanban</span>
+          </div>
+          <div class="file-path">backend/routes/tasks.js</div>
+        </div>
+        <pre><code class="language-javascript">const express = require(&#039;express&#039;);
+const router = express.Router();
+const { body, validationResult } = require(&#039;express-validator&#039;);
+const Task = require(&#039;../models/Task&#039;);
+const auth = require(&#039;../middleware/auth&#039;);
+
+// Protect all task routes with JWT auth
+router.use(auth);
+
+// ─── Validation Middleware ─────────────────────────────────────────────────────
+const validateTask = [
+  body(&#039;title&#039;)
+    .trim()
+    .notEmpty().withMessage(&#039;Title is required&#039;)
+    .isLength({ min: 3, max: 100 }).withMessage(&#039;Title must be 3-100 characters&#039;),
+  body(&#039;description&#039;)
+    .optional()
+    .trim()
+    .isLength({ max: 500 }).withMessage(&#039;Description cannot exceed 500 characters&#039;),
+  body(&#039;status&#039;)
+    .optional()
+    .isIn([&#039;todo&#039;, &#039;in-progress&#039;, &#039;completed&#039;]).withMessage(&#039;Invalid status value&#039;),
+  body(&#039;priority&#039;)
+    .optional()
+    .isIn([&#039;low&#039;, &#039;medium&#039;, &#039;high&#039;]).withMessage(&#039;Invalid priority value&#039;),
+  body(&#039;category&#039;)
+    .optional()
+    .trim()
+    .isLength({ max: 50 }).withMessage(&#039;Category cannot exceed 50 characters&#039;),
+  body(&#039;dueDate&#039;)
+    .optional({ nullable: true, checkFalsy: true })
+    .isISO8601().withMessage(&#039;Invalid date format&#039;),
+  body(&#039;assignedTo&#039;)
+    .optional()
+    .trim()
+    .isLength({ max: 50 }).withMessage(&#039;AssignedTo cannot exceed 50 characters&#039;),
+  body(&#039;tags&#039;)
+    .optional()
+    .isArray().withMessage(&#039;Tags must be an array&#039;),
+];
+
+const handleValidationErrors = (req, res, next) =&gt; {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({
+      success: false,
+      message: &#039;Validation failed&#039;,
+      errors: errors.array().map(err =&gt; ({ field: err.path, message: err.msg }))
+    });
+  }
+  next();
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// GET /api/tasks — Fetch all tasks for the logged in user with filters &amp; paging
+// ─────────────────────────────────────────────────────────────────────────────
+router.get(&#039;/&#039;, async (req, res, next) =&gt; {
+  try {
+    const {
+      status,
+      priority,
+      category,
+      search,
+      page = 1,
+      limit = 20,
+      sortBy = &#039;createdAt&#039;,
+      order = &#039;desc&#039;
+    } = req.query;
+
+    // Filter by user ID first
+    const filter = { userId: req.user.id };
+    if (status) filter.status = status;
+    if (priority) filter.priority = priority;
+    if (category) filter.category = { $regex: category, $options: &#039;i&#039; };
+    if (search) {
+      filter.$or = [
+        { title: { $regex: search, $options: &#039;i&#039; } },
+        { description: { $regex: search, $options: &#039;i&#039; } },
+        { tags: { $in: [new RegExp(search, &#039;i&#039;)] } }
+      ];
+    }
+
+    // Pagination
+    const pageNum = Math.max(1, parseInt(page));
+    const limitNum = Math.min(100, Math.max(1, parseInt(limit)));
+    const skip = (pageNum - 1) * limitNum;
+
+    // Sort
+    const sortOrder = order === &#039;asc&#039; ? 1 : -1;
+    const sortObj = { [sortBy]: sortOrder };
+
+    // Execute query
+    const [tasks, totalCount] = await Promise.all([
+      Task.find(filter).sort(sortObj).skip(skip).limit(limitNum).lean(),
+      Task.countDocuments(filter)
+    ]);
+
+    res.json({
+      success: true,
+      data: tasks,
+      pagination: {
+        currentPage: pageNum,
+        totalPages: Math.ceil(totalCount / limitNum),
+        totalCount,
+        limit: limitNum,
+        hasNextPage: pageNum &lt; Math.ceil(totalCount / limitNum),
+        hasPrevPage: pageNum &gt; 1
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// GET /api/tasks/stats — Dashboard statistics for the logged in user
+// ─────────────────────────────────────────────────────────────────────────────
+router.get(&#039;/stats&#039;, async (req, res, next) =&gt; {
+  try {
+    const [statusStats, priorityStats, totalCount, overdueCount] = await Promise.all([
+      Task.aggregate([
+        { $match: { userId: req.user.id } },
+        { $group: { _id: &#039;$status&#039;, count: { $sum: 1 } } }
+      ]),
+      Task.aggregate([
+        { $match: { userId: req.user.id } },
+        { $group: { _id: &#039;$priority&#039;, count: { $sum: 1 } } }
+      ]),
+      Task.countDocuments({ userId: req.user.id }),
+      Task.countDocuments({
+        userId: req.user.id,
+        status: { $ne: &#039;completed&#039; },
+        dueDate: { $lt: new Date() }
+      })
+    ]);
+
+    // Reshape into readable objects
+    const byStatus = { todo: 0, &#039;in-progress&#039;: 0, completed: 0 };
+    statusStats.forEach(s =&gt; { byStatus[s._id] = s.count; });
+
+    const byPriority = { low: 0, medium: 0, high: 0 };
+    priorityStats.forEach(p =&gt; { byPriority[p._id] = p.count; });
+
+    res.json({
+      success: true,
+      data: {
+        total: totalCount,
+        overdue: overdueCount,
+        byStatus,
+        byPriority,
+        completionRate: totalCount &gt; 0
+          ? ((byStatus.completed / totalCount) * 100).toFixed(1)
+          : &#039;0.0&#039;
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// GET /api/tasks/:id — Fetch single task for the logged in user
+// ─────────────────────────────────────────────────────────────────────────────
+router.get(&#039;/:id&#039;, async (req, res, next) =&gt; {
+  try {
+    const task = await Task.findOne({ _id: req.params.id, userId: req.user.id });
+    if (!task) {
+      return res.status(404).json({
+        success: false,
+        message: &#039;Task not found&#039;
+      });
+    }
+    res.json({ success: true, data: task });
+  } catch (error) {
+    if (error.name === &#039;CastError&#039;) {
+      return res.status(400).json({ success: false, message: &#039;Invalid task ID format&#039; });
+    }
+    next(error);
+  }
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// POST /api/tasks — Create a new task tied to the logged in user
+// ─────────────────────────────────────────────────────────────────────────────
+router.post(&#039;/&#039;, validateTask, handleValidationErrors, async (req, res, next) =&gt; {
+  try {
+    const { title, description, status, priority, category, dueDate, assignedTo, tags } = req.body;
+
+    const task = await Task.create({
+      title,
+      description,
+      status,
+      priority,
+      category,
+      dueDate: dueDate || null,
+      assignedTo,
+      tags: tags || [],
+      userId: req.user.id
+    });
+
+    res.status(201).json({
+      success: true,
+      message: &#039;Task created successfully&#039;,
+      data: task
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// PUT /api/tasks/:id — Full update of a task (user-isolated)
+// ─────────────────────────────────────────────────────────────────────────────
+router.put(&#039;/:id&#039;, validateTask, handleValidationErrors, async (req, res, next) =&gt; {
+  try {
+    const task = await Task.findOneAndUpdate(
+      { _id: req.params.id, userId: req.user.id },
+      { ...req.body },
+      { new: true, runValidators: true }
+    );
+
+    if (!task) {
+      return res.status(404).json({ success: false, message: &#039;Task not found&#039; });
+    }
+
+    res.json({
+      success: true,
+      message: &#039;Task updated successfully&#039;,
+      data: task
+    });
+  } catch (error) {
+    if (error.name === &#039;CastError&#039;) {
+      return res.status(400).json({ success: false, message: &#039;Invalid task ID format&#039; });
+    }
+    next(error);
+  }
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// PATCH /api/tasks/:id — Partial update of a task (user-isolated)
+// ─────────────────────────────────────────────────────────────────────────────
+router.patch(&#039;/:id&#039;, async (req, res, next) =&gt; {
+  try {
+    const allowedFields = [&#039;title&#039;, &#039;description&#039;, &#039;status&#039;, &#039;priority&#039;, &#039;category&#039;, &#039;dueDate&#039;, &#039;assignedTo&#039;, &#039;tags&#039;];
+    const updates = {};
+    allowedFields.forEach(field =&gt; {
+      if (req.body[field] !== undefined) updates[field] = req.body[field];
+    });
+
+    if (Object.keys(updates).length === 0) {
+      return res.status(400).json({ success: false, message: &#039;No valid fields provided for update&#039; });
+    }
+
+    const task = await Task.findOneAndUpdate(
+      { _id: req.params.id, userId: req.user.id },
+      { $set: updates },
+      { new: true, runValidators: true }
+    );
+
+    if (!task) {
+      return res.status(404).json({ success: false, message: &#039;Task not found&#039; });
+    }
+
+    res.json({
+      success: true,
+      message: &#039;Task patched successfully&#039;,
+      data: task
+    });
+  } catch (error) {
+    if (error.name === &#039;CastError&#039;) {
+      return res.status(400).json({ success: false, message: &#039;Invalid task ID format&#039; });
+    }
+    next(error);
+  }
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DELETE /api/tasks/:id — Delete a task (user-isolated)
+// ─────────────────────────────────────────────────────────────────────────────
+router.delete(&#039;/:id&#039;, async (req, res, next) =&gt; {
+  try {
+    const task = await Task.findOneAndDelete({ _id: req.params.id, userId: req.user.id });
+    if (!task) {
+      return res.status(404).json({ success: false, message: &#039;Task not found&#039; });
+    }
+    res.json({
+      success: true,
+      message: &#039;Task deleted successfully&#039;,
+      data: { deletedId: req.params.id }
+    });
+  } catch (error) {
+    if (error.name === &#039;CastError&#039;) {
+      return res.status(400).json({ success: false, message: &#039;Invalid task ID format&#039; });
+    }
+    next(error);
+  }
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DELETE /api/tasks — Delete all tasks for the logged in user
+// ─────────────────────────────────────────────────────────────────────────────
+router.delete(&#039;/&#039;, async (req, res, next) =&gt; {
+  try {
+    const result = await Task.deleteMany({ userId: req.user.id });
+    res.json({
+      success: true,
+      message: `${result.deletedCount} tasks deleted successfully`
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+module.exports = router;
+</code></pre>
+      </div>
+    
+      <div class="code-file-section" id="file-12">
+        <div class="file-header">
+          <div class="file-header-title">
+            <span class="file-index">12</span>
+            <span class="file-category">Frontend - App Root Component</span>
+          </div>
+          <div class="file-path">frontend/src/App.js</div>
+        </div>
+        <pre><code class="language-javascript">import React, { useState, useEffect, useCallback } from &#039;react&#039;;
+import { ToastContainer, toast } from &#039;react-toastify&#039;;
+import &#039;react-toastify/dist/ReactToastify.css&#039;;
+import { taskAPI } from &#039;./services/api&#039;;
+import Navbar from &#039;./components/Navbar&#039;;
+import Dashboard from &#039;./components/Dashboard&#039;;
+import TaskForm from &#039;./components/TaskForm&#039;;
+import TaskList from &#039;./components/TaskList&#039;;
+import HabitTracker from &#039;./components/HabitTracker&#039;;
+import LoginPage from &#039;./components/LoginPage&#039;;
+import &#039;./App.css&#039;;
+
+export default function App() {
+  // ─── Auth State ────────────────────────────────────────────────────────────
+  const [user, setUser] = useState(null);
+  const [authChecked, setAuthChecked] = useState(false);
+  const [currentPath, setCurrentPath] = useState(window.location.pathname);
+
+  useEffect(() =&gt; {
+    const handlePopState = () =&gt; setCurrentPath(window.location.pathname);
+    window.addEventListener(&#039;popstate&#039;, handlePopState);
+    return () =&gt; window.removeEventListener(&#039;popstate&#039;, handlePopState);
+  }, []);
+
+  useEffect(() =&gt; {
+    const token = localStorage.getItem(&#039;todo_token&#039;);
+    const savedUser = localStorage.getItem(&#039;todo_user&#039;);
+    if (token &amp;&amp; savedUser) {
+      try {
+        setUser(JSON.parse(savedUser));
+      } catch {
+        localStorage.removeItem(&#039;todo_token&#039;);
+        localStorage.removeItem(&#039;todo_user&#039;);
+        setUser(null);
+      }
+    } else {
+      localStorage.removeItem(&#039;todo_token&#039;);
+      localStorage.removeItem(&#039;todo_user&#039;);
+      setUser(null);
+    }
+    setAuthChecked(true);
+  }, []);
+
+  const handleLogin = (userData) =&gt; {
+    setUser(userData);
+    if (window.location.pathname === &#039;/login&#039;) {
+      window.history.pushState({}, &#039;&#039;, &#039;/&#039;);
+      setCurrentPath(&#039;/&#039;);
+    }
+    toast.success(`👋 Welcome, ${userData.name}!`);
+  };
+
+  const handleLogout = () =&gt; {
+    localStorage.removeItem(&#039;todo_token&#039;);
+    localStorage.removeItem(&#039;todo_user&#039;);
+    setUser(null);
+    window.history.pushState({}, &#039;&#039;, &#039;/login&#039;);
+    setCurrentPath(&#039;/login&#039;);
+    toast.info(&#039;Logged out successfully&#039;);
+  };
+
+  const [activeTab, setActiveTab] = useState(&#039;tracker&#039;);
+
+  // ─── Task Board State ──────────────────────────────────────────────────────
+  const [tasks, setTasks] = useState([]);
+  const [stats, setStats] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [showForm, setShowForm] = useState(false);
+  const [editingTask, setEditingTask] = useState(null);
+  const [activeView] = useState(&#039;board&#039;);
+  const [filters, setFilters] = useState({ status: &#039;&#039;, priority: &#039;&#039;, search: &#039;&#039;, sortBy: &#039;createdAt&#039;, order: &#039;desc&#039; });
+  const [pagination, setPagination] = useState({ currentPage: 1, totalPages: 1, totalCount: 0, limit: 20 });
+
+  const fetchTasks = useCallback(async () =&gt; {
+    try {
+      setLoading(true);
+      const params = { ...filters, page: pagination.currentPage, limit: 20 };
+      Object.keys(params).forEach(k =&gt; !params[k] &amp;&amp; delete params[k]);
+      const res = await taskAPI.getAll(params);
+      setTasks(res.data.data);
+      setPagination(prev =&gt; ({ ...prev, ...res.data.pagination }));
+    } catch (err) { toast.error(`Failed to fetch tasks: ${err.message}`); }
+    finally { setLoading(false); }
+  }, [filters, pagination.currentPage]);
+
+  const fetchStats = useCallback(async () =&gt; {
+    try { const res = await taskAPI.getStats(); setStats(res.data.data); }
+    catch (err) { console.error(err.message); }
+  }, []);
+
+  useEffect(() =&gt; {
+    if (activeTab === &#039;tasks&#039;) { fetchTasks(); fetchStats(); }
+  }, [activeTab, fetchTasks, fetchStats]);
+
+  const handleCreate = async (formData) =&gt; {
+    try {
+      await taskAPI.create(formData);
+      toast.success(&#039;✅ Task created!&#039;);
+      setShowForm(false);
+      fetchTasks(); fetchStats();
+    } catch (err) { toast.error(`❌ ${err.message}`); throw err; }
+  };
+
+  const handleUpdate = async (id, formData) =&gt; {
+    try {
+      await taskAPI.update(id, formData);
+      toast.success(&#039;✅ Task updated!&#039;);
+      setEditingTask(null); setShowForm(false);
+      fetchTasks(); fetchStats();
+    } catch (err) { toast.error(`❌ ${err.message}`); throw err; }
+  };
+
+  const handleStatusChange = async (id, newStatus) =&gt; {
+    try {
+      await taskAPI.patch(id, { status: newStatus });
+      toast.success(`Status → &quot;${newStatus}&quot;`);
+      fetchTasks(); fetchStats();
+    } catch (err) { toast.error(`❌ ${err.message}`); }
+  };
+
+  const handleDelete = async (id) =&gt; {
+    if (!window.confirm(&#039;Delete this task?&#039;)) return;
+    try {
+      await taskAPI.delete(id);
+      toast.success(&#039;🗑️ Task deleted!&#039;);
+      fetchTasks(); fetchStats();
+    } catch (err) { toast.error(`❌ ${err.message}`); }
+  };
+
+  const handleFilterChange = (newFilters) =&gt; {
+    setFilters(prev =&gt; ({ ...prev, ...newFilters }));
+    setPagination(prev =&gt; ({ ...prev, currentPage: 1 }));
+  };
+
+  // ─── Auth Gate &amp; Route Check ──────────────────────────────────────────────
+  if (!authChecked) return null; // wait for localStorage check
+  if (!user || currentPath === &#039;/login&#039;) return (
+    &lt;&gt;
+      &lt;LoginPage onLogin={handleLogin} /&gt;
+      &lt;ToastContainer position=&quot;bottom-right&quot; autoClose={2500} theme=&quot;dark&quot; /&gt;
+    &lt;/&gt;
+  );
+
+  return (
+    &lt;div className=&quot;app&quot;&gt;
+      &lt;Navbar
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        onNewTask={() =&gt; { setEditingTask(null); setShowForm(true); }}
+        user={user}
+        onLogout={handleLogout}
+      /&gt;
+
+      &lt;main className=&quot;app__main&quot;&gt;
+        {/* ── Habit Tracker Tab ── */}
+        {activeTab === &#039;tracker&#039; &amp;&amp; &lt;HabitTracker /&gt;}
+
+        {/* ── Task Board Tab ── */}
+        {activeTab === &#039;tasks&#039; &amp;&amp; (
+          &lt;&gt;
+            &lt;Dashboard stats={stats} /&gt;
+            {showForm &amp;&amp; (
+              &lt;TaskForm
+                task={editingTask}
+                onSubmit={editingTask
+                  ? (data) =&gt; handleUpdate(editingTask._id, data)
+                  : handleCreate}
+                onClose={() =&gt; { setShowForm(false); setEditingTask(null); }}
+              /&gt;
+            )}
+            &lt;TaskList
+              tasks={tasks}
+              loading={loading}
+              filters={filters}
+              onFilterChange={handleFilterChange}
+              onEdit={(t) =&gt; { setEditingTask(t); setShowForm(true); }}
+              onDelete={handleDelete}
+              onStatusChange={handleStatusChange}
+              onNewTask={() =&gt; { setEditingTask(null); setShowForm(true); }}
+              pagination={pagination}
+              onPageChange={(page) =&gt; setPagination(prev =&gt; ({ ...prev, currentPage: page }))}
+              activeView={activeView}
+            /&gt;
+          &lt;/&gt;
+        )}
+      &lt;/main&gt;
+
+      &lt;ToastContainer
+        position=&quot;bottom-right&quot;
+        autoClose={2500}
+        theme=&quot;dark&quot;
+        newestOnTop
+        closeOnClick
+        pauseOnHover
+      /&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+      </div>
+    
+      <div class="code-file-section" id="file-13">
+        <div class="file-header">
+          <div class="file-header-title">
+            <span class="file-index">13</span>
+            <span class="file-category">Frontend - Navigation Bar</span>
+          </div>
+          <div class="file-path">frontend/src/components/Navbar.js</div>
+        </div>
+        <pre><code class="language-javascript">import React from &#039;react&#039;;
+
+export default function Navbar({ activeTab, setActiveTab, onNewTask, user, onLogout }) {
+  return (
+    &lt;nav className=&quot;navbar&quot;&gt;
+      &lt;div className=&quot;navbar__inner&quot;&gt;
+        {/* Brand */}
+        &lt;div className=&quot;navbar__brand&quot;&gt;
+          &lt;div className=&quot;navbar__brand-icon&quot;&gt;☑&lt;/div&gt;
+          &lt;span className=&quot;navbar__brand-text&quot;&gt;TO-DO-TRACKER&lt;/span&gt;
+        &lt;/div&gt;
+
+        {/* Tab Navigation */}
+        &lt;div className=&quot;navbar__tabs&quot;&gt;
+          &lt;button
+            className={`navbar__tab ${activeTab === &#039;tracker&#039; ? &#039;active&#039; : &#039;&#039;}`}
+            onClick={() =&gt; setActiveTab(&#039;tracker&#039;)}
+          &gt;
+            📊 Habit Tracker
+          &lt;/button&gt;
+          &lt;button
+            className={`navbar__tab ${activeTab === &#039;tasks&#039; ? &#039;active&#039; : &#039;&#039;}`}
+            onClick={() =&gt; setActiveTab(&#039;tasks&#039;)}
+          &gt;
+            📋 Task Board
+          &lt;/button&gt;
+        &lt;/div&gt;
+
+        {/* Actions &amp; User Profile */}
+        &lt;div className=&quot;navbar__actions&quot;&gt;
+          {activeTab === &#039;tasks&#039; &amp;&amp; (
+            &lt;button className=&quot;btn btn-primary&quot; onClick={onNewTask}&gt;
+              + New Task
+            &lt;/button&gt;
+          )}
+
+          {user &amp;&amp; (
+            &lt;div className=&quot;navbar__user&quot;&gt;
+              &lt;span className=&quot;navbar__user-avatar&quot;&gt;
+                {user.name ? user.name[0].toUpperCase() : &#039;U&#039;}
+              &lt;/span&gt;
+              &lt;span className=&quot;navbar__user-name&quot;&gt;{user.name}&lt;/span&gt;
+              &lt;button
+                className=&quot;btn btn-outline navbar__logout-btn&quot;
+                onClick={onLogout}
+                title=&quot;Sign Out&quot;
+              &gt;
+                🚪 Sign Out
+              &lt;/button&gt;
+            &lt;/div&gt;
+          )}
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/nav&gt;
+  );
+}
+</code></pre>
+      </div>
+    
+      <div class="code-file-section" id="file-14">
+        <div class="file-header">
+          <div class="file-header-title">
+            <span class="file-index">14</span>
+            <span class="file-category">Frontend - Authentication Screen</span>
+          </div>
+          <div class="file-path">frontend/src/components/LoginPage.js</div>
+        </div>
+        <pre><code class="language-javascript">import React, { useState } from &#039;react&#039;;
+import { authAPI } from &#039;../services/authAPI&#039;;
+
+export default function LoginPage({ onLogin }) {
+  const [mode, setMode] = useState(&#039;login&#039;); // &#039;login&#039; | &#039;register&#039;
+  const [form, setForm] = useState({ name: &#039;&#039;, email: &#039;&#039;, password: &#039;&#039; });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(&#039;&#039;);
+
+  const set = (field) =&gt; (e) =&gt; {
+    setForm(f =&gt; ({ ...f, [field]: e.target.value }));
+    setError(&#039;&#039;);
+  };
+
+  const handleSubmit = async (e) =&gt; {
+    e.preventDefault();
+    if (!form.email || !form.password) { setError(&#039;Email and password are required&#039;); return; }
+    if (mode === &#039;register&#039; &amp;&amp; !form.name) { setError(&#039;Name is required&#039;); return; }
+    if (form.password.length &lt; 6) { setError(&#039;Password must be at least 6 characters&#039;); return; }
+
+    setLoading(true);
+    try {
+      const res = mode === &#039;login&#039;
+        ? await authAPI.login({ email: form.email, password: form.password })
+        : await authAPI.register({ name: form.name, email: form.email, password: form.password });
+
+      const { token, user } = res.data;
+      localStorage.setItem(&#039;todo_token&#039;, token);
+      localStorage.setItem(&#039;todo_user&#039;, JSON.stringify(user));
+      onLogin(user, token);
+    } catch (err) {
+      setError(err.response?.data?.message || err.message || &#039;Something went wrong&#039;);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    &lt;div className=&quot;auth-page&quot;&gt;
+      {/* Background decoration */}
+      &lt;div className=&quot;auth-bg&quot;&gt;
+        &lt;div className=&quot;auth-blob auth-blob-1&quot; /&gt;
+        &lt;div className=&quot;auth-blob auth-blob-2&quot; /&gt;
+      &lt;/div&gt;
+
+      &lt;div className=&quot;auth-card&quot;&gt;
+        {/* Logo */}
+        &lt;div className=&quot;auth-logo&quot;&gt;
+          &lt;div className=&quot;auth-logo-icon&quot;&gt;☑&lt;/div&gt;
+          &lt;h1 className=&quot;auth-logo-text&quot;&gt;TO-DO-TRACKER&lt;/h1&gt;
+        &lt;/div&gt;
+
+        &lt;p className=&quot;auth-tagline&quot;&gt;Track habits. Hit goals. Build streaks.&lt;/p&gt;
+
+        {/* Tab Toggle */}
+        &lt;div className=&quot;auth-tabs&quot;&gt;
+          &lt;button className={`auth-tab ${mode === &#039;login&#039; ? &#039;active&#039; : &#039;&#039;}`}
+            onClick={() =&gt; { setMode(&#039;login&#039;); setError(&#039;&#039;); }}&gt;
+            Sign In
+          &lt;/button&gt;
+          &lt;button className={`auth-tab ${mode === &#039;register&#039; ? &#039;active&#039; : &#039;&#039;}`}
+            onClick={() =&gt; { setMode(&#039;register&#039;); setError(&#039;&#039;); }}&gt;
+            Create Account
+          &lt;/button&gt;
+        &lt;/div&gt;
+
+        {/* Form */}
+        &lt;form className=&quot;auth-form&quot; onSubmit={handleSubmit}&gt;
+          {mode === &#039;register&#039; &amp;&amp; (
+            &lt;div className=&quot;auth-field&quot;&gt;
+              &lt;label className=&quot;auth-label&quot;&gt;Full Name&lt;/label&gt;
+              &lt;input className=&quot;auth-input&quot; type=&quot;text&quot; placeholder=&quot;Aniket Mohanty&quot;
+                value={form.name} onChange={set(&#039;name&#039;)} autoFocus /&gt;
+            &lt;/div&gt;
+          )}
+
+          &lt;div className=&quot;auth-field&quot;&gt;
+            &lt;label className=&quot;auth-label&quot;&gt;Email Address&lt;/label&gt;
+            &lt;input className=&quot;auth-input&quot; type=&quot;email&quot; placeholder=&quot;you@example.com&quot;
+              value={form.email} onChange={set(&#039;email&#039;)} autoFocus={mode === &#039;login&#039;} /&gt;
+          &lt;/div&gt;
+
+          &lt;div className=&quot;auth-field&quot;&gt;
+            &lt;label className=&quot;auth-label&quot;&gt;Password&lt;/label&gt;
+            &lt;input className=&quot;auth-input&quot; type=&quot;password&quot; placeholder=&quot;••••••••&quot;
+              value={form.password} onChange={set(&#039;password&#039;)} /&gt;
+            {mode === &#039;login&#039; &amp;&amp; (
+              &lt;span className=&quot;auth-hint&quot;&gt;Minimum 6 characters&lt;/span&gt;
+            )}
+          &lt;/div&gt;
+
+          {error &amp;&amp; (
+            &lt;div className=&quot;auth-error&quot;&gt;⚠️ {error}&lt;/div&gt;
+          )}
+
+          &lt;button className=&quot;auth-submit&quot; type=&quot;submit&quot; disabled={loading}&gt;
+            {loading
+              ? &lt;&gt;&lt;span className=&quot;auth-spinner&quot; /&gt; {mode === &#039;login&#039; ? &#039;Signing in...&#039; : &#039;Creating account...&#039;}&lt;/&gt;
+              : mode === &#039;login&#039; ? &#039;🚀 Sign In&#039; : &#039;✨ Create Account&#039;
+            }
+          &lt;/button&gt;
+        &lt;/form&gt;
+
+        {/* Switch mode */}
+        &lt;p className=&quot;auth-switch&quot;&gt;
+          {mode === &#039;login&#039;
+            ? &lt;&gt;Don&#039;t have an account? &lt;button className=&quot;auth-link&quot; onClick={() =&gt; { setMode(&#039;register&#039;); setError(&#039;&#039;); }}&gt;Create one free&lt;/button&gt;&lt;/&gt;
+            : &lt;&gt;Already have an account? &lt;button className=&quot;auth-link&quot; onClick={() =&gt; { setMode(&#039;login&#039;); setError(&#039;&#039;); }}&gt;Sign in&lt;/button&gt;&lt;/&gt;
+          }
+        &lt;/p&gt;
+
+        {/* Features */}
+        &lt;div className=&quot;auth-features&quot;&gt;
+          &lt;span&gt;📊 Progress Charts&lt;/span&gt;
+          &lt;span&gt;📌 Habit Tracking&lt;/span&gt;
+          &lt;span&gt;☁️ Cloud Sync&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+      </div>
+    
+      <div class="code-file-section" id="file-15">
+        <div class="file-header">
+          <div class="file-header-title">
+            <span class="file-index">15</span>
+            <span class="file-category">Frontend - Habit Tracker Grid</span>
+          </div>
+          <div class="file-path">frontend/src/components/HabitTracker.js</div>
+        </div>
+        <pre><code class="language-javascript">import React, { useState, useEffect, useCallback } from &#039;react&#039;;
+import { habitAPI, completionAPI } from &#039;../services/habitAPI&#039;;
+import { toast } from &#039;react-toastify&#039;;
+import HabitTaskForm from &#039;./HabitTaskForm&#039;;
+import ProgressChart from &#039;./ProgressChart&#039;;
+
+const DAY_ABBR = [&#039;Su&#039;,&#039;Mo&#039;,&#039;Tu&#039;,&#039;We&#039;,&#039;Th&#039;,&#039;Fr&#039;,&#039;Sa&#039;];
+const MONTH_NAMES = [&#039;January&#039;,&#039;February&#039;,&#039;March&#039;,&#039;April&#039;,&#039;May&#039;,&#039;June&#039;,
+  &#039;July&#039;,&#039;August&#039;,&#039;September&#039;,&#039;October&#039;,&#039;November&#039;,&#039;December&#039;];
+
+function getMonthDays(year, month) {
+  const days = [];
+  const d = new Date(year, month, 1);
+  while (d.getMonth() === month) { days.push(new Date(d)); d.setDate(d.getDate() + 1); }
+  return days;
+}
+
+function toDateStr(d) { return d.toISOString().split(&#039;T&#039;)[0]; }
+
+function isScheduled(task, date) {
+  if (task.type === &#039;fixed&#039;) return true;
+  return task.scheduledDays.includes(date.getDay());
+}
+
+export default function HabitTracker() {
+  const today = new Date();
+  const [year, setYear] = useState(today.getFullYear());
+  const [month, setMonth] = useState(today.getMonth());
+  const [tasks, setTasks] = useState([]);
+  const [completions, setCompletions] = useState({}); // {taskId_date: true/false}
+  const [loading, setLoading] = useState(true);
+  const [showForm, setShowForm] = useState(false);
+  const [editTask, setEditTask] = useState(null);
+  const [chartKey, setChartKey] = useState(0); // force chart re-fetch
+
+  const monthStr = `${year}-${String(month + 1).padStart(2, &#039;0&#039;)}`;
+  const days = getMonthDays(year, month);
+
+  // ─── Fetch tasks + completions ─────────────────────────────────────────────
+  const fetchData = useCallback(async () =&gt; {
+    setLoading(true);
+    try {
+      const [tasksRes, compRes] = await Promise.all([
+        habitAPI.getAll(),
+        completionAPI.getByMonth(monthStr)
+      ]);
+      setTasks(tasksRes.data.data);
+      // Build lookup map: &quot;taskId_date&quot; -&gt; completed
+      const map = {};
+      compRes.data.data.forEach(c =&gt; {
+        map[`${c.taskId}_${c.date}`] = c.completed;
+      });
+      setCompletions(map);
+    } catch (e) { toast.error(e.message); }
+    finally { setLoading(false); }
+  }, [monthStr]);
+
+  useEffect(() =&gt; { fetchData(); }, [fetchData]);
+
+  // ─── Toggle completion ─────────────────────────────────────────────────────
+  const toggleCell = async (taskId, dateStr) =&gt; {
+    const key = `${taskId}_${dateStr}`;
+    const prev = completions[key];
+    // Optimistic update
+    setCompletions(c =&gt; ({ ...c, [key]: !prev }));
+    try {
+      await completionAPI.toggle(taskId, dateStr);
+      setChartKey(k =&gt; k + 1); // refresh chart
+    } catch (e) {
+      setCompletions(c =&gt; ({ ...c, [key]: prev }));
+      toast.error(e.message);
+    }
+  };
+
+  // ─── CRUD handlers ─────────────────────────────────────────────────────────
+  const handleCreate = async (data) =&gt; {
+    try {
+      await habitAPI.create(data);
+      toast.success(&#039;✅ Habit task added!&#039;);
+      setShowForm(false);
+      fetchData();
+    } catch (e) { toast.error(e.message); }
+  };
+
+  const handleUpdate = async (data) =&gt; {
+    try {
+      await habitAPI.update(editTask._id, data);
+      toast.success(&#039;✅ Habit task updated!&#039;);
+      setEditTask(null);
+      fetchData();
+    } catch (e) { toast.error(e.message); }
+  };
+
+  const handleDelete = async (id) =&gt; {
+    if (!window.confirm(&#039;Delete this habit task?&#039;)) return;
+    try {
+      await habitAPI.delete(id);
+      toast.success(&#039;🗑️ Task deleted!&#039;);
+      fetchData();
+    } catch (e) { toast.error(e.message); }
+  };
+
+  // ─── Month nav ─────────────────────────────────────────────────────────────
+  const prevMonth = () =&gt; { if (month === 0) { setYear(y =&gt; y - 1); setMonth(11); } else setMonth(m =&gt; m - 1); };
+  const nextMonth = () =&gt; { if (month === 11) { setYear(y =&gt; y + 1); setMonth(0); } else setMonth(m =&gt; m + 1); };
+
+  // ─── Per-task row completion % ─────────────────────────────────────────────
+  function taskPct(task) {
+    const scheduled = days.filter(d =&gt; isScheduled(task, d));
+    if (!scheduled.length) return 0;
+    const done = scheduled.filter(d =&gt; completions[`${task._id}_${toDateStr(d)}`]).length;
+    return Math.round((done / scheduled.length) * 100);
+  }
+
+  // ─── Per-day column completion % ──────────────────────────────────────────
+  function dayPct(day) {
+    const scheduled = tasks.filter(t =&gt; isScheduled(t, day));
+    if (!scheduled.length) return null;
+    const done = scheduled.filter(t =&gt; completions[`${t._id}_${toDateStr(day)}`]).length;
+    return Math.round((done / scheduled.length) * 100);
+  }
+
+  const isToday = (d) =&gt; toDateStr(d) === toDateStr(today);
+  const isFuture = (d) =&gt; d &gt; today;
+
+  return (
+    &lt;div className=&quot;habit-tracker&quot;&gt;
+      {/* Progress Chart */}
+      &lt;ProgressChart key={chartKey} /&gt;
+
+      {/* Header */}
+      &lt;div className=&quot;ht-header&quot;&gt;
+        &lt;div className=&quot;ht-month-nav&quot;&gt;
+          &lt;button className=&quot;ht-nav-btn&quot; onClick={prevMonth}&gt;‹&lt;/button&gt;
+          &lt;h2 className=&quot;ht-month-title&quot;&gt;{MONTH_NAMES[month]} {year}&lt;/h2&gt;
+          &lt;button className=&quot;ht-nav-btn&quot; onClick={nextMonth}&gt;›&lt;/button&gt;
+        &lt;/div&gt;
+        &lt;button className=&quot;btn btn-primary btn-sm&quot; onClick={() =&gt; { setEditTask(null); setShowForm(true); }}&gt;
+          ➕ Add Habit
+        &lt;/button&gt;
+      &lt;/div&gt;
+
+      {/* Task Form Modal */}
+      {(showForm || editTask) &amp;&amp; (
+        &lt;HabitTaskForm
+          task={editTask}
+          onSubmit={editTask ? handleUpdate : handleCreate}
+          onClose={() =&gt; { setShowForm(false); setEditTask(null); }}
+        /&gt;
+      )}
+
+      {/* Grid */}
+      {loading ? (
+        &lt;div className=&quot;loading-wrapper&quot;&gt;&lt;div className=&quot;spinner&quot; /&gt;&lt;span&gt;Loading tracker...&lt;/span&gt;&lt;/div&gt;
+      ) : tasks.length === 0 ? (
+        &lt;div className=&quot;empty-state&quot;&gt;
+          &lt;div className=&quot;empty-state__icon&quot;&gt;📋&lt;/div&gt;
+          &lt;h3 className=&quot;empty-state__title&quot;&gt;No habit tasks yet&lt;/h3&gt;
+          &lt;p className=&quot;empty-state__desc&quot;&gt;Add your first Fixed or Variable habit task to start tracking!&lt;/p&gt;
+          &lt;button className=&quot;btn btn-primary&quot; onClick={() =&gt; setShowForm(true)}&gt;➕ Add First Habit&lt;/button&gt;
+        &lt;/div&gt;
+      ) : (
+        &lt;div className=&quot;ht-grid-wrap&quot;&gt;
+          &lt;table className=&quot;ht-grid&quot;&gt;
+            &lt;thead&gt;
+              &lt;tr&gt;
+                {/* Task name column header */}
+                &lt;th className=&quot;ht-th-task&quot;&gt;
+                  &lt;span style={{ color: &#039;var(--text-muted)&#039;, fontSize: &#039;0.78rem&#039; }}&gt;
+                    {tasks.length} task{tasks.length !== 1 ? &#039;s&#039; : &#039;&#039;}
+                  &lt;/span&gt;
+                &lt;/th&gt;
+                &lt;th className=&quot;ht-th-pct&quot;&gt;%&lt;/th&gt;
+                {/* Day columns */}
+                {days.map((d, i) =&gt; (
+                  &lt;th key={i} className={`ht-th-day ${isToday(d) ? &#039;ht-today-col&#039; : &#039;&#039;}`}&gt;
+                    &lt;div className=&quot;ht-day-label&quot;&gt;
+                      &lt;span className=&quot;ht-day-num&quot;&gt;{d.getDate()}&lt;/span&gt;
+                      &lt;span className=&quot;ht-day-abbr&quot;&gt;{DAY_ABBR[d.getDay()]}&lt;/span&gt;
+                    &lt;/div&gt;
+                  &lt;/th&gt;
+                ))}
+              &lt;/tr&gt;
+              {/* Day completion % row */}
+              &lt;tr className=&quot;ht-day-pct-row&quot;&gt;
+                &lt;td className=&quot;ht-td-label&quot;&gt;
+                  &lt;span className=&quot;ht-day-pct-label&quot;&gt;Daily %&lt;/span&gt;
+                &lt;/td&gt;
+                &lt;td /&gt;
+                {days.map((d, i) =&gt; {
+                  const pct = dayPct(d);
+                  return (
+                    &lt;td key={i} className={`ht-td-daypct ${isToday(d) ? &#039;ht-today-col&#039; : &#039;&#039;}`}&gt;
+                      {pct !== null &amp;&amp; !isFuture(d) ? (
+                        &lt;span className=&quot;ht-daypct-val&quot; style={{
+                          color: pct === 100 ? &#039;var(--success)&#039; : pct &gt;= 50 ? &#039;var(--warning)&#039; : &#039;var(--danger)&#039;
+                        }}&gt;{pct}%&lt;/span&gt;
+                      ) : &lt;span style={{ color: &#039;var(--text-dim)&#039; }}&gt;—&lt;/span&gt;}
+                    &lt;/td&gt;
+                  );
+                })}
+              &lt;/tr&gt;
+            &lt;/thead&gt;
+            &lt;tbody&gt;
+              {tasks.map((task, rowIdx) =&gt; {
+                const pct = taskPct(task);
+                return (
+                  &lt;tr key={task._id} className=&quot;ht-row&quot;&gt;
+                    {/* Task name */}
+                    &lt;td className=&quot;ht-td-label&quot;&gt;
+                      &lt;div className=&quot;ht-task-info&quot;&gt;
+                        &lt;span className=&quot;ht-task-dot&quot; style={{ background: task.color }} /&gt;
+                        &lt;span className=&quot;ht-task-name&quot; style={{ color: task.color }}&gt;{task.name}&lt;/span&gt;
+                        &lt;span className={`ht-type-badge ${task.type}`}&gt;
+                          {task.type === &#039;fixed&#039; ? &#039;📌&#039; : &#039;📅&#039;}
+                        &lt;/span&gt;
+                      &lt;/div&gt;
+                      &lt;div className=&quot;ht-task-actions&quot;&gt;
+                        &lt;button className=&quot;ht-action-btn&quot; onClick={() =&gt; setEditTask(task)} title=&quot;Edit&quot;&gt;✏️&lt;/button&gt;
+                        &lt;button className=&quot;ht-action-btn&quot; onClick={() =&gt; handleDelete(task._id)} title=&quot;Delete&quot;&gt;🗑️&lt;/button&gt;
+                      &lt;/div&gt;
+                    &lt;/td&gt;
+                    {/* Row % */}
+                    &lt;td className=&quot;ht-td-pct&quot;&gt;
+                      &lt;div className=&quot;ht-pct-wrap&quot;&gt;
+                        &lt;span className=&quot;ht-pct-val&quot; style={{
+                          color: pct === 100 ? &#039;var(--success)&#039; : pct &gt;= 50 ? &#039;var(--warning)&#039; : &#039;var(--text-muted)&#039;
+                        }}&gt;{pct}%&lt;/span&gt;
+                        &lt;div className=&quot;ht-pct-bar&quot;&gt;
+                          &lt;div className=&quot;ht-pct-fill&quot; style={{ width: `${pct}%`, background: task.color }} /&gt;
+                        &lt;/div&gt;
+                      &lt;/div&gt;
+                    &lt;/td&gt;
+                    {/* Checkboxes */}
+                    {days.map((d, ci) =&gt; {
+                      const dateStr = toDateStr(d);
+                      const scheduled = isScheduled(task, d);
+                      const done = !!completions[`${task._id}_${dateStr}`];
+                      const future = isFuture(d) &amp;&amp; !isToday(d);
+
+                      // Color cycling by week
+                      const weekIdx = Math.floor((d.getDate() - 1) / 7);
+                      const weekColors = [&#039;#818cf8&#039;,&#039;#f472b6&#039;,&#039;#2dd4bf&#039;,&#039;#fbbf24&#039;,&#039;#f97316&#039;];
+                      const cellColor = scheduled ? (task.color || weekColors[weekIdx % weekColors.length]) : &#039;transparent&#039;;
+
+                      return (
+                        &lt;td key={ci} className={`ht-td-cell ${isToday(d) ? &#039;ht-today-col&#039; : &#039;&#039;}`}&gt;
+                          {scheduled ? (
+                            &lt;button
+                              className={`ht-checkbox ${done ? &#039;checked&#039; : &#039;&#039;} ${future ? &#039;future&#039; : &#039;&#039;}`}
+                              style={done ? { borderColor: cellColor, background: cellColor + &#039;33&#039; } : { borderColor: cellColor + &#039;66&#039; }}
+                              onClick={() =&gt; !future &amp;&amp; toggleCell(task._id, dateStr)}
+                              disabled={future}
+                              title={`${task.name} — ${dateStr}`}
+                            &gt;
+                              {done &amp;&amp; &lt;span className=&quot;ht-check&quot; style={{ color: cellColor }}&gt;✓&lt;/span&gt;}
+                            &lt;/button&gt;
+                          ) : (
+                            &lt;div className=&quot;ht-na&quot; title=&quot;Not scheduled&quot;&gt;·&lt;/div&gt;
+                          )}
+                        &lt;/td&gt;
+                      );
+                    })}
+                  &lt;/tr&gt;
+                );
+              })}
+            &lt;/tbody&gt;
+          &lt;/table&gt;
+        &lt;/div&gt;
+      )}
+
+      {/* Legend */}
+      &lt;div className=&quot;ht-legend&quot;&gt;
+        &lt;span className=&quot;ht-legend-item&quot;&gt;&lt;span className=&quot;ht-legend-dot&quot; style={{ background: &#039;#818cf8&#039; }} /&gt; Fixed task (every day)&lt;/span&gt;
+        &lt;span className=&quot;ht-legend-item&quot;&gt;&lt;span className=&quot;ht-legend-dot&quot; style={{ background: &#039;#fbbf24&#039; }} /&gt; Variable task (selected days)&lt;/span&gt;
+        &lt;span className=&quot;ht-legend-item&quot;&gt;&lt;span style={{ opacity: 0.4 }}&gt;·&lt;/span&gt; Not scheduled&lt;/span&gt;
+        &lt;span className=&quot;ht-legend-item&quot;&gt;&lt;span style={{ color: &#039;var(--success)&#039; }}&gt;✓&lt;/span&gt; Completed&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+      </div>
+    
+      <div class="code-file-section" id="file-16">
+        <div class="file-header">
+          <div class="file-header-title">
+            <span class="file-index">16</span>
+            <span class="file-category">Frontend - Habit Task Modal Form</span>
+          </div>
+          <div class="file-path">frontend/src/components/HabitTaskForm.js</div>
+        </div>
+        <pre><code class="language-javascript">import React, { useState } from &#039;react&#039;;
+
+const DAY_NAMES = [&#039;Sun&#039;, &#039;Mon&#039;, &#039;Tue&#039;, &#039;Wed&#039;, &#039;Thu&#039;, &#039;Fri&#039;, &#039;Sat&#039;];
+const COLORS = [&#039;#818cf8&#039;,&#039;#60a5fa&#039;,&#039;#34d399&#039;,&#039;#f472b6&#039;,&#039;#fbbf24&#039;,&#039;#f97316&#039;,&#039;#2dd4bf&#039;,&#039;#a78bfa&#039;,&#039;#fb923c&#039;,&#039;#4ade80&#039;];
+
+
+export default function HabitTaskForm({ task, onSubmit, onClose }) {
+  const [form, setForm] = useState({
+    name: task?.name || &#039;&#039;,
+    type: task?.type || &#039;fixed&#039;,
+    scheduledDays: task?.scheduledDays || [],
+    color: task?.color || COLORS[0],
+  });
+  const [submitting, setSubmitting] = useState(false);
+  const [err, setErr] = useState(&#039;&#039;);
+
+  const toggleDay = (day) =&gt; {
+    setForm(f =&gt; ({
+      ...f,
+      scheduledDays: f.scheduledDays.includes(day)
+        ? f.scheduledDays.filter(d =&gt; d !== day)
+        : [...f.scheduledDays, day]
+    }));
+  };
+
+  const handleSubmit = async (e) =&gt; {
+    e.preventDefault();
+    if (!form.name.trim()) { setErr(&#039;Name is required&#039;); return; }
+    if (form.type === &#039;variable&#039; &amp;&amp; form.scheduledDays.length === 0) {
+      setErr(&#039;Select at least one day for variable task&#039;); return;
+    }
+    setSubmitting(true);
+    try {
+      await onSubmit(form);
+    } finally { setSubmitting(false); }
+  };
+
+  return (
+    &lt;div className=&quot;modal-overlay&quot; onClick={e =&gt; e.target === e.currentTarget &amp;&amp; onClose()}&gt;
+      &lt;div className=&quot;modal&quot; style={{ maxWidth: 460 }}&gt;
+        &lt;div className=&quot;modal__header&quot;&gt;
+          &lt;h2 className=&quot;modal__title&quot;&gt;{task ? &#039;✏️ Edit Habit&#039; : &#039;➕ New Habit Task&#039;}&lt;/h2&gt;
+          &lt;button className=&quot;modal__close&quot; onClick={onClose}&gt;✕&lt;/button&gt;
+        &lt;/div&gt;
+        &lt;div className=&quot;modal__body&quot;&gt;
+          &lt;form onSubmit={handleSubmit}&gt;
+            {/* Name */}
+            &lt;div className=&quot;form-group&quot;&gt;
+              &lt;label className=&quot;form-label&quot;&gt;Task Name &lt;span&gt;*&lt;/span&gt;&lt;/label&gt;
+              &lt;input className=&quot;form-control&quot; type=&quot;text&quot; placeholder=&quot;e.g. Exercise for 30 minutes&quot;
+                value={form.name} onChange={e =&gt; { setForm(f =&gt; ({ ...f, name: e.target.value })); setErr(&#039;&#039;); }}
+                maxLength={80} autoFocus /&gt;
+            &lt;/div&gt;
+
+            {/* Type */}
+            &lt;div className=&quot;form-group&quot;&gt;
+              &lt;label className=&quot;form-label&quot;&gt;Task Type&lt;/label&gt;
+              &lt;div className=&quot;type-toggle&quot;&gt;
+                &lt;button type=&quot;button&quot;
+                  className={`type-btn ${form.type === &#039;fixed&#039; ? &#039;active&#039; : &#039;&#039;}`}
+                  onClick={() =&gt; setForm(f =&gt; ({ ...f, type: &#039;fixed&#039;, scheduledDays: [] }))}&gt;
+                  📌 Fixed &lt;small&gt;Every day&lt;/small&gt;
+                &lt;/button&gt;
+                &lt;button type=&quot;button&quot;
+                  className={`type-btn ${form.type === &#039;variable&#039; ? &#039;active&#039; : &#039;&#039;}`}
+                  onClick={() =&gt; setForm(f =&gt; ({ ...f, type: &#039;variable&#039; }))}&gt;
+                  📅 Variable &lt;small&gt;Specific days&lt;/small&gt;
+                &lt;/button&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+
+            {/* Day Selector for Variable */}
+            {form.type === &#039;variable&#039; &amp;&amp; (
+              &lt;div className=&quot;form-group&quot;&gt;
+                &lt;label className=&quot;form-label&quot;&gt;Scheduled Days&lt;/label&gt;
+                &lt;div className=&quot;day-selector&quot;&gt;
+                  {DAY_NAMES.map((name, i) =&gt; (
+                    &lt;button type=&quot;button&quot; key={i}
+                      className={`day-btn ${form.scheduledDays.includes(i) ? &#039;active&#039; : &#039;&#039;}`}
+                      onClick={() =&gt; toggleDay(i)}&gt;
+                      {name}
+                    &lt;/button&gt;
+                  ))}
+                &lt;/div&gt;
+              &lt;/div&gt;
+            )}
+
+            {/* Color */}
+            &lt;div className=&quot;form-group&quot;&gt;
+              &lt;label className=&quot;form-label&quot;&gt;Color&lt;/label&gt;
+              &lt;div className=&quot;color-picker&quot;&gt;
+                {COLORS.map(c =&gt; (
+                  &lt;button type=&quot;button&quot; key={c}
+                    className={`color-dot ${form.color === c ? &#039;active&#039; : &#039;&#039;}`}
+                    style={{ background: c }}
+                    onClick={() =&gt; setForm(f =&gt; ({ ...f, color: c }))}
+                  /&gt;
+                ))}
+              &lt;/div&gt;
+            &lt;/div&gt;
+
+            {err &amp;&amp; &lt;p style={{ color: &#039;var(--danger)&#039;, fontSize: &#039;0.82rem&#039;, marginBottom: 12 }}&gt;{err}&lt;/p&gt;}
+
+            &lt;div className=&quot;form-actions&quot;&gt;
+              &lt;button type=&quot;button&quot; className=&quot;btn btn-secondary&quot; onClick={onClose}&gt;Cancel&lt;/button&gt;
+              &lt;button type=&quot;submit&quot; className=&quot;btn btn-primary&quot; disabled={submitting}&gt;
+                {submitting ? &#039;⏳ Saving...&#039; : task ? &#039;💾 Update&#039; : &#039;➕ Add Task&#039;}
+              &lt;/button&gt;
+            &lt;/div&gt;
+          &lt;/form&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+      </div>
+    
+      <div class="code-file-section" id="file-17">
+        <div class="file-header">
+          <div class="file-header-title">
+            <span class="file-index">17</span>
+            <span class="file-category">Frontend - 30-Day SVG Progress Chart</span>
+          </div>
+          <div class="file-path">frontend/src/components/ProgressChart.js</div>
+        </div>
+        <pre><code class="language-javascript">import React, { useEffect, useState, useCallback } from &#039;react&#039;;
+import { completionAPI } from &#039;../services/habitAPI&#039;;
+
+// ─── Smooth bezier path generator ────────────────────────────────────────────
+function smoothPath(points, W, H, pad = 20) {
+  if (points.length &lt; 2) return { line: &#039;&#039;, area: &#039;&#039; };
+  const xs = points.map((_, i) =&gt; pad + (i / (points.length - 1)) * (W - 2 * pad));
+  const ys = points.map(p =&gt; H - pad - (p / 100) * (H - 2 * pad));
+
+  let line = `M ${xs[0]} ${ys[0]}`;
+  let area = `M ${xs[0]} ${H - pad} L ${xs[0]} ${ys[0]}`;
+
+  for (let i = 1; i &lt; points.length; i++) {
+    const cpx = (xs[i - 1] + xs[i]) / 2;
+    const seg = ` C ${cpx} ${ys[i - 1]} ${cpx} ${ys[i]} ${xs[i]} ${ys[i]}`;
+    line += seg;
+    area += seg;
+  }
+  area += ` L ${xs[xs.length - 1]} ${H - pad} Z`;
+  return { line, area };
+}
+
+// ─── X-axis label (every 5 days) ──────────────────────────────────────────────
+function formatLabel(dateStr) {
+  const d = new Date(dateStr);
+  return `${d.getDate()}/${d.getMonth() + 1}`;
+}
+
+const W = 900, H = 180, PAD = 28;
+
+export default function ProgressChart() {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [hovered, setHovered] = useState(null);
+
+  const load = useCallback(async () =&gt; {
+    try {
+      setLoading(true);
+      const res = await completionAPI.getChart(30);
+      setData(res.data.data);
+    } catch (e) {
+      console.error(&#039;Chart load error:&#039;, e.message);
+    } finally { setLoading(false); }
+  }, []);
+
+  useEffect(() =&gt; { load(); }, [load]);
+
+  if (loading) return (
+    &lt;div className=&quot;chart-wrap&quot;&gt;
+      &lt;div className=&quot;chart-loading&quot;&gt;
+        &lt;div className=&quot;spinner&quot; style={{ width: 28, height: 28, borderWidth: 2 }} /&gt;
+        &lt;span&gt;Loading chart...&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+
+  const pcts = data.map(d =&gt; d.pct);
+  const { line, area } = smoothPath(pcts, W, H, PAD);
+  const avgPct = pcts.length ? Math.round(pcts.reduce((a, b) =&gt; a + b, 0) / pcts.length) : 0;
+
+  // X positions for labels and hover
+  const xs = pcts.map((_, i) =&gt; PAD + (i / (pcts.length - 1 || 1)) * (W - 2 * PAD));
+  const ys = pcts.map(p =&gt; H - PAD - (p / 100) * (H - 2 * PAD));
+
+  return (
+    &lt;div className=&quot;chart-wrap&quot;&gt;
+      &lt;div className=&quot;chart-header&quot;&gt;
+        &lt;div&gt;
+          &lt;h2 className=&quot;chart-title&quot;&gt;Daily Completion Rate&lt;/h2&gt;
+          &lt;p className=&quot;chart-sub&quot;&gt;Last 30 days — Avg: &lt;strong style={{ color: &#039;var(--primary)&#039; }}&gt;{avgPct}%&lt;/strong&gt;&lt;/p&gt;
+        &lt;/div&gt;
+        &lt;div className=&quot;chart-badges&quot;&gt;
+          {[0, 25, 50, 75, 100].map(v =&gt; (
+            &lt;span key={v} className=&quot;chart-badge&quot;&gt;{v}%&lt;/span&gt;
+          ))}
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div className=&quot;chart-svg-wrap&quot;&gt;
+        &lt;svg
+          viewBox={`0 0 ${W} ${H}`}
+          preserveAspectRatio=&quot;none&quot;
+          className=&quot;chart-svg&quot;
+          onMouseLeave={() =&gt; setHovered(null)}
+        &gt;
+          &lt;defs&gt;
+            &lt;linearGradient id=&quot;areaGrad&quot; x1=&quot;0&quot; y1=&quot;0&quot; x2=&quot;0&quot; y2=&quot;1&quot;&gt;
+              &lt;stop offset=&quot;0%&quot; stopColor=&quot;#818cf8&quot; stopOpacity=&quot;0.35&quot; /&gt;
+              &lt;stop offset=&quot;100%&quot; stopColor=&quot;#818cf8&quot; stopOpacity=&quot;0.02&quot; /&gt;
+            &lt;/linearGradient&gt;
+            {/* Horizontal gridlines */}
+            {[25, 50, 75].map(v =&gt; {
+              const y = H - PAD - (v / 100) * (H - 2 * PAD);
+              return (
+                &lt;line key={v} x1={PAD} y1={y} x2={W - PAD} y2={y}
+                  stroke=&quot;#334155&quot; strokeWidth=&quot;1&quot; strokeDasharray=&quot;4,4&quot; /&gt;
+              );
+            })}
+          &lt;/defs&gt;
+
+          {/* Gridlines */}
+          {[25, 50, 75].map(v =&gt; {
+            const y = H - PAD - (v / 100) * (H - 2 * PAD);
+            return &lt;line key={v} x1={PAD} y1={y} x2={W - PAD} y2={y}
+              stroke=&quot;#334155&quot; strokeWidth=&quot;1&quot; strokeDasharray=&quot;4,4&quot; /&gt;;
+          })}
+
+          {/* Area fill */}
+          {pcts.length &gt; 1 &amp;&amp; &lt;path d={area} fill=&quot;url(#areaGrad)&quot; /&gt;}
+
+          {/* Line */}
+          {pcts.length &gt; 1 &amp;&amp; (
+            &lt;path d={line} fill=&quot;none&quot; stroke=&quot;#818cf8&quot; strokeWidth=&quot;2.5&quot;
+              strokeLinecap=&quot;round&quot; strokeLinejoin=&quot;round&quot; /&gt;
+          )}
+
+          {/* Hover dots + invisible hit areas */}
+          {data.map((d, i) =&gt; (
+            &lt;g key={i}&gt;
+              &lt;rect
+                x={xs[i] - 10} y={0} width={20} height={H}
+                fill=&quot;transparent&quot;
+                onMouseEnter={() =&gt; setHovered(i)}
+              /&gt;
+              {hovered === i &amp;&amp; (
+                &lt;&gt;
+                  &lt;line x1={xs[i]} y1={PAD} x2={xs[i]} y2={H - PAD}
+                    stroke=&quot;#475569&quot; strokeWidth=&quot;1&quot; strokeDasharray=&quot;3,3&quot; /&gt;
+                  &lt;circle cx={xs[i]} cy={ys[i]} r={5} fill=&quot;#818cf8&quot; stroke=&quot;#1e293b&quot; strokeWidth={2} /&gt;
+                  &lt;rect x={xs[i] - 36} y={ys[i] - 28} width={72} height={22} rx={5}
+                    fill=&quot;#334155&quot; stroke=&quot;#475569&quot; strokeWidth={1} /&gt;
+                  &lt;text x={xs[i]} y={ys[i] - 13} textAnchor=&quot;middle&quot;
+                    fill=&quot;#f1f5f9&quot; fontSize={10} fontWeight=&quot;600&quot;&gt;
+                    {d.pct}% — {formatLabel(d.date)}
+                  &lt;/text&gt;
+                &lt;/&gt;
+              )}
+            &lt;/g&gt;
+          ))}
+
+          {/* X-axis labels every 5 days */}
+          {data.map((d, i) =&gt; {
+            if (i % 5 !== 0 &amp;&amp; i !== data.length - 1) return null;
+            return (
+              &lt;text key={i} x={xs[i]} y={H - 4} textAnchor=&quot;middle&quot;
+                fill=&quot;#64748b&quot; fontSize={9}&gt;
+                {formatLabel(d.date)}
+              &lt;/text&gt;
+            );
+          })}
+
+          {/* Y-axis labels */}
+          {[0, 50, 100].map(v =&gt; {
+            const y = H - PAD - (v / 100) * (H - 2 * PAD);
+            return (
+              &lt;text key={v} x={PAD - 6} y={y + 4} textAnchor=&quot;end&quot;
+                fill=&quot;#64748b&quot; fontSize={9}&gt;
+                {v}%
+              &lt;/text&gt;
+            );
+          })}
+        &lt;/svg&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+</code></pre>
+      </div>
+    
+      <div class="code-file-section" id="file-18">
+        <div class="file-header">
+          <div class="file-header-title">
+            <span class="file-index">18</span>
+            <span class="file-category">Frontend - Dashboard Metrics</span>
+          </div>
+          <div class="file-path">frontend/src/components/Dashboard.js</div>
+        </div>
+        <pre><code class="language-javascript">import React from &#039;react&#039;;
+
+const statItems = [
+  {
+    key: &#039;total&#039;,
+    label: &#039;Total Tasks&#039;,
+    icon: &#039;📋&#039;,
+    bg: &#039;#ede9fe&#039;,
+    getValue: (s) =&gt; s?.total ?? 0,
+  },
+  {
+    key: &#039;todo&#039;,
+    label: &#039;To Do&#039;,
+    icon: &#039;🔵&#039;,
+    bg: &#039;#f1f5f9&#039;,
+    getValue: (s) =&gt; s?.byStatus?.todo ?? 0,
+  },
+  {
+    key: &#039;inprogress&#039;,
+    label: &#039;In Progress&#039;,
+    icon: &#039;🟡&#039;,
+    bg: &#039;#e0f2fe&#039;,
+    getValue: (s) =&gt; s?.byStatus?.[&#039;in-progress&#039;] ?? 0,
+  },
+  {
+    key: &#039;completed&#039;,
+    label: &#039;Completed&#039;,
+    icon: &#039;🟢&#039;,
+    bg: &#039;#dcfce7&#039;,
+    getValue: (s) =&gt; s?.byStatus?.completed ?? 0,
+  },
+  {
+    key: &#039;high&#039;,
+    label: &#039;High Priority&#039;,
+    icon: &#039;🔴&#039;,
+    bg: &#039;#fef2f2&#039;,
+    getValue: (s) =&gt; s?.byPriority?.high ?? 0,
+  },
+  {
+    key: &#039;overdue&#039;,
+    label: &#039;Overdue&#039;,
+    icon: &#039;⚠️&#039;,
+    bg: &#039;#fff7ed&#039;,
+    getValue: (s) =&gt; s?.overdue ?? 0,
+  },
+];
+
+function Dashboard({ stats }) {
+  const completionRate = stats?.completionRate ?? &#039;0.0&#039;;
+
+  return (
+    &lt;div className=&quot;dashboard&quot;&gt;
+      &lt;div className=&quot;dashboard__grid&quot;&gt;
+        {statItems.map((item) =&gt; (
+          &lt;div className=&quot;stat-card&quot; key={item.key}&gt;
+            &lt;div className=&quot;stat-card__icon&quot; style={{ background: item.bg }}&gt;
+              {item.icon}
+            &lt;/div&gt;
+            &lt;div className=&quot;stat-card__info&quot;&gt;
+              &lt;div className=&quot;stat-card__value&quot;&gt;{item.getValue(stats)}&lt;/div&gt;
+              &lt;div className=&quot;stat-card__label&quot;&gt;{item.label}&lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        ))}
+        &lt;div className=&quot;stat-card&quot;&gt;
+          &lt;div className=&quot;stat-card__icon&quot; style={{ background: &#039;#fdf4ff&#039; }}&gt;
+            📊
+          &lt;/div&gt;
+          &lt;div className=&quot;stat-card__info&quot;&gt;
+            &lt;div className=&quot;stat-card__value&quot;&gt;{completionRate}%&lt;/div&gt;
+            &lt;div className=&quot;stat-card__label&quot;&gt;Completion Rate&lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default Dashboard;
+</code></pre>
+      </div>
+    
+      <div class="code-file-section" id="file-19">
+        <div class="file-header">
+          <div class="file-header-title">
+            <span class="file-index">19</span>
+            <span class="file-category">Frontend - Task Form Modal</span>
+          </div>
+          <div class="file-path">frontend/src/components/TaskForm.js</div>
+        </div>
+        <pre><code class="language-javascript">import React, { useState, useEffect } from &#039;react&#039;;
+
+const INITIAL_FORM = {
+  title: &#039;&#039;,
+  description: &#039;&#039;,
+  status: &#039;todo&#039;,
+  priority: &#039;medium&#039;,
+  category: &#039;General&#039;,
+  dueDate: &#039;&#039;,
+  assignedTo: &#039;&#039;,
+  tags: &#039;&#039;,
+};
+
+function TaskForm({ task, onSubmit, onClose }) {
+  const [form, setForm] = useState(INITIAL_FORM);
+  const [submitting, setSubmitting] = useState(false);
+  const [errors, setErrors] = useState({});
+
+  // Populate form when editing
+  useEffect(() =&gt; {
+    if (task) {
+      setForm({
+        title: task.title || &#039;&#039;,
+        description: task.description || &#039;&#039;,
+        status: task.status || &#039;todo&#039;,
+        priority: task.priority || &#039;medium&#039;,
+        category: task.category || &#039;General&#039;,
+        dueDate: task.dueDate ? task.dueDate.split(&#039;T&#039;)[0] : &#039;&#039;,
+        assignedTo: task.assignedTo || &#039;&#039;,
+        tags: Array.isArray(task.tags) ? task.tags.join(&#039;, &#039;) : &#039;&#039;,
+      });
+    }
+  }, [task]);
+
+  const validate = () =&gt; {
+    const errs = {};
+    if (!form.title.trim()) errs.title = &#039;Title is required&#039;;
+    else if (form.title.trim().length &lt; 3) errs.title = &#039;Title must be at least 3 characters&#039;;
+    if (form.description.length &gt; 500) errs.description = &#039;Max 500 characters&#039;;
+    return errs;
+  };
+
+  const handleChange = (e) =&gt; {
+    const { name, value } = e.target;
+    setForm(prev =&gt; ({ ...prev, [name]: value }));
+    if (errors[name]) setErrors(prev =&gt; ({ ...prev, [name]: &#039;&#039; }));
+  };
+
+  const handleSubmit = async (e) =&gt; {
+    e.preventDefault();
+    const errs = validate();
+    if (Object.keys(errs).length &gt; 0) {
+      setErrors(errs);
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      const payload = {
+        ...form,
+        title: form.title.trim(),
+        description: form.description.trim(),
+        tags: form.tags
+          ? form.tags.split(&#039;,&#039;).map(t =&gt; t.trim()).filter(Boolean)
+          : [],
+        dueDate: form.dueDate || null,
+      };
+      await onSubmit(payload);
+    } catch (err) {
+      // Error is already handled by App.js toast
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  return (
+    &lt;div className=&quot;modal-overlay&quot; onClick={(e) =&gt; e.target === e.currentTarget &amp;&amp; onClose()}&gt;
+      &lt;div className=&quot;modal&quot;&gt;
+        &lt;div className=&quot;modal__header&quot;&gt;
+          &lt;h2 className=&quot;modal__title&quot;&gt;
+            {task ? &#039;✏️ Edit Task&#039; : &#039;➕ Create New Task&#039;}
+          &lt;/h2&gt;
+          &lt;button className=&quot;modal__close&quot; onClick={onClose} title=&quot;Close&quot;&gt;✕&lt;/button&gt;
+        &lt;/div&gt;
+
+        &lt;div className=&quot;modal__body&quot;&gt;
+          &lt;form onSubmit={handleSubmit} noValidate&gt;
+            {/* Title */}
+            &lt;div className=&quot;form-group&quot;&gt;
+              &lt;label className=&quot;form-label&quot;&gt;Title &lt;span&gt;*&lt;/span&gt;&lt;/label&gt;
+              &lt;input
+                type=&quot;text&quot;
+                name=&quot;title&quot;
+                className={`form-control ${errors.title ? &#039;error&#039; : &#039;&#039;}`}
+                placeholder=&quot;e.g., Design homepage wireframes&quot;
+                value={form.title}
+                onChange={handleChange}
+                maxLength={100}
+                autoFocus
+              /&gt;
+              {errors.title &amp;&amp; &lt;span style={{ color: &#039;var(--danger)&#039;, fontSize: &#039;0.78rem&#039;, marginTop: &#039;4px&#039;, display: &#039;block&#039; }}&gt;{errors.title}&lt;/span&gt;}
+            &lt;/div&gt;
+
+            {/* Description */}
+            &lt;div className=&quot;form-group&quot;&gt;
+              &lt;label className=&quot;form-label&quot;&gt;Description&lt;/label&gt;
+              &lt;textarea
+                name=&quot;description&quot;
+                className=&quot;form-control&quot;
+                placeholder=&quot;Add details about this task...&quot;
+                value={form.description}
+                onChange={handleChange}
+                rows={3}
+                maxLength={500}
+              /&gt;
+              &lt;span style={{ fontSize: &#039;0.72rem&#039;, color: &#039;var(--text-muted)&#039;, float: &#039;right&#039; }}&gt;
+                {form.description.length}/500
+              &lt;/span&gt;
+            &lt;/div&gt;
+
+            {/* Status &amp; Priority */}
+            &lt;div className=&quot;form-row&quot;&gt;
+              &lt;div className=&quot;form-group&quot;&gt;
+                &lt;label className=&quot;form-label&quot;&gt;Status&lt;/label&gt;
+                &lt;select name=&quot;status&quot; className=&quot;form-control&quot; value={form.status} onChange={handleChange}&gt;
+                  &lt;option value=&quot;todo&quot;&gt;📝 To Do&lt;/option&gt;
+                  &lt;option value=&quot;in-progress&quot;&gt;🔄 In Progress&lt;/option&gt;
+                  &lt;option value=&quot;completed&quot;&gt;✅ Completed&lt;/option&gt;
+                &lt;/select&gt;
+              &lt;/div&gt;
+              &lt;div className=&quot;form-group&quot;&gt;
+                &lt;label className=&quot;form-label&quot;&gt;Priority&lt;/label&gt;
+                &lt;select name=&quot;priority&quot; className=&quot;form-control&quot; value={form.priority} onChange={handleChange}&gt;
+                  &lt;option value=&quot;low&quot;&gt;🟢 Low&lt;/option&gt;
+                  &lt;option value=&quot;medium&quot;&gt;🟡 Medium&lt;/option&gt;
+                  &lt;option value=&quot;high&quot;&gt;🔴 High&lt;/option&gt;
+                &lt;/select&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+
+            {/* Category &amp; Due Date */}
+            &lt;div className=&quot;form-row&quot;&gt;
+              &lt;div className=&quot;form-group&quot;&gt;
+                &lt;label className=&quot;form-label&quot;&gt;Category&lt;/label&gt;
+                &lt;input
+                  type=&quot;text&quot;
+                  name=&quot;category&quot;
+                  className=&quot;form-control&quot;
+                  placeholder=&quot;e.g., Design, Dev, Marketing&quot;
+                  value={form.category}
+                  onChange={handleChange}
+                  maxLength={50}
+                /&gt;
+              &lt;/div&gt;
+              &lt;div className=&quot;form-group&quot;&gt;
+                &lt;label className=&quot;form-label&quot;&gt;Due Date&lt;/label&gt;
+                &lt;input
+                  type=&quot;date&quot;
+                  name=&quot;dueDate&quot;
+                  className=&quot;form-control&quot;
+                  value={form.dueDate}
+                  onChange={handleChange}
+                /&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+
+            {/* Assigned To */}
+            &lt;div className=&quot;form-group&quot;&gt;
+              &lt;label className=&quot;form-label&quot;&gt;Assigned To&lt;/label&gt;
+              &lt;input
+                type=&quot;text&quot;
+                name=&quot;assignedTo&quot;
+                className=&quot;form-control&quot;
+                placeholder=&quot;e.g., John Doe&quot;
+                value={form.assignedTo}
+                onChange={handleChange}
+                maxLength={50}
+              /&gt;
+            &lt;/div&gt;
+
+            {/* Tags */}
+            &lt;div className=&quot;form-group&quot;&gt;
+              &lt;label className=&quot;form-label&quot;&gt;Tags &lt;span style={{ fontWeight: 400, color: &#039;var(--text-muted)&#039; }}&gt;(comma-separated)&lt;/span&gt;&lt;/label&gt;
+              &lt;input
+                type=&quot;text&quot;
+                name=&quot;tags&quot;
+                className=&quot;form-control&quot;
+                placeholder=&quot;e.g., frontend, urgent, bug&quot;
+                value={form.tags}
+                onChange={handleChange}
+              /&gt;
+            &lt;/div&gt;
+
+            {/* Actions */}
+            &lt;div className=&quot;form-actions&quot;&gt;
+              &lt;button type=&quot;button&quot; className=&quot;btn btn-secondary&quot; onClick={onClose}&gt;
+                Cancel
+              &lt;/button&gt;
+              &lt;button type=&quot;submit&quot; className=&quot;btn btn-primary&quot; disabled={submitting}&gt;
+                {submitting ? &#039;⏳ Saving...&#039; : task ? &#039;💾 Update Task&#039; : &#039;➕ Create Task&#039;}
+              &lt;/button&gt;
+            &lt;/div&gt;
+          &lt;/form&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default TaskForm;
+</code></pre>
+      </div>
+    
+      <div class="code-file-section" id="file-20">
+        <div class="file-header">
+          <div class="file-header-title">
+            <span class="file-index">20</span>
+            <span class="file-category">Frontend - Task List View</span>
+          </div>
+          <div class="file-path">frontend/src/components/TaskList.js</div>
+        </div>
+        <pre><code class="language-javascript">import React, { useState } from &#039;react&#039;;
+import TaskCard from &#039;./TaskCard&#039;;
+
+function formatDate(dateStr) {
+  if (!dateStr) return null;
+  return new Date(dateStr).toLocaleDateString(&#039;en-IN&#039;, { day: &#039;2-digit&#039;, month: &#039;short&#039;, year: &#039;numeric&#039; });
+}
+
+function isOverdue(dueDate, status) {
+  if (!dueDate || status === &#039;completed&#039;) return false;
+  return new Date() &gt; new Date(dueDate);
+}
+
+// ─── Filter Bar ───────────────────────────────────────────────────────────────
+function FilterBar({ filters, onFilterChange }) {
+  const [search, setSearch] = useState(filters.search || &#039;&#039;);
+
+  const handleSearchSubmit = (e) =&gt; {
+    e.preventDefault();
+    onFilterChange({ search });
+  };
+
+  return (
+    &lt;div className=&quot;filter-bar&quot;&gt;
+      {/* Search */}
+      &lt;form className=&quot;filter-bar__search&quot; onSubmit={handleSearchSubmit}&gt;
+        &lt;span className=&quot;filter-bar__search-icon&quot;&gt;🔍&lt;/span&gt;
+        &lt;input
+          type=&quot;text&quot;
+          placeholder=&quot;Search tasks...&quot;
+          value={search}
+          onChange={(e) =&gt; {
+            setSearch(e.target.value);
+            if (!e.target.value) onFilterChange({ search: &#039;&#039; });
+          }}
+          onKeyDown={(e) =&gt; e.key === &#039;Enter&#039; &amp;&amp; handleSearchSubmit(e)}
+        /&gt;
+      &lt;/form&gt;
+
+      {/* Status Filter */}
+      &lt;select
+        value={filters.status}
+        onChange={(e) =&gt; onFilterChange({ status: e.target.value })}
+      &gt;
+        &lt;option value=&quot;&quot;&gt;All Status&lt;/option&gt;
+        &lt;option value=&quot;todo&quot;&gt;📝 To Do&lt;/option&gt;
+        &lt;option value=&quot;in-progress&quot;&gt;🔄 In Progress&lt;/option&gt;
+        &lt;option value=&quot;completed&quot;&gt;✅ Completed&lt;/option&gt;
+      &lt;/select&gt;
+
+      {/* Priority Filter */}
+      &lt;select
+        value={filters.priority}
+        onChange={(e) =&gt; onFilterChange({ priority: e.target.value })}
+      &gt;
+        &lt;option value=&quot;&quot;&gt;All Priority&lt;/option&gt;
+        &lt;option value=&quot;low&quot;&gt;🟢 Low&lt;/option&gt;
+        &lt;option value=&quot;medium&quot;&gt;🟡 Medium&lt;/option&gt;
+        &lt;option value=&quot;high&quot;&gt;🔴 High&lt;/option&gt;
+      &lt;/select&gt;
+
+      {/* Sort */}
+      &lt;select
+        value={filters.sortBy}
+        onChange={(e) =&gt; onFilterChange({ sortBy: e.target.value })}
+      &gt;
+        &lt;option value=&quot;createdAt&quot;&gt;Sort: Created&lt;/option&gt;
+        &lt;option value=&quot;dueDate&quot;&gt;Sort: Due Date&lt;/option&gt;
+        &lt;option value=&quot;priority&quot;&gt;Sort: Priority&lt;/option&gt;
+        &lt;option value=&quot;title&quot;&gt;Sort: Title&lt;/option&gt;
+      &lt;/select&gt;
+
+      {/* Order */}
+      &lt;select
+        value={filters.order}
+        onChange={(e) =&gt; onFilterChange({ order: e.target.value })}
+      &gt;
+        &lt;option value=&quot;desc&quot;&gt;↓ Desc&lt;/option&gt;
+        &lt;option value=&quot;asc&quot;&gt;↑ Asc&lt;/option&gt;
+      &lt;/select&gt;
+
+      {/* Clear Filters */}
+      {(filters.status || filters.priority || filters.search) &amp;&amp; (
+        &lt;button
+          className=&quot;btn btn-secondary btn-sm&quot;
+          onClick={() =&gt; { onFilterChange({ status: &#039;&#039;, priority: &#039;&#039;, search: &#039;&#039; }); setSearch(&#039;&#039;); }}
+        &gt;
+          ✕ Clear
+        &lt;/button&gt;
+      )}
+    &lt;/div&gt;
+  );
+}
+
+// ─── Board Column ─────────────────────────────────────────────────────────────
+function BoardColumn({ title, status, icon, tasks, onEdit, onDelete, onStatusChange }) {
+  const filtered = tasks.filter(t =&gt; t.status === status);
+  return (
+    &lt;div className={`task-column ${status}`}&gt;
+      &lt;div className=&quot;task-column__header&quot;&gt;
+        &lt;span className=&quot;task-column__title&quot;&gt;
+          {icon} {title}
+        &lt;/span&gt;
+        &lt;span className=&quot;task-column__count&quot;&gt;{filtered.length}&lt;/span&gt;
+      &lt;/div&gt;
+      {filtered.length === 0 ? (
+        &lt;div style={{ textAlign: &#039;center&#039;, color: &#039;var(--text-muted)&#039;, padding: &#039;24px 0&#039;, fontSize: &#039;0.825rem&#039; }}&gt;
+          No tasks here
+        &lt;/div&gt;
+      ) : (
+        filtered.map(task =&gt; (
+          &lt;TaskCard
+            key={task._id}
+            task={task}
+            onEdit={onEdit}
+            onDelete={onDelete}
+            onStatusChange={onStatusChange}
+          /&gt;
+        ))
+      )}
+    &lt;/div&gt;
+  );
+}
+
+// ─── List Row ─────────────────────────────────────────────────────────────────
+function ListRow({ task, onEdit, onDelete, onStatusChange }) {
+  const overdue = isOverdue(task.dueDate, task.status);
+  return (
+    &lt;div className={`task-list-row ${overdue ? &#039;overdue&#039; : &#039;&#039;} ${task.status === &#039;completed&#039; ? &#039;completed-row&#039; : &#039;&#039;}`}&gt;
+      &lt;span style={{ fontSize: &#039;1.1rem&#039; }}&gt;
+        {task.status === &#039;completed&#039; ? &#039;✅&#039; : task.status === &#039;in-progress&#039; ? &#039;🔄&#039; : &#039;📝&#039;}
+      &lt;/span&gt;
+
+      &lt;div className=&quot;task-list-row__title&quot;&gt;{task.title}&lt;/div&gt;
+
+      &lt;div className=&quot;task-list-row__meta&quot;&gt;
+        &lt;span className={`badge badge-priority-${task.priority}`}&gt;{task.priority}&lt;/span&gt;
+        {task.category &amp;&amp; task.category !== &#039;General&#039; &amp;&amp; (
+          &lt;span className=&quot;badge badge-category&quot;&gt;{task.category}&lt;/span&gt;
+        )}
+        {task.dueDate &amp;&amp; (
+          &lt;span style={{ fontSize: &#039;0.78rem&#039;, color: overdue ? &#039;var(--danger)&#039; : &#039;var(--text-muted)&#039; }}&gt;
+            📅 {formatDate(task.dueDate)}
+          &lt;/span&gt;
+        )}
+        {task.assignedTo &amp;&amp; (
+          &lt;span style={{ fontSize: &#039;0.78rem&#039;, color: &#039;var(--text-muted)&#039; }}&gt;
+            👤 {task.assignedTo}
+          &lt;/span&gt;
+        )}
+        &lt;select
+          className=&quot;status-select&quot;
+          value={task.status}
+          onChange={(e) =&gt; onStatusChange(task._id, e.target.value)}
+        &gt;
+          &lt;option value=&quot;todo&quot;&gt;To Do&lt;/option&gt;
+          &lt;option value=&quot;in-progress&quot;&gt;In Progress&lt;/option&gt;
+          &lt;option value=&quot;completed&quot;&gt;Done&lt;/option&gt;
+        &lt;/select&gt;
+      &lt;/div&gt;
+
+      &lt;div className=&quot;task-list-row__actions&quot;&gt;
+        &lt;button className=&quot;btn btn-icon btn-sm&quot; onClick={() =&gt; onEdit(task)} title=&quot;Edit&quot;&gt;✏️&lt;/button&gt;
+        &lt;button className=&quot;btn btn-icon btn-sm&quot; onClick={() =&gt; onDelete(task._id)} title=&quot;Delete&quot; style={{ color: &#039;var(--danger)&#039; }}&gt;🗑️&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+
+// ─── Pagination ───────────────────────────────────────────────────────────────
+function Pagination({ pagination, onPageChange }) {
+  const { currentPage, totalPages, totalCount, limit } = pagination;
+  if (totalPages &lt;= 1) return null;
+
+  const start = (currentPage - 1) * limit + 1;
+  const end = Math.min(currentPage * limit, totalCount);
+
+  return (
+    &lt;div className=&quot;pagination&quot;&gt;
+      &lt;button className=&quot;pagination__btn&quot; onClick={() =&gt; onPageChange(1)} disabled={currentPage === 1}&gt;«&lt;/button&gt;
+      &lt;button className=&quot;pagination__btn&quot; onClick={() =&gt; onPageChange(currentPage - 1)} disabled={currentPage === 1}&gt;‹&lt;/button&gt;
+
+      &lt;span className=&quot;pagination__info&quot;&gt;Page {currentPage} of {totalPages} ({start}–{end} of {totalCount})&lt;/span&gt;
+
+      &lt;button className=&quot;pagination__btn&quot; onClick={() =&gt; onPageChange(currentPage + 1)} disabled={currentPage === totalPages}&gt;›&lt;/button&gt;
+      &lt;button className=&quot;pagination__btn&quot; onClick={() =&gt; onPageChange(totalPages)} disabled={currentPage === totalPages}&gt;»&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}
+
+// ─── Main TaskList Component ──────────────────────────────────────────────────
+function TaskList({
+  tasks, loading, filters, onFilterChange,
+  onEdit, onDelete, onStatusChange, onNewTask,
+  pagination, onPageChange, activeView
+}) {
+  if (loading) {
+    return (
+      &lt;div&gt;
+        &lt;FilterBar filters={filters} onFilterChange={onFilterChange} /&gt;
+        &lt;div className=&quot;loading-wrapper&quot;&gt;
+          &lt;div className=&quot;spinner&quot;&gt;&lt;/div&gt;
+          &lt;span&gt;Loading tasks...&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    );
+  }
+
+  return (
+    &lt;div&gt;
+      &lt;FilterBar filters={filters} onFilterChange={onFilterChange} /&gt;
+
+      &lt;div className=&quot;section-header&quot;&gt;
+        &lt;h2&gt;
+          {filters.status
+            ? `${filters.status === &#039;todo&#039; ? &#039;📝 To Do&#039; : filters.status === &#039;in-progress&#039; ? &#039;🔄 In Progress&#039; : &#039;✅ Completed&#039;} Tasks`
+            : &#039;📋 All Tasks&#039;}
+        &lt;/h2&gt;
+        &lt;span className=&quot;section-header__count&quot;&gt;{pagination.totalCount} task{pagination.totalCount !== 1 ? &#039;s&#039; : &#039;&#039;}&lt;/span&gt;
+      &lt;/div&gt;
+
+      {tasks.length === 0 ? (
+        &lt;div className=&quot;empty-state&quot;&gt;
+          &lt;div className=&quot;empty-state__icon&quot;&gt;📭&lt;/div&gt;
+          &lt;h3 className=&quot;empty-state__title&quot;&gt;No tasks found&lt;/h3&gt;
+          &lt;p className=&quot;empty-state__desc&quot;&gt;
+            {filters.search || filters.status || filters.priority
+              ? &#039;Try adjusting your filters&#039;
+              : &#039;Create your first task to get started!&#039;}
+          &lt;/p&gt;
+          {!filters.search &amp;&amp; !filters.status &amp;&amp; !filters.priority &amp;&amp; (
+            &lt;button className=&quot;btn btn-primary&quot; onClick={onNewTask}&gt;
+              ➕ Create First Task
+            &lt;/button&gt;
+          )}
+        &lt;/div&gt;
+      ) : activeView === &#039;board&#039; ? (
+        &lt;div className=&quot;task-board&quot;&gt;
+          &lt;BoardColumn title=&quot;To Do&quot; status=&quot;todo&quot; icon=&quot;📝&quot; tasks={tasks} onEdit={onEdit} onDelete={onDelete} onStatusChange={onStatusChange} /&gt;
+          &lt;BoardColumn title=&quot;In Progress&quot; status=&quot;in-progress&quot; icon=&quot;🔄&quot; tasks={tasks} onEdit={onEdit} onDelete={onDelete} onStatusChange={onStatusChange} /&gt;
+          &lt;BoardColumn title=&quot;Completed&quot; status=&quot;completed&quot; icon=&quot;✅&quot; tasks={tasks} onEdit={onEdit} onDelete={onDelete} onStatusChange={onStatusChange} /&gt;
+        &lt;/div&gt;
+      ) : (
+        &lt;div className=&quot;task-list-view&quot;&gt;
+          {tasks.map(task =&gt; (
+            &lt;ListRow key={task._id} task={task} onEdit={onEdit} onDelete={onDelete} onStatusChange={onStatusChange} /&gt;
+          ))}
+        &lt;/div&gt;
+      )}
+
+      &lt;Pagination pagination={pagination} onPageChange={onPageChange} /&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default TaskList;
+</code></pre>
+      </div>
+    
+      <div class="code-file-section" id="file-21">
+        <div class="file-header">
+          <div class="file-header-title">
+            <span class="file-index">21</span>
+            <span class="file-category">Frontend - Task Card Component</span>
+          </div>
+          <div class="file-path">frontend/src/components/TaskCard.js</div>
+        </div>
+        <pre><code class="language-javascript">import React from &#039;react&#039;;
+
+const PRIORITY_LABELS = { low: &#039;🟢 Low&#039;, medium: &#039;🟡 Medium&#039;, high: &#039;🔴 High&#039; };
+
+function formatDate(dateStr) {
+  if (!dateStr) return null;
+  const d = new Date(dateStr);
+  return d.toLocaleDateString(&#039;en-IN&#039;, { day: &#039;2-digit&#039;, month: &#039;short&#039;, year: &#039;numeric&#039; });
+}
+
+function isOverdue(dueDate, status) {
+  if (!dueDate || status === &#039;completed&#039;) return false;
+  return new Date() &gt; new Date(dueDate);
+}
+
+function TaskCard({ task, onEdit, onDelete, onStatusChange }) {
+  const overdue = isOverdue(task.dueDate, task.status);
+
+  return (
+    &lt;div className={`task-card ${overdue ? &#039;overdue&#039; : &#039;&#039;} ${task.status === &#039;completed&#039; ? &#039;completed-card&#039; : &#039;&#039;}`}&gt;
+      &lt;div className=&quot;task-card__header&quot;&gt;
+        &lt;h3 className=&quot;task-card__title&quot;&gt;{task.title}&lt;/h3&gt;
+        &lt;div className=&quot;task-card__actions&quot;&gt;
+          &lt;button
+            className=&quot;btn btn-icon btn-sm&quot;
+            onClick={() =&gt; onEdit(task)}
+            title=&quot;Edit task&quot;
+          &gt;
+            ✏️
+          &lt;/button&gt;
+          &lt;button
+            className=&quot;btn btn-icon btn-sm&quot;
+            onClick={() =&gt; onDelete(task._id)}
+            title=&quot;Delete task&quot;
+            style={{ color: &#039;var(--danger)&#039; }}
+          &gt;
+            🗑️
+          &lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      {task.description &amp;&amp; (
+        &lt;p className=&quot;task-card__description&quot;&gt;{task.description}&lt;/p&gt;
+      )}
+
+      &lt;div className=&quot;task-card__meta&quot;&gt;
+        &lt;span className={`badge badge-priority-${task.priority}`}&gt;
+          {PRIORITY_LABELS[task.priority]}
+        &lt;/span&gt;
+        {task.category &amp;&amp; task.category !== &#039;General&#039; &amp;&amp; (
+          &lt;span className=&quot;badge badge-category&quot;&gt;📁 {task.category}&lt;/span&gt;
+        )}
+        {overdue &amp;&amp; &lt;span className=&quot;badge badge-overdue&quot;&gt;⚠️ Overdue&lt;/span&gt;}
+        {task.tags &amp;&amp; task.tags.slice(0, 2).map((tag, i) =&gt; (
+          &lt;span key={i} className=&quot;badge badge-tag&quot;&gt;#{tag}&lt;/span&gt;
+        ))}
+        {task.tags &amp;&amp; task.tags.length &gt; 2 &amp;&amp; (
+          &lt;span className=&quot;badge badge-tag&quot;&gt;+{task.tags.length - 2}&lt;/span&gt;
+        )}
+      &lt;/div&gt;
+
+      &lt;div style={{ display: &#039;flex&#039;, alignItems: &#039;center&#039;, justifyContent: &#039;space-between&#039;, marginTop: &#039;12px&#039; }}&gt;
+        {/* Inline Status Change */}
+        &lt;select
+          className=&quot;status-select&quot;
+          value={task.status}
+          onChange={(e) =&gt; onStatusChange(task._id, e.target.value)}
+        &gt;
+          &lt;option value=&quot;todo&quot;&gt;📝 To Do&lt;/option&gt;
+          &lt;option value=&quot;in-progress&quot;&gt;🔄 In Progress&lt;/option&gt;
+          &lt;option value=&quot;completed&quot;&gt;✅ Done&lt;/option&gt;
+        &lt;/select&gt;
+
+        {task.dueDate &amp;&amp; (
+          &lt;span className={`task-card__due ${overdue ? &#039;overdue&#039; : &#039;&#039;}`}&gt;
+            📅 {formatDate(task.dueDate)}
+          &lt;/span&gt;
+        )}
+      &lt;/div&gt;
+
+      {task.assignedTo &amp;&amp; (
+        &lt;div style={{ marginTop: &#039;8px&#039;, fontSize: &#039;0.76rem&#039;, color: &#039;var(--text-muted)&#039;, display: &#039;flex&#039;, alignItems: &#039;center&#039;, gap: &#039;4px&#039; }}&gt;
+          👤 {task.assignedTo}
+        &lt;/div&gt;
+      )}
+    &lt;/div&gt;
+  );
+}
+
+export default TaskCard;
+</code></pre>
+      </div>
+    
+      <div class="code-file-section" id="file-22">
+        <div class="file-header">
+          <div class="file-header-title">
+            <span class="file-index">22</span>
+            <span class="file-category">Frontend Service - Auth API</span>
+          </div>
+          <div class="file-path">frontend/src/services/authAPI.js</div>
+        </div>
+        <pre><code class="language-javascript">import axios from &#039;axios&#039;;
+
+const API_BASE_URL = process.env.REACT_APP_API_URL || &#039;http://localhost:5000/api&#039;;
+
+const authAxios = axios.create({
+  baseURL: API_BASE_URL,
+  timeout: 15000,
+  headers: { &#039;Content-Type&#039;: &#039;application/json&#039; },
+});
+
+export const authAPI = {
+  register: (data) =&gt; authAxios.post(&#039;/auth/register&#039;, data),
+  login: (data) =&gt; authAxios.post(&#039;/auth/login&#039;, data),
+  me: (token) =&gt; authAxios.get(&#039;/auth/me&#039;, {
+    headers: { Authorization: `Bearer ${token}` }
+  }),
+};
+
+export default authAxios;
+</code></pre>
+      </div>
+    
+      <div class="code-file-section" id="file-23">
+        <div class="file-header">
+          <div class="file-header-title">
+            <span class="file-index">23</span>
+            <span class="file-category">Frontend Service - Habit API</span>
+          </div>
+          <div class="file-path">frontend/src/services/habitAPI.js</div>
+        </div>
+        <pre><code class="language-javascript">import axios from &#039;axios&#039;;
+
+const API_BASE_URL = process.env.REACT_APP_API_URL || &#039;http://localhost:5000/api&#039;;
+
+const api = axios.create({
+  baseURL: API_BASE_URL,
+  timeout: 15000,
+  headers: { &#039;Content-Type&#039;: &#039;application/json&#039; },
+});
+
+api.interceptors.request.use(
+  (config) =&gt; {
+    const token = localStorage.getItem(&#039;todo_token&#039;);
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) =&gt; Promise.reject(error)
+);
+
+api.interceptors.response.use(
+  res =&gt; res,
+  err =&gt; {
+    if (err.response?.status === 401) {
+      localStorage.removeItem(&#039;todo_token&#039;);
+      localStorage.removeItem(&#039;todo_user&#039;);
+      if (window.location.pathname !== &#039;/login&#039;) {
+        window.location.href = &#039;/login&#039;;
+      }
+    }
+    return Promise.reject(new Error(err.response?.data?.message || err.message || &#039;Something went wrong&#039;));
+  }
+);
+
+export const habitAPI = {
+  getAll: () =&gt; api.get(&#039;/habits&#039;),
+  create: (data) =&gt; api.post(&#039;/habits&#039;, data),
+  update: (id, data) =&gt; api.put(`/habits/${id}`, data),
+  delete: (id) =&gt; api.delete(`/habits/${id}`),
+};
+
+export const completionAPI = {
+  getByMonth: (month) =&gt; api.get(&#039;/completions&#039;, { params: { month } }),
+  getChart: (days = 30) =&gt; api.get(&#039;/completions/chart&#039;, { params: { days } }),
+  toggle: (taskId, date) =&gt; api.post(&#039;/completions/toggle&#039;, { taskId, date }),
+};
+
+export default api;
+</code></pre>
+      </div>
+    
+      <div class="code-file-section" id="file-24">
+        <div class="file-header">
+          <div class="file-header-title">
+            <span class="file-index">24</span>
+            <span class="file-category">Frontend Service - Task API</span>
+          </div>
+          <div class="file-path">frontend/src/services/api.js</div>
+        </div>
+        <pre><code class="language-javascript">import axios from &#039;axios&#039;;
+
+// ─── API Base Configuration ───────────────────────────────────────────────────
+const API_BASE_URL = process.env.REACT_APP_API_URL || &#039;http://localhost:5000/api&#039;;
+
+const api = axios.create({
+  baseURL: API_BASE_URL,
+  timeout: 15000,
+  headers: {
+    &#039;Content-Type&#039;: &#039;application/json&#039;,
+  },
+});
+
+// ─── Request Interceptor ──────────────────────────────────────────────────────
+api.interceptors.request.use(
+  (config) =&gt; {
+    const token = localStorage.getItem(&#039;todo_token&#039;);
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) =&gt; Promise.reject(error)
+);
+
+// ─── Response Interceptor ─────────────────────────────────────────────────────
+api.interceptors.response.use(
+  (response) =&gt; response,
+  (error) =&gt; {
+    if (error.response?.status === 401) {
+      localStorage.removeItem(&#039;todo_token&#039;);
+      localStorage.removeItem(&#039;todo_user&#039;);
+      if (window.location.pathname !== &#039;/login&#039;) {
+        window.location.href = &#039;/login&#039;;
+      }
+    }
+    const message =
+      error.response?.data?.message ||
+      error.message ||
+      &#039;Something went wrong. Please try again.&#039;;
+    return Promise.reject(new Error(message));
+  }
+);
+
+// ─── Task API Calls ───────────────────────────────────────────────────────────
+export const taskAPI = {
+  // READ ALL — with optional filters
+  getAll: (params = {}) =&gt; api.get(&#039;/tasks&#039;, { params }),
+
+  // READ ONE
+  getById: (id) =&gt; api.get(`/tasks/${id}`),
+
+  // CREATE
+  create: (data) =&gt; api.post(&#039;/tasks&#039;, data),
+
+  // UPDATE (full)
+  update: (id, data) =&gt; api.put(`/tasks/${id}`, data),
+
+  // PATCH (partial)
+  patch: (id, data) =&gt; api.patch(`/tasks/${id}`, data),
+
+  // DELETE ONE
+  delete: (id) =&gt; api.delete(`/tasks/${id}`),
+
+  // DELETE ALL
+  deleteAll: () =&gt; api.delete(&#039;/tasks&#039;),
+
+  // STATS
+  getStats: () =&gt; api.get(&#039;/tasks/stats&#039;),
+};
+
+// ─── User API Calls ───────────────────────────────────────────────────────────
+export const userAPI = {
+  getAll: () =&gt; api.get(&#039;/users&#039;),
+  getById: (id) =&gt; api.get(`/users/${id}`),
+  create: (data) =&gt; api.post(&#039;/users&#039;, data),
+  update: (id, data) =&gt; api.put(`/users/${id}`, data),
+  delete: (id) =&gt; api.delete(`/users/${id}`),
+};
+
+export default api;
+</code></pre>
+      </div>
+    
+      <div class="code-file-section" id="file-25">
+        <div class="file-header">
+          <div class="file-header-title">
+            <span class="file-index">25</span>
+            <span class="file-category">Frontend - Theme & Global Styles</span>
+          </div>
+          <div class="file-path">frontend/src/App.css</div>
+        </div>
+        <pre><code class="language-css">/* ─── App Layout ─────────────────────────────────────────────────────────────── */
+.app { min-height: 100vh; display: flex; flex-direction: column; background: var(--bg); }
+.app__main { flex: 1; max-width: 1600px; width: 100%; margin: 0 auto; padding: 24px 20px 60px; }
+
+/* ─── Navbar ─────────────────────────────────────────────────────────────────── */
+.navbar {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.4);
+}
+.navbar__inner {
+  max-width: 1600px; margin: 0 auto; padding: 0 20px;
+  height: 60px; display: flex; align-items: center; justify-content: space-between; gap: 20px;
+}
+.navbar__brand {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 1.1rem; font-weight: 800; letter-spacing: 2px;
+  color: var(--primary); white-space: nowrap;
+}
+.navbar__brand-icon {
+  width: 34px; height: 34px; background: var(--primary-dark);
+  border-radius: 8px; display: flex; align-items: center; justify-content: center;
+  color: white; font-size: 1rem;
+}
+.navbar__tabs { display: flex; gap: 4px; }
+.navbar__tab {
+  padding: 7px 18px; border-radius: 8px; font-size: 0.85rem; font-weight: 600;
+  background: transparent; color: var(--text-muted); transition: all 0.15s;
+}
+.navbar__tab:hover { background: var(--surface-2); color: var(--text); }
+.navbar__tab.active { background: var(--primary-light); color: var(--primary); }
+.navbar__actions { display: flex; align-items: center; gap: 10px; }
+
+/* ─── Buttons ────────────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 8px 16px; border-radius: 8px; font-size: 0.875rem; font-weight: 600;
+  transition: all 0.15s ease; white-space: nowrap;
+}
+.btn-primary { background: var(--primary-dark); color: white; }
+.btn-primary:hover { background: var(--primary); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(99,102,241,0.4); }
+.btn-secondary { background: var(--surface-2); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { background: var(--surface-3); }
+.btn-danger { background: rgba(248,113,113,0.1); color: var(--danger); border: 1px solid rgba(248,113,113,0.3); }
+.btn-danger:hover { background: var(--danger); color: white; }
+.btn-sm { padding: 5px 10px; font-size: 0.8rem; }
+.btn-icon { padding: 7px; border-radius: 8px; background: var(--surface-2); color: var(--text-muted); border: 1px solid var(--border); }
+.btn-icon:hover { background: var(--primary-light); color: var(--primary); }
+
+/* ─── Dashboard ──────────────────────────────────────────────────────────────── */
+.dashboard { margin-bottom: 24px; }
+.dashboard__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 14px; }
+.stat-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 18px; display: flex; align-items: center; gap: 14px;
+  box-shadow: var(--shadow); transition: transform 0.15s, box-shadow 0.15s;
+}
+.stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.stat-card__icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; }
+.stat-card__value { font-size: 1.6rem; font-weight: 800; line-height: 1; color: var(--text); }
+.stat-card__label { font-size: 0.78rem; color: var(--text-muted); font-weight: 500; margin-top: 4px; }
+
+/* ─── Filter Bar ──────────────────────────────────────────────────────────────── */
+.filter-bar {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 14px 16px; margin-bottom: 18px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
+}
+.filter-bar__search { flex: 1; min-width: 200px; position: relative; }
+.filter-bar__search input {
+  width: 100%; padding: 8px 12px 8px 36px; border: 1px solid var(--border);
+  border-radius: 8px; font-size: 0.875rem; background: var(--surface-2); color: var(--text); transition: border-color 0.15s;
+}
+.filter-bar__search input:focus { border-color: var(--primary); }
+.filter-bar__search input::placeholder { color: var(--text-dim); }
+.filter-bar__search-icon { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 0.85rem; }
+.filter-bar select {
+  padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 0.875rem;
+  background: var(--surface-2); color: var(--text); cursor: pointer;
+}
+.filter-bar select:focus { border-color: var(--primary); }
+
+/* ─── Task Board ─────────────────────────────────────────────────────────────── */
+.task-board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; align-items: start; }
+.task-column { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; }
+.task-column__header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 2px solid var(--border); }
+.task-column__title { font-size: 0.82rem; font-weight: 700; display: flex; align-items: center; gap: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+.task-column__count { background: var(--surface-2); color: var(--text-muted); font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 999px; }
+.task-column.todo .task-column__title { color: #94a3b8; }
+.task-column.in-progress .task-column__title { color: var(--secondary); }
+.task-column.completed .task-column__title { color: var(--success); }
+
+/* ─── Task Cards ──────────────────────────────────────────────────────────────── */
+.task-card {
+  background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 14px; margin-bottom: 10px; box-shadow: var(--shadow); transition: all 0.15s;
+}
+.task-card:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); border-color: var(--border-bright); }
+.task-card.overdue { border-left: 3px solid var(--danger); }
+.task-card.completed-card { opacity: 0.6; }
+.task-card__header { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
+.task-card__title { font-size: 0.9rem; font-weight: 600; color: var(--text); line-height: 1.4; word-break: break-word; }
+.task-card.completed-card .task-card__title { text-decoration: line-through; color: var(--text-muted); }
+.task-card__actions { display: flex; gap: 3px; flex-shrink: 0; opacity: 0; transition: opacity 0.15s; }
+.task-card:hover .task-card__actions { opacity: 1; }
+.task-card__description { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.task-card__meta { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; }
+.task-card__due { font-size: 0.72rem; color: var(--text-muted); margin-top: 8px; display: flex; align-items: center; gap: 3px; }
+.task-card__due.overdue { color: var(--danger); font-weight: 600; }
+
+/* ─── Badges ──────────────────────────────────────────────────────────────────── */
+.badge { display: inline-flex; align-items: center; gap: 3px; padding: 2px 7px; border-radius: 999px; font-size: 0.68rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; }
+.badge-priority-low { background: rgba(52,211,153,0.1); color: #34d399; border: 1px solid rgba(52,211,153,0.3); }
+.badge-priority-medium { background: rgba(251,191,36,0.1); color: #fbbf24; border: 1px solid rgba(251,191,36,0.3); }
+.badge-priority-high { background: rgba(248,113,113,0.1); color: #f87171; border: 1px solid rgba(248,113,113,0.3); }
+.badge-status-todo { background: var(--surface-2); color: var(--text-muted); border: 1px solid var(--border); }
+.badge-status-in-progress { background: rgba(56,189,248,0.1); color: #38bdf8; border: 1px solid rgba(56,189,248,0.3); }
+.badge-status-completed { background: rgba(52,211,153,0.1); color: #34d399; border: 1px solid rgba(52,211,153,0.3); }
+.badge-category { background: var(--primary-light); color: var(--primary); border: 1px solid rgba(129,140,248,0.3); }
+.badge-overdue { background: rgba(248,113,113,0.1); color: var(--danger); border: 1px solid rgba(248,113,113,0.3); }
+.badge-tag { background: var(--surface-2); color: var(--text-muted); border: 1px solid var(--border); }
+
+/* ─── Status Select ──────────────────────────────────────────────────────────── */
+.status-select { padding: 3px 7px; border-radius: 6px; border: 1px solid var(--border); font-size: 0.72rem; font-weight: 600; cursor: pointer; background: var(--surface-2); color: var(--text); }
+
+/* ─── Task List View ──────────────────────────────────────────────────────────── */
+.task-list-view { display: flex; flex-direction: column; gap: 8px; }
+.task-list-row {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 12px 16px; display: flex; align-items: center; gap: 12px; transition: all 0.15s;
+}
+.task-list-row:hover { border-color: var(--primary); box-shadow: var(--shadow-md); }
+.task-list-row.overdue { border-left: 3px solid var(--danger); }
+.task-list-row__title { flex: 1; font-size: 0.88rem; font-weight: 600; color: var(--text); }
+.task-list-row.completed-row .task-list-row__title { text-decoration: line-through; color: var(--text-muted); }
+.task-list-row__meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.task-list-row__actions { display: flex; gap: 4px; }
+
+/* ─── Modal ──────────────────────────────────────────────────────────────────── */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(6px);
+  z-index: 200; display: flex; align-items: center; justify-content: center; padding: 20px;
+  animation: fadeIn 0.15s ease;
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+.modal {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg);
+  width: 100%; max-width: 540px; max-height: 90vh; overflow-y: auto;
+  box-shadow: var(--shadow-lg); animation: slideUp 0.2s ease;
+}
+.modal__header { display: flex; align-items: center; justify-content: space-between; padding: 22px 24px 0; }
+.modal__title { font-size: 1.15rem; font-weight: 700; color: var(--text); }
+.modal__close { width: 30px; height: 30px; border-radius: 7px; background: var(--surface-2); display: flex; align-items: center; justify-content: center; color: var(--text-muted); transition: all 0.15s; }
+.modal__close:hover { background: rgba(248,113,113,0.15); color: var(--danger); }
+.modal__body { padding: 18px 24px 24px; }
+
+/* ─── Forms ──────────────────────────────────────────────────────────────────── */
+.form-group { margin-bottom: 16px; }
+.form-label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+.form-label span { color: var(--danger); margin-left: 2px; }
+.form-control { width: 100%; padding: 9px 12px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 0.875rem; color: var(--text); background: var(--surface-2); transition: border-color 0.15s, box-shadow 0.15s; }
+.form-control:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(129,140,248,0.15); }
+.form-control::placeholder { color: var(--text-dim); }
+textarea.form-control { resize: vertical; min-height: 75px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.form-actions { display: flex; justify-content: flex-end; gap: 10px; padding-top: 6px; }
+
+/* ─── Type Toggle (habit form) ───────────────────────────────────────────────── */
+.type-toggle { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.type-btn {
+  padding: 12px; border-radius: 10px; border: 1.5px solid var(--border);
+  background: var(--surface-2); color: var(--text-muted); text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 4px; transition: all 0.15s;
+}
+.type-btn small { font-size: 0.72rem; color: var(--text-dim); font-weight: 400; }
+.type-btn:hover { border-color: var(--primary); color: var(--text); }
+.type-btn.active { border-color: var(--primary); background: var(--primary-light); color: var(--primary); }
+.type-btn.active small { color: var(--primary); opacity: 0.7; }
+
+/* ─── Day Selector ───────────────────────────────────────────────────────────── */
+.day-selector { display: flex; gap: 6px; flex-wrap: wrap; }
+.day-btn { width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid var(--border); background: var(--surface-2); color: var(--text-muted); font-size: 0.78rem; font-weight: 600; transition: all 0.15s; }
+.day-btn:hover { border-color: var(--primary); color: var(--text); }
+.day-btn.active { border-color: var(--primary); background: var(--primary-dark); color: white; }
+
+/* ─── Color Picker ───────────────────────────────────────────────────────────── */
+.color-picker { display: flex; gap: 8px; flex-wrap: wrap; }
+.color-dot { width: 28px; height: 28px; border-radius: 50%; border: 2px solid transparent; transition: all 0.15s; }
+.color-dot.active { border-color: white; transform: scale(1.2); box-shadow: 0 0 0 2px var(--surface-2); }
+.color-dot:hover { transform: scale(1.15); }
+
+/* ─── Progress Chart ─────────────────────────────────────────────────────────── */
+.chart-wrap {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 20px; margin-bottom: 24px; box-shadow: var(--shadow);
+}
+.chart-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 16px; }
+.chart-title { font-size: 1rem; font-weight: 700; color: var(--text); }
+.chart-sub { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
+.chart-badges { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.chart-badge { background: var(--surface-2); color: var(--text-dim); font-size: 0.72rem; padding: 2px 8px; border-radius: 999px; }
+.chart-svg-wrap { width: 100%; overflow: hidden; border-radius: 8px; }
+.chart-svg { width: 100%; height: 180px; display: block; }
+.chart-loading { display: flex; align-items: center; gap: 12px; color: var(--text-muted); min-height: 180px; justify-content: center; }
+
+/* ─── Habit Tracker ──────────────────────────────────────────────────────────── */
+.habit-tracker { width: 100%; }
+.ht-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.ht-month-nav { display: flex; align-items: center; gap: 12px; }
+.ht-month-title { font-size: 1.1rem; font-weight: 700; color: var(--text); min-width: 160px; text-align: center; }
+.ht-nav-btn { width: 32px; height: 32px; border-radius: 8px; background: var(--surface); border: 1px solid var(--border); color: var(--text); font-size: 1.1rem; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+.ht-nav-btn:hover { background: var(--surface-2); border-color: var(--primary); color: var(--primary); }
+
+/* Grid wrapper - scrollable */
+.ht-grid-wrap { width: 100%; overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--border); background: var(--surface); box-shadow: var(--shadow); }
+
+.ht-grid { border-collapse: collapse; width: max-content; min-width: 100%; }
+
+/* Header row */
+.ht-th-task { position: sticky; left: 0; z-index: 10; background: var(--surface); min-width: 220px; max-width: 260px; padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); }
+.ht-th-pct { width: 60px; min-width: 60px; padding: 10px 8px; text-align: center; border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); background: var(--surface); color: var(--text-muted); font-size: 0.72rem; }
+.ht-th-day { min-width: 36px; width: 36px; padding: 6px 2px; text-align: center; border-bottom: 1px solid var(--border); border-right: 1px solid rgba(51,65,85,0.5); }
+.ht-today-col { background: rgba(129,140,248,0.08) !important; }
+.ht-day-label { display: flex; flex-direction: column; align-items: center; gap: 1px; }
+.ht-day-num { font-size: 0.78rem; font-weight: 700; color: var(--text); }
+.ht-day-abbr { font-size: 0.62rem; color: var(--text-dim); }
+
+/* Day pct row */
+.ht-day-pct-row td { background: rgba(15,23,42,0.5); border-bottom: 2px solid var(--border); padding: 4px 2px; }
+.ht-td-daypct { text-align: center; font-size: 0.62rem; font-weight: 700; }
+.ht-daypct-val { display: block; }
+.ht-day-pct-label { font-size: 0.68rem; color: var(--text-dim); font-style: italic; padding-left: 14px; }
+
+/* Data rows */
+.ht-row { border-bottom: 1px solid rgba(51,65,85,0.5); transition: background 0.1s; }
+.ht-row:hover { background: rgba(129,140,248,0.04); }
+.ht-row:last-child { border-bottom: none; }
+
+.ht-td-label {
+  position: sticky; left: 0; z-index: 5; background: var(--surface);
+  padding: 8px 12px; min-width: 220px; max-width: 260px;
+  border-right: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.ht-row:hover .ht-td-label { background: #1a2540; }
+
+.ht-task-info { display: flex; align-items: center; gap: 7px; min-width: 0; }
+.ht-task-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.ht-task-name { font-size: 0.82rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ht-type-badge { font-size: 0.7rem; flex-shrink: 0; }
+
+.ht-task-actions { display: flex; gap: 3px; opacity: 0; transition: opacity 0.15s; flex-shrink: 0; }
+.ht-row:hover .ht-task-actions { opacity: 1; }
+.ht-action-btn { background: none; border: none; font-size: 0.75rem; padding: 2px 3px; border-radius: 4px; color: var(--text-muted); transition: background 0.1s; }
+.ht-action-btn:hover { background: var(--surface-2); }
+
+/* % column */
+.ht-td-pct { width: 60px; min-width: 60px; padding: 8px 6px; border-right: 1px solid var(--border); text-align: center; vertical-align: middle; }
+.ht-pct-wrap { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.ht-pct-val { font-size: 0.72rem; font-weight: 700; }
+.ht-pct-bar { width: 40px; height: 3px; background: var(--surface-2); border-radius: 999px; overflow: hidden; }
+.ht-pct-fill { height: 100%; border-radius: 999px; transition: width 0.3s; }
+
+/* Checkboxes */
+.ht-td-cell { padding: 6px 2px; text-align: center; vertical-align: middle; border-right: 1px solid rgba(51,65,85,0.3); }
+.ht-checkbox {
+  width: 24px; height: 24px; border-radius: 5px; border: 1.5px solid;
+  background: transparent; display: inline-flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.12s; font-size: 0.8rem;
+}
+.ht-checkbox:hover:not(:disabled) { transform: scale(1.15); }
+.ht-checkbox.checked { }
+.ht-checkbox.future { opacity: 0.3; cursor: not-allowed; }
+.ht-check { font-weight: 800; line-height: 1; }
+.ht-na { color: var(--text-dim); font-size: 1rem; line-height: 24px; }
+
+/* Legend */
+.ht-legend {
+  display: flex; flex-wrap: wrap; gap: 16px; margin-top: 14px;
+  padding: 12px 16px; background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; font-size: 0.78rem; color: var(--text-muted);
+}
+.ht-legend-item { display: flex; align-items: center; gap: 6px; }
+.ht-legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+/* ─── Section Header ─────────────────────────────────────────────────────────── */
+.section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.section-header h2 { font-size: 1rem; font-weight: 700; color: var(--text); }
+.section-header__count { font-size: 0.8rem; color: var(--text-muted); background: var(--surface); border: 1px solid var(--border); padding: 3px 10px; border-radius: 999px; }
+
+/* ─── Empty State ────────────────────────────────────────────────────────────── */
+.empty-state { text-align: center; padding: 60px 20px; color: var(--text-muted); }
+.empty-state__icon { font-size: 3rem; margin-bottom: 14px; }
+.empty-state__title { font-size: 1.05rem; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+.empty-state__desc { font-size: 0.875rem; margin-bottom: 18px; }
+
+/* ─── Loading ────────────────────────────────────────────────────────────────── */
+.loading-wrapper { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px; gap: 14px; color: var(--text-muted); }
+.spinner { width: 36px; height: 36px; border: 3px solid var(--surface-2); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ─── Pagination ─────────────────────────────────────────────────────────────── */
+.pagination { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 20px; }
+.pagination__btn { width: 34px; height: 34px; border-radius: 7px; background: var(--surface); border: 1px solid var(--border); color: var(--text); font-size: 0.875rem; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+.pagination__btn:hover:not(:disabled) { background: var(--primary-dark); color: white; border-color: var(--primary-dark); }
+.pagination__btn.active { background: var(--primary-dark); color: white; border-color: var(--primary-dark); }
+.pagination__btn:disabled { opacity: 0.35; cursor: not-allowed; }
+.pagination__info { font-size: 0.8rem; color: var(--text-muted); margin: 0 6px; }
+
+/* ─── Responsive ─────────────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .task-board { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .app__main { padding: 14px 12px 40px; }
+  .dashboard__grid { grid-template-columns: repeat(2, 1fr); }
+  .navbar__brand-text { font-size: 0.85rem; letter-spacing: 1px; }
+  .navbar__user-name { display: none; }
+}
+
+/* ─── Navbar User &amp; Logout ─────────────────────────────────────────────────── */
+.navbar__user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--surface-2);
+  padding: 4px 10px 4px 6px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+}
+.navbar__user-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1, #a855f7);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+.navbar__user-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text);
+  max-width: 120px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.navbar__logout-btn {
+  padding: 4px 10px !important;
+  font-size: 0.75rem !important;
+  border-radius: 6px !important;
+  border-color: rgba(239, 68, 68, 0.4) !important;
+  color: #fca5a5 !important;
+  background: transparent !important;
+}
+.navbar__logout-btn:hover {
+  background: rgba(239, 68, 68, 0.15) !important;
+  border-color: #ef4444 !important;
+  color: #fff !important;
+}
+
+/* ─── Auth Page Styles ──────────────────────────────────────────────────────── */
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: #0b1120;
+  position: relative;
+  overflow: hidden;
+  font-family: &#039;Inter&#039;, system-ui, -apple-system, sans-serif;
+}
+
+.auth-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.auth-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.4;
+  animation: pulse 8s ease-in-out infinite alternate;
+}
+
+.auth-blob-1 {
+  width: 400px;
+  height: 400px;
+  top: -100px;
+  left: -50px;
+  background: radial-gradient(circle, #6366f1 0%, transparent 70%);
+}
+
+.auth-blob-2 {
+  width: 450px;
+  height: 450px;
+  bottom: -100px;
+  right: -50px;
+  background: radial-gradient(circle, #06b6d4 0%, transparent 70%);
+  animation-delay: 4s;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1) translate(0, 0); }
+  100% { transform: scale(1.15) translate(20px, 30px); }
+}
+
+.auth-card {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 440px;
+  background: rgba(30, 41, 59, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 36px 32px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 30px rgba(99, 102, 241, 0.15);
+  text-align: center;
+}
+
+.auth-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.auth-logo-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #6366f1, #06b6d4);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  font-weight: 800;
+  box-shadow: 0 0 16px rgba(99, 102, 241, 0.4);
+}
+
+.auth-logo-text {
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  background: linear-gradient(135deg, #e2e8f0 30%, #93c5fd 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0;
+}
+
+.auth-tagline {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  margin: 0 0 24px 0;
+}
+
+.auth-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: rgba(15, 23, 42, 0.7);
+  padding: 4px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.auth-tab {
+  padding: 9px;
+  border: none;
+  background: transparent;
+  color: #94a3b8;
+  font-weight: 600;
+  font-size: 0.85rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.auth-tab.active {
+  background: #6366f1;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.35);
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  text-align: left;
+}
+
+.auth-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.auth-label {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #cbd5e1;
+}
+
+.auth-input {
+  width: 100%;
+  padding: 11px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(15, 23, 42, 0.6);
+  color: #f8fafc;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.auth-input:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+  background: rgba(15, 23, 42, 0.8);
+}
+
+.auth-hint {
+  font-size: 0.72rem;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+.auth-error {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  text-align: left;
+}
+
+.auth-submit {
+  margin-top: 6px;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  color: white;
+  font-weight: 600;
+  font-size: 0.92rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+}
+
+.auth-submit:hover:not(:disabled) {
+  opacity: 0.92;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+}
+
+.auth-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.auth-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  display: inline-block;
+}
+
+.auth-switch {
+  margin-top: 20px;
+  font-size: 0.82rem;
+  color: #94a3b8;
+}
+
+.auth-link {
+  background: transparent;
+  border: none;
+  color: #818cf8;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 4px;
+  text-decoration: underline;
+}
+
+.auth-link:hover {
+  color: #a5b4fc;
+}
+
+.auth-features {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+</code></pre>
+      </div>
+    
+      <div class="code-file-section" id="file-26">
+        <div class="file-header">
+          <div class="file-header-title">
+            <span class="file-index">26</span>
+            <span class="file-category">Frontend - PWA Web Manifest</span>
+          </div>
+          <div class="file-path">frontend/public/manifest.json</div>
+        </div>
+        <pre><code class="language-json">{
+  &quot;short_name&quot;: &quot;TODO Tracker&quot;,
+  &quot;name&quot;: &quot;TO-DO-TRACKER - Habit &amp; Task Manager&quot;,
+  &quot;description&quot;: &quot;Track habits. Hit goals. Build streaks with dark theme habit tracking and progress charts.&quot;,
+  &quot;icons&quot;: [
+    {
+      &quot;src&quot;: &quot;favicon.png&quot;,
+      &quot;sizes&quot;: &quot;64x64&quot;,
+      &quot;type&quot;: &quot;image/png&quot;
+    },
+    {
+      &quot;src&quot;: &quot;favicon.ico&quot;,
+      &quot;sizes&quot;: &quot;64x64 32x32 24x24 16x16&quot;,
+      &quot;type&quot;: &quot;image/x-icon&quot;
+    },
+    {
+      &quot;src&quot;: &quot;logo192.png&quot;,
+      &quot;type&quot;: &quot;image/png&quot;,
+      &quot;sizes&quot;: &quot;192x192&quot;,
+      &quot;purpose&quot;: &quot;any maskable&quot;
+    },
+    {
+      &quot;src&quot;: &quot;logo512.png&quot;,
+      &quot;type&quot;: &quot;image/png&quot;,
+      &quot;sizes&quot;: &quot;512x512&quot;,
+      &quot;purpose&quot;: &quot;any maskable&quot;
+    }
+  ],
+  &quot;start_url&quot;: &quot;/&quot;,
+  &quot;display&quot;: &quot;standalone&quot;,
+  &quot;orientation&quot;: &quot;portrait&quot;,
+  &quot;theme_color&quot;: &quot;#0b1120&quot;,
+  &quot;background_color&quot;: &quot;#0b1120&quot;
+}
+</code></pre>
+      </div>
+    
+      <div class="code-file-section" id="file-27">
+        <div class="file-header">
+          <div class="file-header-title">
+            <span class="file-index">27</span>
+            <span class="file-category">Frontend - Package Configuration</span>
+          </div>
+          <div class="file-path">frontend/package.json</div>
+        </div>
+        <pre><code class="language-json">{
+  &quot;name&quot;: &quot;taskflow-frontend&quot;,
+  &quot;version&quot;: &quot;1.0.0&quot;,
+  &quot;private&quot;: true,
+  &quot;dependencies&quot;: {
+    &quot;@testing-library/jest-dom&quot;: &quot;^5.17.0&quot;,
+    &quot;@testing-library/react&quot;: &quot;^13.4.0&quot;,
+    &quot;@testing-library/user-event&quot;: &quot;^13.5.0&quot;,
+    &quot;axios&quot;: &quot;^1.6.2&quot;,
+    &quot;lucide-react&quot;: &quot;^0.294.0&quot;,
+    &quot;react&quot;: &quot;^18.2.0&quot;,
+    &quot;react-dom&quot;: &quot;^18.2.0&quot;,
+    &quot;react-scripts&quot;: &quot;5.0.1&quot;,
+    &quot;react-toastify&quot;: &quot;^9.1.3&quot;,
+    &quot;web-vitals&quot;: &quot;^2.1.4&quot;
+  },
+  &quot;scripts&quot;: {
+    &quot;start&quot;: &quot;react-scripts start&quot;,
+    &quot;build&quot;: &quot;react-scripts build&quot;,
+    &quot;test&quot;: &quot;react-scripts test&quot;,
+    &quot;eject&quot;: &quot;react-scripts eject&quot;
+  },
+  &quot;eslintConfig&quot;: {
+    &quot;extends&quot;: [&quot;react-app&quot;, &quot;react-app/jest&quot;],
+    &quot;rules&quot;: {
+      &quot;no-unused-vars&quot;: &quot;warn&quot;
+    }
+  },
+  &quot;browserslist&quot;: {
+    &quot;production&quot;: [&quot;&gt;0.2%&quot;, &quot;not dead&quot;, &quot;not op_mini all&quot;],
+    &quot;development&quot;: [&quot;last 1 chrome version&quot;, &quot;last 1 firefox version&quot;, &quot;last 1 safari version&quot;]
+  },
+  &quot;proxy&quot;: &quot;http://localhost:5000&quot;
+}
+</code></pre>
+      </div>
+    
+      <div class="code-file-section" id="file-28">
+        <div class="file-header">
+          <div class="file-header-title">
+            <span class="file-index">28</span>
+            <span class="file-category">Backend - Package Configuration</span>
+          </div>
+          <div class="file-path">backend/package.json</div>
+        </div>
+        <pre><code class="language-json">{
+  &quot;name&quot;: &quot;taskflow-backend&quot;,
+  &quot;version&quot;: &quot;1.0.0&quot;,
+  &quot;description&quot;: &quot;TaskFlow - Cloud-Based Task Management System Backend&quot;,
+  &quot;main&quot;: &quot;server.js&quot;,
+  &quot;scripts&quot;: {
+    &quot;start&quot;: &quot;node server.js&quot;,
+    &quot;dev&quot;: &quot;nodemon server.js&quot;
+  },
+  &quot;dependencies&quot;: {
+    &quot;bcryptjs&quot;: &quot;^3.0.3&quot;,
+    &quot;cors&quot;: &quot;^2.8.5&quot;,
+    &quot;dotenv&quot;: &quot;^16.3.1&quot;,
+    &quot;express&quot;: &quot;^4.18.2&quot;,
+    &quot;express-validator&quot;: &quot;^7.0.1&quot;,
+    &quot;helmet&quot;: &quot;^7.1.0&quot;,
+    &quot;jsonwebtoken&quot;: &quot;^9.0.3&quot;,
+    &quot;mongoose&quot;: &quot;^8.0.3&quot;,
+    &quot;morgan&quot;: &quot;^1.10.0&quot;
+  },
+  &quot;devDependencies&quot;: {
+    &quot;nodemon&quot;: &quot;^3.0.2&quot;
+  },
+  &quot;keywords&quot;: [
+    &quot;cloud&quot;,
+    &quot;taskmanagement&quot;,
+    &quot;nodejs&quot;,
+    &quot;mongodb&quot;
+  ],
+  &quot;author&quot;: &quot;TaskFlow Team&quot;,
+  &quot;license&quot;: &quot;MIT&quot;
+}
+</code></pre>
+      </div>
+    
+
+    <div style="margin-top: 50px; padding-top: 20px; border-top: 2px solid var(--border); text-align: center; color: var(--text-muted); font-size: 0.85rem;">
+      BACSE344 Cloud Infrastructure and Architecture — Digital Assignment | Student: Aniket Mohanty (25BCE5816)
+    </div>
+  </div>
+
+</body>
+</html>
