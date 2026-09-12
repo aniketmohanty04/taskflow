@@ -1,42 +1,52 @@
-<<<<<<< HEAD
-# TaskFlow — Cloud-Based Task Management System
+# TO-DO-TRACKER — Cloud-Based Habit & Task Management System
+### BACSE344 — Cloud Infrastructure and Architecture | Digital Assignment
 
-## 📌 Problem Statement
-Managing tasks across teams is complex and error-prone when done manually. **TaskFlow** is a cloud-based task management web application that allows teams to create, track, update, and delete tasks in real-time with a clean Kanban board and list view interface.
+| Submission Metadata | Details |
+|---|---|
+| **Student Name** | **ANIKET MOHANTY** |
+| **Registration Number** | **25BCE5816** |
+| **Course Code & Title** | BACSE344 — Cloud Infrastructure and Architecture |
+| **Slot** | C1 |
+| **Faculty** | Dr. P. Anandan |
+| **Frontend Live URL** | [https://taskflow-alpha-dun.vercel.app](https://taskflow-alpha-dun.vercel.app) |
+| **Backend Live API** | [https://taskflow-backend-9huw.onrender.com/api/health](https://taskflow-backend-9huw.onrender.com/api/health) |
+| **Cloud Database** | MongoDB Atlas (`cluster0.cugknam.mongodb.net` — AWS Mumbai `ap-south-1`) |
+| **Source Code** | [https://github.com/aniketmohanty04/taskflow](https://github.com/aniketmohanty04/taskflow) |
 
 ---
 
-## 🏗️ System Architecture
+## 📌 Problem Statement
+Managing daily habits and long-term tasks across individuals and teams is fragmented and ineffective when done manually. **TO-DO-TRACKER** is a production cloud-based full-stack web application that allows users to:
+1. Track **fixed daily habits** and **variable weekly tasks** on a monthly checkbox grid.
+2. Visualize consistency with a dynamic **30-day SVG Area Progress Chart**.
+3. Manage ad-hoc tasks using a full **Kanban Board** (To Do / In Progress / Completed).
+4. Securely isolate user data with **JWT Authentication** and **bcrypt** password encryption.
+
+---
+
+## 🏗️ 3-Tier Cloud Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                        CLIENT (Browser)                         │
-│              React.js SPA — Hosted on Vercel                    │
+│              TIER 1: PRESENTATION LAYER (Vercel CDN)            │
+│              https://taskflow-alpha-dun.vercel.app              │
+│  React.js 18 SPA • PWA Offline Ready • Dark Theme Glassmorphism │
 └─────────────────────┬───────────────────────────────────────────┘
-                      │  HTTPS REST API Calls (Axios)
+                      │  HTTPS REST API Calls (Axios + JWT Bearer)
                       ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│                   BACKEND (Node.js + Express)                   │
-│                   Hosted on Render.com                          │
-│                                                                 │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌───────────────┐  │
-│  │  Helmet  │  │   CORS   │  │  Morgan  │  │express-validator│  │
-│  └──────────┘  └──────────┘  └──────────┘  └───────────────┘  │
-│                                                                 │
-│  ┌──────────────────────────────────────────────────────────┐  │
-│  │                    Express Router                         │  │
-│  │  GET/POST/PUT/PATCH/DELETE /api/tasks                    │  │
-│  │  GET/POST/PUT/DELETE       /api/users                    │  │
-│  └──────────────────────────────────────────────────────────┘  │
+│              TIER 2: APPLICATION LAYER (Render PaaS)            │
+│              https://taskflow-backend-9huw.onrender.com         │
+│  Node.js + Express • JWT Middleware • Helmet • CORS • Morgan    │
+│  18+ REST Endpoints (/api/auth, /api/habits, /api/completions)   │
 └─────────────────────┬───────────────────────────────────────────┘
-                      │  Mongoose ODM
+                      │  Mongoose ODM (TLS Encrypted)
                       ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│                  MongoDB Atlas (Cloud Database)                  │
-│              Cluster on AWS ap-south-1 (Mumbai)                 │
-│                                                                 │
-│   Collections: tasks, users                                     │
-│   Indexes: status, priority, userId, createdAt                  │
+│              TIER 3: DATA LAYER (MongoDB Atlas DBaaS)           │
+│              AWS ap-south-1 (Mumbai Region)                     │
+│  Collections: authusers, habittasks, dailycompletions, tasks    │
+│  Compound Indexes & Multi-Tenant User Isolation                 │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
@@ -44,14 +54,13 @@ Managing tasks across teams is complex and error-prone when done manually. **Tas
 
 ## 🚀 Tech Stack
 
-| Layer       | Technology          | Cloud Service       |
-|-------------|---------------------|---------------------|
-| Frontend    | React.js 18         | Vercel (Free Tier)  |
-| Backend     | Node.js + Express   | Render.com          |
-| Database    | MongoDB             | MongoDB Atlas       |
-| HTTP Client | Axios               | —                   |
-| CSS         | Custom CSS          | —                   |
-| Notifications | react-toastify   | —                   |
+| Layer | Technology | Cloud Service / Hosting |
+|---|---|---|
+| **Frontend** | React.js 18, Axios, SVG Charts, Lucide | Vercel (Global Edge CDN) |
+| **Backend** | Node.js 18, Express.js, JWT, bcryptjs | Render.com (PaaS) |
+| **Database** | MongoDB Atlas, Mongoose ODM | AWS Mumbai (`ap-south-1`) |
+| **CI / CD** | Git, GitHub Actions & Webhooks | GitHub |
+| **Security** | Helmet.js, CORS, Express-Validator | Cloud-Managed TLS/HTTPS |
 
 ---
 

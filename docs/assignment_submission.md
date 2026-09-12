@@ -1,6 +1,18 @@
 # BACSE344 — Cloud Infrastructure and Architecture
-## Digital Assignment — TO-DO-TRACKER
-**Faculty:** Dr. P. Anandan | **Slot:** C1 | **Marks: 10/10**
+## Digital Assignment: TO-DO-TRACKER (Cloud Habit & Task Management System)
+
+| Student & Submission Metadata | Details |
+|---|---|
+| **Student Name** | **ANIKET MOHANTY** |
+| **Registration Number** | **25BCE5816** |
+| **Course Code & Title** | BACSE344 — Cloud Infrastructure and Architecture |
+| **Slot** | C1 |
+| **Faculty** | Dr. P. Anandan |
+| **Assessment Marks** | 10 / 10 |
+| **Frontend Production URL** | [https://taskflow-alpha-dun.vercel.app](https://taskflow-alpha-dun.vercel.app) |
+| **Backend API Live URL** | [https://taskflow-backend-9huw.onrender.com/api](https://taskflow-backend-9huw.onrender.com/api) |
+| **Cloud Database** | MongoDB Atlas (`cluster0.cugknam.mongodb.net` — AWS ap-south-1) |
+| **Source Code Repository** | [https://github.com/aniketmohanty04/taskflow](https://github.com/aniketmohanty04/taskflow) |
 
 ---
 
