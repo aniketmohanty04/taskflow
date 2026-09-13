@@ -1,0 +1,193 @@
+<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+<head>
+<meta charset="utf-8">
+<title>Database Design and CRUD Operations Table</title>
+<!--[if gte mso 9]>
+<xml>
+<w:WordDocument>
+<w:View>Print</w:View>
+<w:Zoom>100</w:Zoom>
+<w:DoNotOptimizeForBrowser/>
+</w:WordDocument>
+</xml>
+<![endif]-->
+<style>
+  body {
+    font-family: 'Calibri', 'Segoe UI', Arial, sans-serif;
+    font-size: 11pt;
+    color: #1a1a1a;
+    line-height: 1.3;
+  }
+  h2 {
+    color: #1f4e79;
+    font-size: 16pt;
+    border-bottom: 2pt solid #1f4e79;
+    padding-bottom: 4pt;
+    margin-bottom: 12pt;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 10pt;
+    font-size: 10pt;
+  }
+  th {
+    background-color: #1f4e79;
+    color: #ffffff;
+    font-weight: bold;
+    text-align: left;
+    padding: 8pt 10pt;
+    border: 1pt solid #1f4e79;
+  }
+  td {
+    padding: 7pt 9pt;
+    border: 1pt solid #d9d9d9;
+    vertical-align: top;
+  }
+  tr:nth-child(even) td {
+    background-color: #f2f7fa;
+  }
+  code {
+    font-family: 'Consolas', 'Courier New', monospace;
+    color: #c00000;
+    background-color: #f2f2f2;
+    padding: 1pt 3pt;
+    font-size: 9.5pt;
+  }
+  .entity-header {
+    font-weight: bold;
+    color: #1f4e79;
+    font-size: 10.5pt;
+  }
+  .op-badge {
+    font-weight: bold;
+    color: #2e75b6;
+  }
+</style>
+</head>
+<body>
+
+<h2>Database Entities, CRUD Operations & Implementation Details</h2>
+<p><strong>Course:</strong> BACSE344 — Cloud Infrastructure and Architecture | <strong>Student:</strong> ANIKET MOHANTY (25BCE5816)</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="width: 18%;">Entity / Collection</th>
+      <th style="width: 12%;">Operation</th>
+      <th style="width: 25%;">HTTP Method & Endpoint</th>
+      <th style="width: 45%;">Implementation Details (Mongoose ODM & Logic)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- AuthUser -->
+    <tr>
+      <td rowspan="3"><span class="entity-header">AuthUser</span><br><code>authusers</code></td>
+      <td><span class="op-badge">CREATE</span></td>
+      <td><code>POST /api/auth/register</code></td>
+      <td><code>AuthUser.create({ name, email, password })</code><br>• Pre-save hook hashes password via <code>bcrypt.hash(pwd, 12)</code><br>• Issues signed 7-day JWT bearer token</td>
+    </tr>
+    <tr>
+      <td><span class="op-badge">READ</span></td>
+      <td><code>POST /api/auth/login</code></td>
+      <td><code>AuthUser.findOne({ email }).select('+password')</code><br>• Compares via <code>bcrypt.compare(candidate, hash)</code><br>• Returns signed JWT upon successful match</td>
+    </tr>
+    <tr>
+      <td><span class="op-badge">READ</span></td>
+      <td><code>GET /api/auth/me</code></td>
+      <td><code>AuthUser.findById(req.user.id)</code><br>• Validates token via JWT authentication middleware</td>
+    </tr>
+
+    <!-- HabitTask -->
+    <tr>
+      <td rowspan="5"><span class="entity-header">HabitTask</span><br><code>habittasks</code></td>
+      <td><span class="op-badge">CREATE</span></td>
+      <td><code>POST /api/habits</code></td>
+      <td><code>HabitTask.create({ name, type, scheduledDays, color, order, userId: req.user.id })</code><br>• Auto-assigns order from <code>countDocuments</code></td>
+    </tr>
+    <tr>
+      <td><span class="op-badge">READ</span></td>
+      <td><code>GET /api/habits</code></td>
+      <td><code>HabitTask.find({ userId: req.user.id, isActive: true }).sort({ order: 1 })</code><br>• Optimized by compound index <code>{ userId: 1, order: 1 }</code></td>
+    </tr>
+    <tr>
+      <td><span class="op-badge">UPDATE</span></td>
+      <td><code>PUT /api/habits/:id</code></td>
+      <td><code>HabitTask.findOneAndUpdate({ _id: id, userId: req.user.id }, req.body, { new: true })</code><br>• Strict multi-tenant user isolation</td>
+    </tr>
+    <tr>
+      <td><span class="op-badge">UPDATE</span></td>
+      <td><code>PATCH /api/habits/:id/order</code></td>
+      <td><code>HabitTask.findOneAndUpdate({ _id: id, userId: req.user.id }, { order: req.body.order }, { new: true })</code></td>
+    </tr>
+    <tr>
+      <td><span class="op-badge">DELETE</span></td>
+      <td><code>DELETE /api/habits/:id</code></td>
+      <td><code>HabitTask.findOneAndUpdate({ _id: id, userId: req.user.id }, { isActive: false }, { new: true })</code><br>• <strong>Soft Delete:</strong> preserves historical completion analytics</td>
+    </tr>
+
+    <!-- DailyCompletion -->
+    <tr>
+      <td rowspan="4"><span class="entity-header">DailyCompletion</span><br><code>dailycompletions</code></td>
+      <td><span class="op-badge">CREATE / UPDATE</span></td>
+      <td><code>POST /api/completions/toggle</code></td>
+      <td><strong>Atomic Toggle:</strong><br>1. Verifies ownership via <code>HabitTask.findOne({ _id: taskId, userId: req.user.id })</code><br>2. If existing: inverts <code>completed = !completed</code><br>3. If new: creates completion with <code>userId: req.user.id</code><br>• Unique compound index <code>{ taskId: 1, date: 1 }</code> prevents duplicates</td>
+    </tr>
+    <tr>
+      <td><span class="op-badge">READ</span></td>
+      <td><code>GET /api/completions?month=YYYY-MM</code></td>
+      <td><code>DailyCompletion.find({ taskId: { $in: userTaskIds }, date: { $regex: '^YYYY-MM' }, completed: true }).lean()</code></td>
+    </tr>
+    <tr>
+      <td><span class="op-badge">READ</span></td>
+      <td><code>GET /api/completions/chart?days=30</code></td>
+      <td>Time-series calculation:<br>• For each day: counts completed vs scheduled tasks<br>• Computes daily percentage: <code>(completed / total) * 100</code></td>
+    </tr>
+    <tr>
+      <td><span class="op-badge">READ</span></td>
+      <td><code>GET /api/completions/streak/:taskId</code></td>
+      <td>While loop checking consecutive days backwards:<br><code>DailyCompletion.findOne({ taskId, date, completed: true })</code></td>
+    </tr>
+
+    <!-- Task -->
+    <tr>
+      <td rowspan="7"><span class="entity-header">Task</span><br><code>tasks</code></td>
+      <td><span class="op-badge">CREATE</span></td>
+      <td><code>POST /api/tasks</code></td>
+      <td><code>Task.create({ title, description, status, priority, category, dueDate, userId: req.user.id })</code></td>
+    </tr>
+    <tr>
+      <td><span class="op-badge">READ</span></td>
+      <td><code>GET /api/tasks</code></td>
+      <td><code>Task.find({ userId: req.user.id, ...filters }).sort({ [sortBy]: order }).skip(skip).limit(limit).lean()</code><br>• Server-side pagination and regex title search</td>
+    </tr>
+    <tr>
+      <td><span class="op-badge">READ</span></td>
+      <td><code>GET /api/tasks/:id</code></td>
+      <td><code>Task.findOne({ _id: id, userId: req.user.id })</code></td>
+    </tr>
+    <tr>
+      <td><span class="op-badge">UPDATE</span></td>
+      <td><code>PUT /api/tasks/:id</code></td>
+      <td><code>Task.findOneAndUpdate({ _id: id, userId: req.user.id }, req.body, { new: true, runValidators: true })</code></td>
+    </tr>
+    <tr>
+      <td><span class="op-badge">UPDATE</span></td>
+      <td><code>PATCH /api/tasks/:id</code></td>
+      <td><code>Task.findOneAndUpdate({ _id: id, userId: req.user.id }, { $set: allowedUpdates }, { new: true })</code></td>
+    </tr>
+    <tr>
+      <td><span class="op-badge">DELETE</span></td>
+      <td><code>DELETE /api/tasks/:id</code></td>
+      <td><code>Task.findOneAndDelete({ _id: id, userId: req.user.id })</code></td>
+    </tr>
+    <tr>
+      <td><span class="op-badge">AGGREGATE</span></td>
+      <td><code>GET /api/tasks/stats</code></td>
+      <td>Aggregation Pipeline:<br><code>Task.aggregate([{ $match: { userId: req.user.id } }, { $group: { _id: '$status', count: { $sum: 1 } } }])</code><br>• Computes completion rate, overdue tasks, status breakdown</td>
+    </tr>
+  </tbody>
+</table>
+
+</body>
+</html>

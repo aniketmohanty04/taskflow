@@ -1,0 +1,177 @@
+<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+<head>
+<meta charset="utf-8">
+<title>RESTful API Documentation - BACSE344</title>
+<!--[if gte mso 9]>
+<xml>
+<w:WordDocument>
+<w:View>Print</w:View>
+<w:Zoom>100</w:Zoom>
+<w:DoNotOptimizeForBrowser/>
+</w:WordDocument>
+</xml>
+<![endif]-->
+<style>
+  body {
+    font-family: 'Calibri', 'Segoe UI', Arial, sans-serif;
+    font-size: 11pt;
+    color: #1a1a1a;
+    line-height: 1.35;
+  }
+  h1 { font-size: 18pt; color: #1f4e79; border-bottom: 2pt solid #1f4e79; padding-bottom: 4pt; }
+  h2 { font-size: 14pt; color: #2e75b6; margin-top: 18pt; border-bottom: 1pt solid #b4c6e7; padding-bottom: 3pt; }
+  h3 { font-size: 12pt; color: #1f4e79; margin-top: 14pt; }
+  table { border-collapse: collapse; width: 100%; margin-top: 8pt; margin-bottom: 12pt; font-size: 10pt; }
+  th { background-color: #1f4e79; color: #ffffff; font-weight: bold; text-align: left; padding: 6pt 8pt; border: 1pt solid #1f4e79; }
+  td { padding: 6pt 8pt; border: 1pt solid #d9d9d9; vertical-align: top; }
+  tr:nth-child(even) td { background-color: #f2f7fa; }
+  pre {
+    background-color: #f8fafc;
+    border: 1pt solid #d9d9d9;
+    padding: 8pt 10pt;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 9pt;
+    line-height: 1.3;
+    margin: 6pt 0;
+  }
+  code {
+    font-family: 'Consolas', 'Courier New', monospace;
+    color: #c00000;
+    background-color: #f2f2f2;
+    padding: 1pt 3pt;
+    font-size: 9.5pt;
+  }
+  .badge-get { background-color: #e2f0d9; color: #385723; font-weight: bold; padding: 2pt 5pt; border-radius: 3pt; }
+  .badge-post { background-color: #deebf7; color: #1f4e79; font-weight: bold; padding: 2pt 5pt; border-radius: 3pt; }
+  .badge-put { background-color: #fff2cc; color: #806000; font-weight: bold; padding: 2pt 5pt; border-radius: 3pt; }
+  .badge-patch { background-color: #fce4d6; color: #c65911; font-weight: bold; padding: 2pt 5pt; border-radius: 3pt; }
+  .badge-delete { background-color: #f8cbad; color: #c00000; font-weight: bold; padding: 2pt 5pt; border-radius: 3pt; }
+</style>
+</head>
+<body>
+
+<h1>RESTful API Documentation — TO-DO-TRACKER</h1>
+<p><strong>Course:</strong> BACSE344 — Cloud Infrastructure and Architecture | <strong>Slot:</strong> C1 | <strong>Faculty:</strong> Dr. P. Anandan<br>
+<strong>Student Name:</strong> ANIKET MOHANTY | <strong>Registration Number:</strong> 25BCE5816<br>
+<strong>Production Base URL:</strong> <code>https://taskflow-backend-9huw.onrender.com/api</code></p>
+
+<h2>1. Overview & Authentication</h2>
+<p>The TO-DO-TRACKER API is a stateless RESTful interface communicating over HTTPS/TLS 1.3 with JSON payloads. Protected endpoints enforce multi-tenant isolation via cryptographic JSON Web Tokens (JWT) passed in the HTTP Authorization header:</p>
+<pre>Authorization: Bearer &lt;jwt_token&gt;</pre>
+
+<h2>2. Complete API Endpoint Summary Table</h2>
+<table>
+  <thead>
+    <tr>
+      <th style="width: 12%;">Method</th>
+      <th style="width: 32%;">Endpoint Path</th>
+      <th style="width: 38%;">Functionality / Description</th>
+      <th style="width: 18%;">Auth Required</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><span class="badge-get">GET</span></td><td><code>/api/health</code></td><td>Monitors server uptime and live MongoDB Atlas connection</td><td>No (Public)</td></tr>
+    <tr><td><span class="badge-post">POST</span></td><td><code>/api/auth/register</code></td><td>Registers user with bcrypt password hashing (12 rounds) & returns JWT</td><td>No (Public)</td></tr>
+    <tr><td><span class="badge-post">POST</span></td><td><code>/api/auth/login</code></td><td>Authenticates credentials and returns signed JWT token</td><td>No (Public)</td></tr>
+    <tr><td><span class="badge-get">GET</span></td><td><code>/api/auth/me</code></td><td>Returns authenticated user profile information</td><td>Yes (Bearer)</td></tr>
+    <tr><td><span class="badge-get">GET</span></td><td><code>/api/habits</code></td><td>Lists all active habit tasks for the logged-in user</td><td>Yes (Bearer)</td></tr>
+    <tr><td><span class="badge-post">POST</span></td><td><code>/api/habits</code></td><td>Creates a new fixed or variable recurring habit task</td><td>Yes (Bearer)</td></tr>
+    <tr><td><span class="badge-put">PUT</span></td><td><code>/api/habits/:id</code></td><td>Updates habit name, type, scheduled days, or color</td><td>Yes (Bearer)</td></tr>
+    <tr><td><span class="badge-patch">PATCH</span></td><td><code>/api/habits/:id/order</code></td><td>Updates custom sequential ordering of habits</td><td>Yes (Bearer)</td></tr>
+    <tr><td><span class="badge-delete">DELETE</span></td><td><code>/api/habits/:id</code></td><td>Soft-deletes habit (isActive: false) to preserve historical data</td><td>Yes (Bearer)</td></tr>
+    <tr><td><span class="badge-get">GET</span></td><td><code>/api/completions</code></td><td>Retrieves completed checkmarks for the user's habits in a month</td><td>Yes (Bearer)</td></tr>
+    <tr><td><span class="badge-get">GET</span></td><td><code>/api/completions/chart</code></td><td>Computes 30-day percentage completion time-series for SVG chart</td><td>Yes (Bearer)</td></tr>
+    <tr><td><span class="badge-post">POST</span></td><td><code>/api/completions/toggle</code></td><td>Atomically toggles completion status for habit on a specific date</td><td>Yes (Bearer)</td></tr>
+    <tr><td><span class="badge-get">GET</span></td><td><code>/api/completions/streak/:id</code></td><td>Calculates current consecutive day streak for a habit</td><td>Yes (Bearer)</td></tr>
+    <tr><td><span class="badge-get">GET</span></td><td><code>/api/tasks</code></td><td>Lists Kanban tasks with server-side filtering, sorting & pagination</td><td>Yes (Bearer)</td></tr>
+    <tr><td><span class="badge-post">POST</span></td><td><code>/api/tasks</code></td><td>Creates a new Kanban task item</td><td>Yes (Bearer)</td></tr>
+    <tr><td><span class="badge-get">GET</span></td><td><code>/api/tasks/:id</code></td><td>Retrieves single task details (ownership verified)</td><td>Yes (Bearer)</td></tr>
+    <tr><td><span class="badge-put">PUT</span></td><td><code>/api/tasks/:id</code></td><td>Full update of task title, description, priority, and due date</td><td>Yes (Bearer)</td></tr>
+    <tr><td><span class="badge-patch">PATCH</span></td><td><code>/api/tasks/:id</code></td><td>Partial status update (todo ➔ in-progress ➔ completed)</td><td>Yes (Bearer)</td></tr>
+    <tr><td><span class="badge-delete">DELETE</span></td><td><code>/api/tasks/:id</code></td><td>Deletes a specific Kanban task</td><td>Yes (Bearer)</td></tr>
+    <tr><td><span class="badge-get">GET</span></td><td><code>/api/tasks/stats</code></td><td>Aggregation pipeline calculating total, overdue, and status counts</td><td>Yes (Bearer)</td></tr>
+  </tbody>
+</table>
+
+<h2>3. Sample API Requests & Responses</h2>
+
+<h3>3.1 POST /api/auth/register (User Registration)</h3>
+<p><strong>Request Body:</strong></p>
+<pre>{
+  "name": "Aniket Mohanty",
+  "email": "aniket@example.com",
+  "password": "SecurePassword123"
+}</pre>
+<p><strong>Response (201 Created):</strong></p>
+<pre>{
+  "success": true,
+  "message": "Account created successfully!",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "user": {
+    "id": "6aa44de754b6ef26c89ed5c4",
+    "name": "Aniket Mohanty",
+    "email": "aniket@example.com"
+  }
+}</pre>
+
+<h3>3.2 POST /api/habits (Create Recurring Habit)</h3>
+<p><strong>Request Body:</strong></p>
+<pre>{
+  "name": "Cloud Computing Lab",
+  "type": "variable",
+  "scheduledDays": [1, 3, 5],
+  "color": "#34d399"
+}</pre>
+<p><strong>Response (201 Created):</strong></p>
+<pre>{
+  "success": true,
+  "message": "Habit task created",
+  "data": {
+    "_id": "6aa4534aaf80b1f1f0e0df42",
+    "name": "Cloud Computing Lab",
+    "type": "variable",
+    "scheduledDays": [1, 3, 5],
+    "color": "#34d399",
+    "order": 0,
+    "userId": "6aa44de754b6ef26c89ed5c4",
+    "isActive": true
+  }
+}</pre>
+
+<h3>3.3 POST /api/completions/toggle (Atomic Checkbox Toggle)</h3>
+<p><strong>Request Body:</strong></p>
+<pre>{
+  "taskId": "6aa4534aaf80b1f1f0e0df42",
+  "date": "2026-09-13"
+}</pre>
+<p><strong>Response (200 OK):</strong></p>
+<pre>{
+  "success": true,
+  "data": {
+    "_id": "6aa511bc...",
+    "taskId": "6aa4534aaf80b1f1f0e0df42",
+    "date": "2026-09-13",
+    "completed": true,
+    "userId": "6aa44de754b6ef26c89ed5c4"
+  }
+}</pre>
+
+<h3>3.4 GET /api/tasks/stats (Dashboard Analytics Pipeline)</h3>
+<p><strong>Response (200 OK):</strong></p>
+<pre>{
+  "success": true,
+  "data": {
+    "total": 12,
+    "overdue": 1,
+    "byStatus": { "todo": 4, "in-progress": 3, "completed": 5 },
+    "byPriority": { "low": 2, "medium": 6, "high": 4 },
+    "completionRate": "41.7"
+  }
+}</pre>
+
+<div style="margin-top: 30pt; padding-top: 10pt; border-top: 1pt solid #d9d9d9; text-align: center; font-size: 9pt; color: #7f7f7f;">
+  BACSE344 Cloud Infrastructure and Architecture — Digital Assignment | Student: ANIKET MOHANTY (25BCE5816)
+</div>
+
+</body>
+</html>
