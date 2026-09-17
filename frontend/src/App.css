@@ -550,6 +550,22 @@ textarea.form-control { resize: vertical; min-height: 75px; }
   text-align: left;
 }
 
+.auth-slow-msg {
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  color: #fcd34d;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  text-align: center;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
 .auth-submit {
   margin-top: 6px;
   padding: 12px;

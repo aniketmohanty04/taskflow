@@ -5,6 +5,7 @@ export default function LoginPage({ onLogin }) {
   const [mode, setMode] = useState('login'); // 'login' | 'register'
   const [form, setForm] = useState({ name: '', email: '', password: '' });
   const [loading, setLoading] = useState(false);
+  const [slowRequest, setSlowRequest] = useState(false);
   const [error, setError] = useState('');
 
   const set = (field) => (e) => {
@@ -19,6 +20,8 @@ export default function LoginPage({ onLogin }) {
     if (form.password.length < 6) { setError('Password must be at least 6 characters'); return; }
 
     setLoading(true);
+    setSlowRequest(false);
+    const slowTimer = setTimeout(() => setSlowRequest(true), 5000);
     try {
       const res = mode === 'login'
         ? await authAPI.login({ email: form.email, password: form.password })
@@ -31,6 +34,8 @@ export default function LoginPage({ onLogin }) {
     } catch (err) {
       setError(err.response?.data?.message || err.message || 'Something went wrong');
     } finally {
+      clearTimeout(slowTimer);
+      setSlowRequest(false);
       setLoading(false);
     }
   };
@@ -99,6 +104,12 @@ export default function LoginPage({ onLogin }) {
               : mode === 'login' ? '🚀 Sign In' : '✨ Create Account'
             }
           </button>
+
+          {slowRequest && (
+            <div className="auth-slow-msg">
+              ☕ Server is waking up — free tier cold start, please wait...
+            </div>
+          )}
         </form>
 
         {/* Switch mode */}
