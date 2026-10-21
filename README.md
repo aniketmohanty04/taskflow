@@ -9,7 +9,7 @@
 | **Slot** | C1 |
 | **Faculty** | Dr. P. Anandan |
 | **Frontend Live URL** | [https://taskflow-alpha-dun.vercel.app](https://taskflow-alpha-dun.vercel.app) |
-| **Backend Live API** | [https://taskflow-backend-9huw.onrender.com/api/health](https://taskflow-backend-9huw.onrender.com/api/health) |
+| **Backend Live API** | [https://taskflow-backend-v2.onrender.com/api/health](https://taskflow-backend-v2.onrender.com/api/health) |
 | **Cloud Database** | MongoDB Atlas (`cluster0.cugknam.mongodb.net` — AWS Mumbai `ap-south-1`) |
 | **Source Code** | [https://github.com/aniketmohanty04/taskflow](https://github.com/aniketmohanty04/taskflow) |
 
@@ -36,7 +36,7 @@ Managing daily habits and long-term tasks across individuals and teams is fragme
                       ▼
 ┌─────────────────────────────────────────────────────────────────┐
 │              TIER 2: APPLICATION LAYER (Render PaaS)            │
-│              https://taskflow-backend-9huw.onrender.com         │
+│              https://taskflow-backend-v2.onrender.com            │
 │  Node.js + Express • JWT Middleware • Helmet • CORS • Morgan    │
 │  18+ REST Endpoints (/api/auth, /api/habits, /api/completions)   │
 └─────────────────────┬───────────────────────────────────────────┘
