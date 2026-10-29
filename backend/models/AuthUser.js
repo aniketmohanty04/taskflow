@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+﻿const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
 const authUserSchema = new mongoose.Schema(
@@ -22,8 +22,25 @@ const authUserSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Password is required'],
       minlength: 6,
-      select: false  // never returned in queries by default
+      select: false
     },
+    role: {
+      type: String,
+      enum: ['user', 'admin'],
+      default: 'user'
+    },
+    mfaEnabled: {
+      type: Boolean,
+      default: false
+    },
+    mfaSecret: {
+      type: String,
+      select: false
+    },
+mfaPendingSecret: {
+  type: String,
+  select: false
+},
     avatar: {
       type: String,
       default: ''
@@ -32,15 +49,13 @@ const authUserSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// Hash password before save
-authUserSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) return next();
-  this.password = await bcrypt.hash(this.password, 12);
-  next();
+authUserSchema.pre('save', async function () {
+  if (this.isModified('password')) {
+    this.password = await bcrypt.hash(this.password, 12);
+  }
 });
 
-// Compare password method
-authUserSchema.methods.comparePassword = async function (candidatePassword) {
+authUserSchema.methods.comparePassword = function (candidatePassword) {
   return bcrypt.compare(candidatePassword, this.password);
 };
 

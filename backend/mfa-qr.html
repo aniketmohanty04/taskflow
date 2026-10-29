@@ -1,0 +1,16 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TaskFlow MFA Setup</title>
+</head>
+<body>
+  <h2>TaskFlow MFA Setup</h2>
+  <p>Scan this QR code with your authenticator app.</p>
+  <img id="qr" alt="MFA QR code">
+  <script>
+    document.getElementById('qr').src =
+      prompt('Paste the complete qrCodeDataUrl value from Thunder Client:');
+  </script>
+</body>
+</html>

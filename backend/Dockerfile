@@ -1,28 +1,27 @@
-# ─── TaskFlow Backend Dockerfile ───────────────────────────────────────────────
-# Multi-stage / lightweight Node.js 20 Alpine Linux image
+
+# Lightweight Node.js Alpine image
 FROM node:20-alpine
 
-# Set working directory inside container
+ENV NODE_ENV=production
 WORKDIR /app
 
-# Install curl for container health check probes
+# Keep curl because the Docker health check uses it
 RUN apk add --no-cache curl
 
-# Copy dependency manifests first to leverage Docker layer caching
+# Install production dependencies
 COPY package*.json ./
+RUN npm ci --omit=dev && npm cache clean --force
 
-# Install production dependencies only
-RUN npm ci --omit=dev || npm install --omit=dev
+# Copy application files with correct ownership
+COPY --chown=node:node . .
 
-# Copy backend application source code
-COPY . .
+# Run the application without root privileges
+USER node
 
-# Expose internal Express port
 EXPOSE 5000
 
-# Container-level health check (verifies HTTP 200 and MongoDB Atlas connection)
 HEALTHCHECK --interval=10s --timeout=5s --start-period=15s --retries=3 \
   CMD curl -f http://localhost:5000/api/health || exit 1
 
-# Start the Express server
-CMD ["npm", "start"]
+CMD ["node", "server.js"]
+

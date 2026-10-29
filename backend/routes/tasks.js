@@ -1,4 +1,4 @@
-const express = require('express');
+﻿const express = require('express');
 const router = express.Router();
 const { body, validationResult } = require('express-validator');
 const Task = require('../models/Task');
@@ -7,7 +7,19 @@ const auth = require('../middleware/auth');
 // Protect all task routes with JWT auth
 router.use(auth);
 
-// ─── Validation Middleware ─────────────────────────────────────────────────────
+/*
+ * Admin-only endpoint for demonstrating role-based access control.
+ * GET /api/tasks/admin/check
+ */
+router.get('/admin/check', auth.authorize('admin'), (req, res) => {
+  res.json({
+    success: true,
+    message: 'Admin authorization successful.',
+    role: req.user.role
+  });
+});
+
+
 const validateTask = [
   body('title')
     .trim()
@@ -51,9 +63,6 @@ const handleValidationErrors = (req, res, next) => {
   next();
 };
 
-// ─────────────────────────────────────────────────────────────────────────────
-// GET /api/tasks — Fetch all tasks for the logged in user with filters & paging
-// ─────────────────────────────────────────────────────────────────────────────
 router.get('/', async (req, res, next) => {
   try {
     const {
@@ -112,9 +121,6 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-// ─────────────────────────────────────────────────────────────────────────────
-// GET /api/tasks/stats — Dashboard statistics for the logged in user
-// ─────────────────────────────────────────────────────────────────────────────
 router.get('/stats', async (req, res, next) => {
   try {
     const [statusStats, priorityStats, totalCount, overdueCount] = await Promise.all([
@@ -158,9 +164,6 @@ router.get('/stats', async (req, res, next) => {
   }
 });
 
-// ─────────────────────────────────────────────────────────────────────────────
-// GET /api/tasks/:id — Fetch single task for the logged in user
-// ─────────────────────────────────────────────────────────────────────────────
 router.get('/:id', async (req, res, next) => {
   try {
     const task = await Task.findOne({ _id: req.params.id, userId: req.user.id });
@@ -179,9 +182,6 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
-// ─────────────────────────────────────────────────────────────────────────────
-// POST /api/tasks — Create a new task tied to the logged in user
-// ─────────────────────────────────────────────────────────────────────────────
 router.post('/', validateTask, handleValidationErrors, async (req, res, next) => {
   try {
     const { title, description, status, priority, category, dueDate, assignedTo, tags } = req.body;
@@ -208,9 +208,6 @@ router.post('/', validateTask, handleValidationErrors, async (req, res, next) =>
   }
 });
 
-// ─────────────────────────────────────────────────────────────────────────────
-// PUT /api/tasks/:id — Full update of a task (user-isolated)
-// ─────────────────────────────────────────────────────────────────────────────
 router.put('/:id', validateTask, handleValidationErrors, async (req, res, next) => {
   try {
     const task = await Task.findOneAndUpdate(
@@ -236,9 +233,6 @@ router.put('/:id', validateTask, handleValidationErrors, async (req, res, next) 
   }
 });
 
-// ─────────────────────────────────────────────────────────────────────────────
-// PATCH /api/tasks/:id — Partial update of a task (user-isolated)
-// ─────────────────────────────────────────────────────────────────────────────
 router.patch('/:id', async (req, res, next) => {
   try {
     const allowedFields = ['title', 'description', 'status', 'priority', 'category', 'dueDate', 'assignedTo', 'tags'];
@@ -274,9 +268,6 @@ router.patch('/:id', async (req, res, next) => {
   }
 });
 
-// ─────────────────────────────────────────────────────────────────────────────
-// DELETE /api/tasks/:id — Delete a task (user-isolated)
-// ─────────────────────────────────────────────────────────────────────────────
 router.delete('/:id', async (req, res, next) => {
   try {
     const task = await Task.findOneAndDelete({ _id: req.params.id, userId: req.user.id });
@@ -296,9 +287,6 @@ router.delete('/:id', async (req, res, next) => {
   }
 });
 
-// ─────────────────────────────────────────────────────────────────────────────
-// DELETE /api/tasks — Delete all tasks for the logged in user
-// ─────────────────────────────────────────────────────────────────────────────
 router.delete('/', async (req, res, next) => {
   try {
     const result = await Task.deleteMany({ userId: req.user.id });
