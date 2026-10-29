@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
+const os = require('os');
 require('dotenv').config();
 
 const taskRoutes = require('./routes/tasks');
@@ -22,6 +23,8 @@ app.use(cors({
     process.env.FRONTEND_URL || 'http://localhost:3000',
     'http://localhost:3000',
     'http://localhost:3001',
+    'http://localhost:8080',
+    'http://127.0.0.1:8080',
     'https://taskflow-alpha-dun.vercel.app',
     'https://taskflow-frontend.vercel.app',
     /\.vercel\.app$/   // allow any vercel preview URL
@@ -59,10 +62,22 @@ app.get('/', (req, res) => {
 });
 
 app.get('/api/health', (req, res) => {
+  const isDbConnected = mongoose.connection.readyState === 1;
+  res.status(isDbConnected ? 200 : 503).json({
+    success: isDbConnected,
+    status: isDbConnected ? 'healthy' : 'unhealthy',
+    database: isDbConnected ? 'connected' : 'disconnected',
+    instance: os.hostname(),
+    uptime: process.uptime(),
+    timestamp: new Date().toISOString()
+  });
+});
+
+// Instance Identifier Endpoint (Demonstrates Round-Robin Load Distribution)
+app.get('/api/instance', (req, res) => {
   res.json({
     success: true,
-    status: 'healthy',
-    database: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected',
+    instance: os.hostname(),
     uptime: process.uptime(),
     timestamp: new Date().toISOString()
   });
