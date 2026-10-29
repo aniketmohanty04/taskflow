@@ -28,33 +28,44 @@ function formatLabel(dateStr) {
 
 const W = 900, H = 180, PAD = 28;
 
-export default function ProgressChart() {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
+export default function ProgressChart({ data: propData, loading: propLoading }) {
+  const [internalData, setInternalData] = useState([]);
+  const [internalLoading, setInternalLoading] = useState(true);
   const [hovered, setHovered] = useState(null);
+
+  const isControlled = propData !== undefined;
+  const data = isControlled ? propData : internalData;
+  const loading = isControlled ? Boolean(propLoading) : internalLoading;
 
   const load = useCallback(async () => {
     try {
-      setLoading(true);
+      setInternalLoading(true);
       const res = await completionAPI.getChart(30);
-      setData(res.data.data);
+      setInternalData(res.data.data);
     } catch (e) {
       console.error('Chart load error:', e.message);
-    } finally { setLoading(false); }
+    } finally { setInternalLoading(false); }
   }, []);
 
-  useEffect(() => { load(); }, [load]);
+  useEffect(() => {
+    if (!isControlled) {
+      load();
+    }
+  }, [isControlled, load]);
 
-  if (loading) return (
-    <div className="chart-wrap">
-      <div className="chart-loading">
-        <div className="spinner" style={{ width: 28, height: 28, borderWidth: 2 }} />
-        <span>Loading chart...</span>
+  // Show full loading spinner ONLY during initial load when there is NO data at all
+  if (loading && (!data || data.length === 0)) {
+    return (
+      <div className="chart-wrap">
+        <div className="chart-loading">
+          <div className="spinner" style={{ width: 28, height: 28, borderWidth: 2 }} />
+          <span>Loading chart...</span>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 
-  const pcts = data.map(d => d.pct);
+  const pcts = (data || []).map(d => d.pct);
   const { line, area } = smoothPath(pcts, W, H, PAD);
   const avgPct = pcts.length ? Math.round(pcts.reduce((a, b) => a + b, 0) / pcts.length) : 0;
 
@@ -115,7 +126,7 @@ export default function ProgressChart() {
           )}
 
           {/* Hover dots + invisible hit areas */}
-          {data.map((d, i) => (
+          {(data || []).map((d, i) => (
             <g key={i}>
               <rect
                 x={xs[i] - 10} y={0} width={20} height={H}
@@ -139,8 +150,8 @@ export default function ProgressChart() {
           ))}
 
           {/* X-axis labels every 5 days */}
-          {data.map((d, i) => {
-            if (i % 5 !== 0 && i !== data.length - 1) return null;
+          {(data || []).map((d, i) => {
+            if (i % 5 !== 0 && i !== (data.length - 1)) return null;
             return (
               <text key={i} x={xs[i]} y={H - 4} textAnchor="middle"
                 fill="#64748b" fontSize={9}>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { habitAPI, completionAPI } from '../services/habitAPI';
 import { toast } from 'react-toastify';
 import HabitTaskForm from './HabitTaskForm';
@@ -19,7 +19,7 @@ function toDateStr(d) { return d.toISOString().split('T')[0]; }
 
 function isScheduled(task, date) {
   if (task.type === 'fixed') return true;
-  return task.scheduledDays.includes(date.getDay());
+  return Array.isArray(task.scheduledDays) && task.scheduledDays.includes(date.getDay());
 }
 
 export default function HabitTracker() {
@@ -31,10 +31,41 @@ export default function HabitTracker() {
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [editTask, setEditTask] = useState(null);
-  const [chartKey, setChartKey] = useState(0); // force chart re-fetch
+
+  // Chart data state
+  const [chartData, setChartData] = useState([]);
+  const [chartLoading, setChartLoading] = useState(true);
+
+  // Synchronous refs to prevent stale closures and handle race conditions
+  const completionsRef = useRef(completions);
+  completionsRef.current = completions;
+
+  const tasksRef = useRef(tasks);
+  tasksRef.current = tasks;
+
+  const inFlightRef = useRef(0);
+  const debounceTimerRef = useRef(null);
+  const chartReqSeqRef = useRef(0);
+  const chartLoadedRef = useRef(false);
 
   const monthStr = `${year}-${String(month + 1).padStart(2, '0')}`;
   const days = getMonthDays(year, month);
+
+  // ─── Fetch chart data ──────────────────────────────────────────────────────
+  const fetchChart = useCallback(async (isInitial = false) => {
+    if (isInitial) setChartLoading(true);
+    try {
+      const reqSeq = ++chartReqSeqRef.current;
+      const res = await completionAPI.getChart(30);
+      if (reqSeq === chartReqSeqRef.current) {
+        setChartData(res.data.data);
+      }
+    } catch (e) {
+      console.error('Chart load error:', e.message);
+    } finally {
+      if (isInitial) setChartLoading(false);
+    }
+  }, []);
 
   // ─── Fetch tasks + completions ─────────────────────────────────────────────
   const fetchData = useCallback(async () => {
@@ -44,31 +75,121 @@ export default function HabitTracker() {
         habitAPI.getAll(),
         completionAPI.getByMonth(monthStr)
       ]);
-      setTasks(tasksRes.data.data);
+      const fetchedTasks = tasksRes.data.data;
+      setTasks(fetchedTasks);
+      tasksRef.current = fetchedTasks;
+
       // Build lookup map: "taskId_date" -> completed
       const map = {};
       compRes.data.data.forEach(c => {
         map[`${c.taskId}_${c.date}`] = c.completed;
       });
       setCompletions(map);
-    } catch (e) { toast.error(e.message); }
-    finally { setLoading(false); }
+      completionsRef.current = map;
+    } catch (e) {
+      toast.error(e.message);
+    } finally {
+      setLoading(false);
+    }
   }, [monthStr]);
 
-  useEffect(() => { fetchData(); }, [fetchData]);
+  useEffect(() => {
+    fetchData();
+    if (!chartLoadedRef.current) {
+      chartLoadedRef.current = true;
+      fetchChart(true);
+    }
+  }, [fetchData, fetchChart]);
 
-  // ─── Toggle completion ─────────────────────────────────────────────────────
+  // ─── Toggle completion with instant optimistic chart update ────────────────
   const toggleCell = async (taskId, dateStr) => {
     const key = `${taskId}_${dateStr}`;
-    const prev = completions[key];
-    // Optimistic update
-    setCompletions(c => ({ ...c, [key]: !prev }));
+    const prevCompleted = Boolean(completionsRef.current[key]);
+    const nextCompleted = !prevCompleted;
+
+    // 1. Optimistic update of completions grid
+    completionsRef.current = { ...completionsRef.current, [key]: nextCompleted };
+    setCompletions(c => ({ ...c, [key]: nextCompleted }));
+
+    // 2. Optimistic update of chart without remounting
+    let prevPoint = null;
+    setChartData(prevChart => {
+      if (!prevChart || !prevChart.length) return prevChart;
+      const idx = prevChart.findIndex(p => p.date === dateStr);
+      if (idx === -1) return prevChart;
+
+      prevPoint = prevChart[idx];
+
+      const [y, m, d] = dateStr.split('-').map(Number);
+      const dateObj = new Date(y, m - 1, d);
+      const currentTasks = tasksRef.current || [];
+      const scheduled = currentTasks.filter(t => isScheduled(t, dateObj));
+      const totalScheduled = scheduled.length;
+
+      let newCompleted = 0;
+      let newTotal = totalScheduled;
+
+      if (totalScheduled > 0) {
+        for (const t of scheduled) {
+          const isDone = Boolean(completionsRef.current[`${t._id}_${dateStr}`]);
+          if (isDone) newCompleted++;
+        }
+      } else if (prevPoint.total > 0) {
+        newTotal = prevPoint.total;
+        const delta = nextCompleted ? 1 : -1;
+        newCompleted = Math.max(0, Math.min(newTotal, (prevPoint.completed || 0) + delta));
+      }
+
+      const newPct = newTotal > 0 ? Math.round((newCompleted / newTotal) * 100) : 0;
+      const updatedPoint = {
+        date: dateStr,
+        pct: newPct,
+        completed: newCompleted,
+        total: newTotal
+      };
+
+      const updated = [...prevChart];
+      updated[idx] = updatedPoint;
+      return updated;
+    });
+
+    inFlightRef.current += 1;
+
     try {
       await completionAPI.toggle(taskId, dateStr);
-      setChartKey(k => k + 1); // refresh chart
     } catch (e) {
-      setCompletions(c => ({ ...c, [key]: prev }));
+      // Roll back completions
+      completionsRef.current = { ...completionsRef.current, [key]: prevCompleted };
+      setCompletions(c => ({ ...c, [key]: prevCompleted }));
+
+      // Roll back chart point
+      if (prevPoint) {
+        setChartData(prevChart =>
+          prevChart.map(p => p.date === dateStr ? prevPoint : p)
+        );
+      }
       toast.error(e.message);
+    } finally {
+      inFlightRef.current = Math.max(0, inFlightRef.current - 1);
+
+      // Debounced reconciliation after all pending toggles settle
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current);
+      }
+      debounceTimerRef.current = setTimeout(() => {
+        if (inFlightRef.current === 0) {
+          const reqSeq = ++chartReqSeqRef.current;
+          completionAPI.getChart(30)
+            .then(res => {
+              if (reqSeq === chartReqSeqRef.current && inFlightRef.current === 0) {
+                setChartData(res.data.data);
+              }
+            })
+            .catch(err => {
+              console.error('Chart reconcile error:', err.message);
+            });
+        }
+      }, 350);
     }
   };
 
@@ -79,6 +200,7 @@ export default function HabitTracker() {
       toast.success('✅ Habit task added!');
       setShowForm(false);
       fetchData();
+      fetchChart(false);
     } catch (e) { toast.error(e.message); }
   };
 
@@ -88,6 +210,7 @@ export default function HabitTracker() {
       toast.success('✅ Habit task updated!');
       setEditTask(null);
       fetchData();
+      fetchChart(false);
     } catch (e) { toast.error(e.message); }
   };
 
@@ -97,6 +220,7 @@ export default function HabitTracker() {
       await habitAPI.delete(id);
       toast.success('🗑️ Task deleted!');
       fetchData();
+      fetchChart(false);
     } catch (e) { toast.error(e.message); }
   };
 
@@ -125,8 +249,8 @@ export default function HabitTracker() {
 
   return (
     <div className="habit-tracker">
-      {/* Progress Chart */}
-      <ProgressChart key={chartKey} />
+      {/* Progress Chart (kept permanently mounted) */}
+      <ProgressChart data={chartData} loading={chartLoading} />
 
       {/* Header */}
       <div className="ht-header">

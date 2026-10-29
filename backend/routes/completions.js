@@ -30,23 +30,61 @@ router.get('/', async (req, res, next) => {
 // GET /api/completions/chart?days=30 — daily completion % for chart for user's habits only
 router.get('/chart', async (req, res, next) => {
   try {
-    const days = Math.min(parseInt(req.query.days) || 30, 90);
+    let days = parseInt(req.query.days, 10);
+    if (isNaN(days) || days < 1) days = 30;
+    days = Math.min(days, 90);
+
     // Find ONLY the authenticated user's active tasks
     const tasks = await HabitTask.find({ userId: req.user.id, isActive: true }).lean();
 
-    const result = [];
+    const dates = [];
     const today = new Date();
 
     for (let i = days - 1; i >= 0; i--) {
       const d = new Date(today);
       d.setDate(today.getDate() - i);
-      const dateStr = d.toISOString().split('T')[0];
-      const dayOfWeek = d.getDay(); // 0=Sun...6=Sat
+      dates.push({
+        dateStr: d.toISOString().split('T')[0],
+        dayOfWeek: d.getDay() // 0=Sun...6=Sat
+      });
+    }
 
+    if (tasks.length === 0) {
+      const result = dates.map(d => ({ date: d.dateStr, pct: 0, completed: 0, total: 0 }));
+      return res.json({ success: true, data: result });
+    }
+
+    const taskIds = tasks.map(t => t._id);
+    const dateStrings = dates.map(d => d.dateStr);
+
+    // Efficiently batch-fetch all completed records in the date range grouped by date
+    const completionAgg = await DailyCompletion.aggregate([
+      {
+        $match: {
+          taskId: { $in: taskIds },
+          date: { $in: dateStrings },
+          completed: true
+        }
+      },
+      {
+        $group: {
+          _id: '$date',
+          completedTaskIds: { $addToSet: '$taskId' }
+        }
+      }
+    ]);
+
+    const completionMap = new Map();
+    for (const item of completionAgg) {
+      completionMap.set(item._id, new Set(item.completedTaskIds.map(id => id.toString())));
+    }
+
+    const result = [];
+    for (const { dateStr, dayOfWeek } of dates) {
       // Determine scheduled tasks for this day
       const scheduled = tasks.filter(t =>
         t.type === 'fixed' ||
-        (t.type === 'variable' && t.scheduledDays.includes(dayOfWeek))
+        (t.type === 'variable' && Array.isArray(t.scheduledDays) && t.scheduledDays.includes(dayOfWeek))
       );
 
       if (scheduled.length === 0) {
@@ -54,16 +92,20 @@ router.get('/chart', async (req, res, next) => {
         continue;
       }
 
-      const completions = await DailyCompletion.countDocuments({
-        taskId: { $in: scheduled.map(t => t._id) },
-        date: dateStr,
-        completed: true
-      });
+      const completedSet = completionMap.get(dateStr);
+      let completedCount = 0;
+      if (completedSet) {
+        for (const t of scheduled) {
+          if (completedSet.has(t._id.toString())) {
+            completedCount++;
+          }
+        }
+      }
 
       result.push({
         date: dateStr,
-        pct: Math.round((completions / scheduled.length) * 100),
-        completed: completions,
+        pct: Math.round((completedCount / scheduled.length) * 100),
+        completed: completedCount,
         total: scheduled.length
       });
     }
