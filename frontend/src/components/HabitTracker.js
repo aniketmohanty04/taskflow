@@ -15,7 +15,12 @@ function getMonthDays(year, month) {
   return days;
 }
 
-function toDateStr(d) { return d.toISOString().split('T')[0]; }
+function toDateStr(d) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
 
 function isScheduled(task, date) {
   if (task.type === 'fixed') return true;
@@ -56,7 +61,7 @@ export default function HabitTracker() {
     if (isInitial) setChartLoading(true);
     try {
       const reqSeq = ++chartReqSeqRef.current;
-      const res = await completionAPI.getChart(30);
+      const res = await completionAPI.getChart(30, toDateStr(new Date()));
       if (reqSeq === chartReqSeqRef.current) {
         setChartData(res.data.data);
       }
@@ -179,7 +184,7 @@ export default function HabitTracker() {
       debounceTimerRef.current = setTimeout(() => {
         if (inFlightRef.current === 0) {
           const reqSeq = ++chartReqSeqRef.current;
-          completionAPI.getChart(30)
+          completionAPI.getChart(30, toDateStr(new Date()))
             .then(res => {
               if (reqSeq === chartReqSeqRef.current && inFlightRef.current === 0) {
                 setChartData(res.data.data);
