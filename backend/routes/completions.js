@@ -38,13 +38,21 @@ router.get('/chart', async (req, res, next) => {
     const tasks = await HabitTask.find({ userId: req.user.id, isActive: true }).lean();
 
     const dates = [];
-    const today = new Date();
+    let baseDate;
+    if (req.query.endDate && /^\d{4}-\d{2}-\d{2}$/.test(req.query.endDate)) {
+      const [y, m, d] = req.query.endDate.split('-').map(Number);
+      baseDate = new Date(y, m - 1, d);
+    } else {
+      baseDate = new Date();
+    }
 
     for (let i = days - 1; i >= 0; i--) {
-      const d = new Date(today);
-      d.setDate(today.getDate() - i);
+      const d = new Date(baseDate.getFullYear(), baseDate.getMonth(), baseDate.getDate() - i);
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
       dates.push({
-        dateStr: d.toISOString().split('T')[0],
+        dateStr: `${y}-${m}-${day}`,
         dayOfWeek: d.getDay() // 0=Sun...6=Sat
       });
     }
@@ -155,7 +163,10 @@ router.get('/streak/:taskId', async (req, res, next) => {
     let d = new Date();
 
     while (true) {
-      const dateStr = d.toISOString().split('T')[0];
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      const dateStr = `${y}-${m}-${day}`;
       const comp = await DailyCompletion.findOne({
         taskId: req.params.taskId,
         date: dateStr,

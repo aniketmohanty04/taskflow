@@ -22,6 +22,11 @@ function smoothPath(points, W, H, pad = 20) {
 
 // ─── X-axis label (every 5 days) ──────────────────────────────────────────────
 function formatLabel(dateStr) {
+  if (!dateStr) return '';
+  const parts = dateStr.split('-');
+  if (parts.length === 3) {
+    return `${parseInt(parts[2], 10)}/${parseInt(parts[1], 10)}`;
+  }
   const d = new Date(dateStr);
   return `${d.getDate()}/${d.getMonth() + 1}`;
 }

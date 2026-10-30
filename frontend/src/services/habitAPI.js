@@ -42,7 +42,7 @@ export const habitAPI = {
 
 export const completionAPI = {
   getByMonth: (month) => api.get('/completions', { params: { month } }),
-  getChart: (days = 30) => api.get('/completions/chart', { params: { days } }),
+  getChart: (days = 30, endDate) => api.get('/completions/chart', { params: { days, ...(endDate ? { endDate } : {}) } }),
   toggle: (taskId, date) => api.post('/completions/toggle', { taskId, date }),
 };
 
